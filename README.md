@@ -53,12 +53,6 @@
 
 A supply chain management application.
 
-Here's why:
-
--   There's always a better way to manage Airbnb Listings and improve the guest experience
--   Web apps and Python scripts can be used to offer interesting features to guests
--   Experimenting with new methods can improve the overall process
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
@@ -115,7 +109,7 @@ _Below is an example of how you can instruct your audience on installing and set
 -   [] Create Parts Form
 -   [] Create Parts List
 
-See the [open issues](https://github.com/ChrisCruze/BnbConnect/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/ChrisCruze/Novaeo/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -131,7 +125,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Project Link: [https://github.com/ChrisCruze/BnbConnect](https://github.com/ChrisCruze/BnbConnect)
+Project Link: [https://github.com/ChrisCruze/Novaeo](https://github.com/ChrisCruze/Novaeo)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
