@@ -10,8 +10,31 @@ import {
 	IconFromName,
 } from "../SoftElements";
 
-import { NovaeoPage } from "../SoftComponents";
+import { NovaeoPage, DataPortal, routesDefine } from "../SoftComponents";
+import {
+	readSheetValues,
+	updateSheetValues,
+	updateSheetValuesRequestsCreate,
+	useSheets,
+	useWorkbook,
+} from "../Functions/useSheets";
 
+const DataPortalConfig = () => {
+	const sheet_names = ["Parts", "Goods", "Mapping"];
+	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
+	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
+
+	const workbook = useWorkbook({
+		sheet_names,
+		access_key,
+		sheet_id,
+	});
+	console.log({ workbook });
+	return {
+		showNav: true,
+		routes: routesDefine(),
+	};
+};
 const Home = () => {
 	const [user, loading, error] = useAuthState(auth);
 	const [userDict, setUserDict] = useState({ uid: "NULL" });
@@ -29,103 +52,7 @@ const Home = () => {
 			setUserDict(user);
 		}
 	}, [user, loading]);
-	const userDataRef = ref(
-		database,
-		"reservation_data/" + String(userDict.uid) + "/"
-	);
-	const readArray = ({ array }) => {
-		set(userDataRef, array);
-	};
-
-	useEffect(() => {
-		onValue(userDataRef, (snapshot) => {
-			const data = snapshot.val();
-			if (data) {
-				console.log({ data });
-				setReservationData(data);
-			}
-		});
-	}, [user]);
-
-	const routes = [
-		{
-			type: "collapse",
-			name: "Parts",
-			key: "parts",
-			href: "/#/Parts",
-			icon: <IconFromName name={"creditcard"} />,
-			noCollapse: true,
-		},
-	];
-	const pieChartConfig = {
-		title: "Pages",
-		onClick: ({ field, label, value }) => {
-			console.log({ field, label, value });
-		},
-		array: reservationData,
-		options: [
-			{
-				field: "status",
-				label: "Status",
-			},
-			{
-				field: "number_of_nights",
-				label: "Number of Nights",
-			},
-		],
-		height: "15.125rem",
-	};
-	const horizontalBarChartConfig = {
-		title: "Pages",
-		onClick: ({ field, label, value }) => {
-			console.log({ field, label, value });
-		},
-		array: reservationData,
-		options: [
-			{
-				field: "listing",
-				label: "Listing",
-			},
-			{
-				field: "number_of_nights",
-				label: "Number of Nights",
-			},
-		],
-		height: "15.125rem",
-	};
-
-	const metrics = [
-		{ title: "# Reservations", metric: reservationData.length },
-		{
-			title: "Amount",
-			metric: format_cell_number(
-				_.reduce(
-					reservationData,
-					function (memo, num) {
-						var r =
-							memo +
-							(parseFloat(num["earnings"].replace("$", "")) || 0);
-						return r;
-					},
-					0
-				)
-			),
-		},
-	];
-
-	return (
-		<NovaeoPage />
-		// <BnbHomePage
-		// 	routes={routes}
-		// 	navTitle={userDict.displayName}
-		// 	sideTitle={"Novaeo"}
-		// 	readArray={readArray}
-		// 	metrics={metrics}
-		// 	pieChartConfig={pieChartConfig}
-		// 	horizontalBarChartConfig={horizontalBarChartConfig}
-		// 	horizontalStackedBarChartConfig={pieChartConfig}
-		// 	thinBarChartConfig={pieChartConfig}
-		// />
-	);
+	const config = DataPortalConfig();
+	return <DataPortal {...config} />;
 };
 export default Home;

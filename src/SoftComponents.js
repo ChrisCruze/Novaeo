@@ -220,6 +220,364 @@ import {
 	TableForm,
 } from "./SoftElements";
 export const PropsContext = React.createContext({});
+export const routesDefine = () => {
+	return [
+		{ type: "divider", key: "divider-1" },
+		{ type: "title", title: "Docs", key: "title-docs" },
+		{
+			type: "collapse",
+			name: "Parts",
+			key: "parts",
+			icon: <IconFromName name={"spaceship"} />,
+			collapse: [
+				{
+					type: "collapse",
+					name: "Dashboard",
+					key: "parts_list",
+					href: "/#/Parts",
+					icon: <IconFromName name={"creditcard"} />,
+					noCollapse: true,
+				},
+				{
+					type: "collapse",
+					name: "Create",
+					key: "part_form",
+					href: "/#/PartForm",
+					icon: <IconFromName name={"creditcard"} />,
+					noCollapse: true,
+				},
+			],
+		},
+	];
+};
+export const DataPortal = ({
+	data,
+	brand,
+	brandName,
+	routes,
+	pieOptions,
+	horizontalBarOptions,
+	horizontalStackedBarOptions,
+	thinBarChartOptions,
+	dataTablesConfig,
+	tableDict,
+	tabsFunc,
+	metricsFunc,
+	title,
+	subTitle,
+	imageSrc,
+	status,
+	charts,
+	showNav,
+}) => {
+	const [filterDict, setFilterDict] = useState({});
+	const updateFilterDict = (updatedFilterDict) => {
+		setFilterDict({ ...filterDict, ...updatedFilterDict });
+	};
+
+	const filteredData = arrayFilterFromDict(data, filterDict);
+	const metrics = metricsFunc({
+		data: filteredData,
+		setFilterDict,
+		filterDict,
+	});
+
+	const tabsArray = tabsFunc({ setFilterDict });
+	useEffect(() => {
+		tabsArray[0]["func"]();
+	}, []);
+
+	const onChartClickFilter = ({ field, label, value }) => {
+		if (Object.keys(filterDict).indexOf(field) > -1) {
+			if (filterDict[field] != null) {
+				var D = {};
+				D[field] = null;
+				updateFilterDict(D);
+			} else {
+				var D = {};
+				D[field] = value;
+				updateFilterDict(D);
+			}
+		} else {
+			var D = {};
+			D[field] = value;
+			updateFilterDict(D);
+		}
+		console.log({ field, label, value });
+	};
+
+	const renderMetrics = () => (
+		<Grid container spacing={3}>
+			{metrics.map((tableDict, key) => (
+				<Grid item key={key} xs={12} sm={6} lg={3}>
+					<MiniStatisticsCard
+						bgColor="white"
+						title={{
+							text: tableDict.title || "",
+							fontWeight: "bold",
+						}}
+						count={tableDict.metric || ""}
+						percentage={{
+							color: "error",
+							text: "",
+						}}
+						icon={<IconFromName name={tableDict.icon || ""} />}
+					/>
+				</Grid>
+			))}
+			{status != null ? (
+				<Grid item xs={12} sm={6} lg={3}>
+					<SuiBox>
+						<BackgroundBlogCardNoButton {...status} />
+					</SuiBox>
+				</Grid>
+			) : null}
+		</Grid>
+	);
+	const renderCharts = () => (
+		<Grid container spacing={3}>
+			{charts.map((chartDict, key) => {
+				// console.log({ chartDict });
+				return (
+					<Grid item xs={12} lg={3} key={key}>
+						<ChartFromDict
+							chartDict={chartDict}
+							onChartClickFilter={onChartClickFilter}
+							array={filteredData}
+						/>
+					</Grid>
+				);
+			})}
+		</Grid>
+	);
+	const filteredDataChecked = arrayFilterFromDict(
+		dataDataTablesReformatFix({
+			data: filteredData,
+			columns: tableDict.columns,
+		}),
+		filterDict
+	);
+	const tableDictWithData = { ...tableDict, data: filteredDataChecked };
+
+	useEffect(() => {
+		datatables_determine_create_update(
+			"#" + tableDictWithData.id,
+			tableDictWithData,
+			tableDictWithData.data
+		);
+	}, [filteredData.length]);
+
+	return (
+		<DynamicLayout
+			brand={brand}
+			brandName={brandName}
+			routes={routes}
+			showNav={showNav}
+		>
+			<SuiBox py={3}>
+				<SuiBox marginBottom={3}>
+					<HeaderTabs
+						title={title}
+						subTitle={subTitle}
+						imageSrc={imageSrc}
+						tabsArray={tabsArray}
+					/>
+				</SuiBox>
+
+				<SuiBox
+					marginBottom={3}
+					sx={{
+						mx: 3,
+					}}
+				>
+					{renderMetrics()}
+				</SuiBox>
+
+				<SuiBox
+					marginBottom={3}
+					sx={{
+						mx: 3,
+					}}
+				>
+					{renderCharts()}
+				</SuiBox>
+
+				<SuiBox
+					marginBottom={3}
+					sx={{
+						mx: 3,
+					}}
+				>
+					<table
+						// className="table-react"
+						className="table-react table table-striped table-bordered table-hover"
+						style={{ width: "100%" }}
+						id={tableDictWithData.id}
+					></table>
+
+					{/* <AirTablePageBaseRead
+                title={jiraDataTables.title || ""}
+                dataTables={jiraDataTables.dataTables || []}
+              /> */}
+				</SuiBox>
+			</SuiBox>
+			{/* <ConfigurationButton
+            onClick={configurationDict.onClick}
+            icon={configurationDict.icon}
+          /> */}
+		</DynamicLayout>
+	);
+};
+
+DataPortal.defaultProps = {
+	routes: routesDefine(),
+	data: [{ priority_category: "high" }, { priority_category: "low" }],
+	status: {
+		title: "In Development",
+		image:
+			sharepointURLDirectoryDefine() +
+			"dependencies/code/img/ivancik.jpg",
+		description: "", //'Capture key details arond key projects, business use cases, accomplishments across each Tenant. This addresses the problem that there is a lack of insight into what Tenants are being used for.',
+		buttonText: "Read More",
+		action: {
+			type: "internal",
+			route: "/MTD",
+			label: "Read More",
+		},
+	},
+	tableDict: {
+		id: "table",
+		dom: '<"html5buttons"B>lTfgitp',
+		data: [],
+		columns: [
+			{
+				data: "priority_category",
+				title: "priority_category",
+				visible: true,
+			},
+		],
+		showNav: false,
+		select: true,
+		paging: false,
+		scrollX: true,
+		buttons: [
+			{
+				extend: "excel",
+				title: document.title,
+			},
+			{
+				extend: "colvis",
+				title: document.title,
+			},
+			// {
+			//   extend: "create",
+			//   editor: editor,
+			//   text: "Create",
+			// },
+			// {
+			//   extend: "remove",
+			//   editor: editor,
+			// },
+			// {
+			//   extend: "edit",
+			//   editor: editor,
+			// },
+			{
+				text: "Clear",
+				name: "Clear",
+				action: function (e, dt, node, config) {
+					dt.columns("").search("").draw();
+					$.fn.dataTable.ext.search = [];
+					dt.draw();
+				},
+			},
+		],
+	},
+
+	brand: "",
+	brandName: "",
+	routes: [],
+	title: "Dashboard",
+	subTitle: "Sub Title",
+	imageSrc:
+		sharepointURLDirectoryDefine() + "dependencies/code/png/mtd_icon.png",
+
+	tabsFunc: ({ setFilterDict }) => {
+		return [
+			{
+				title: "Backlog",
+				icon: "settings",
+				func: () => {
+					setFilterDict({ backlog_category: "Backlog" });
+				},
+			},
+			{
+				title: "Sprint",
+				icon: "settings",
+				func: () => {
+					setFilterDict({ backlog_category: "Sprint" });
+				},
+			},
+			{
+				title: "Accomplished",
+				icon: "settings",
+				func: () => {
+					setFilterDict({ done_category: "Last 30 Days" });
+				},
+			},
+			{
+				title: "All",
+				icon: "settings",
+				func: () => {
+					console.log("click backlog");
+					setFilterDict({});
+				},
+			},
+		];
+	},
+	metricsFunc: ({ data, setFilterDict }) => {
+		return [{ title: "Stories", metric: 100 }];
+	},
+	metrics: [{ title: "Stories", metric: 100 }],
+	charts: [
+		{
+			type: "pie",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "horizontal-bar",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "horizontal-bar-stacked",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "bar",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+	],
+};
 
 export const NovaeoPage = ({
 	data,

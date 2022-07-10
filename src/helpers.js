@@ -4,6 +4,199 @@ const extractHTMLContent = (s) => {
 	return span.textContent || span.innerText;
 };
 
+function array_id_apply_check_datatables(data) {
+	var dataUpdated = _.map(data, (D, num) => {
+		if (Object.keys(D).indexOf("ID") == -1) {
+			return { ...D, ID: num };
+		} else {
+			return D;
+		}
+	});
+	return dataUpdated;
+}
+function dataDataTablesReformatFix({ columns, data }) {
+	var data_with_id = array_id_apply_check_datatables(data);
+	var columns_list = _.map(columns, "data");
+	var dataKeysChecked = array_dictionary_check_keys_list_ensure_alt(
+		data_with_id,
+		columns_list,
+		""
+	);
+	return dataKeysChecked;
+}
+
+function dictionary_check_keys_ensure_alt(item, check_keys, alt) {
+	check_keys = check_keys || ["fullName", "active", "connectedAt", "id"];
+	check_keys.forEach(function (i) {
+		item[i] = item[i] || alt;
+	});
+	return item;
+}
+function array_dictionary_check_keys_list_ensure_alt(array, check_keys, alt) {
+	check_keys = check_keys || array_keys_all_possible(array);
+	full_array = _.map(array, function (item) {
+		return dictionary_check_keys_ensure_alt(item, check_keys, alt || "");
+	});
+	return full_array;
+}
+
+const commonValuesFromListsCheck = (array1, array2) => {
+	return array1.filter((value) => array2.includes(value));
+};
+//https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
+function arraysEqualCheck(a, b) {
+	if (a === b) return true;
+	if (a == null || b == null) return false;
+	if (a.length !== b.length) return false;
+
+	// If you don't care about the order of the elements inside
+	// the array, you should sort both arrays here.
+	// Please note that calling sort on an array will modify that array.
+	// you might want to clone your array first.
+
+	for (var i = 0; i < a.length; ++i) {
+		if (a[i] !== b[i]) return false;
+	}
+	return true;
+}
+
+function keepDictKeys(raw, allowed) {
+	//const allowed = ['item1', 'item3'];
+
+	const filtered = Object.keys(raw)
+		.filter((key) => allowed.includes(key))
+		.reduce((obj, key) => {
+			obj[key] = raw[key];
+			return obj;
+		}, {});
+	return filtered;
+}
+
+function deleteDictKeys(raw, allowed) {
+	//const allowed = ['item1', 'item3'];
+	const filtered = Object.keys(raw)
+		.filter((key) => !allowed.includes(key))
+		.reduce((obj, key) => {
+			obj[key] = raw[key];
+			return obj;
+		}, {});
+	return filtered;
+}
+
+function dictEqualCheck(a, b) {
+	const a_values = Object.values(a);
+	const b_values = Object.values(b);
+	const a_values_string = a_values.map(function (i) {
+		return String(i);
+	});
+	const b_values_string = b_values.map(function (i) {
+		return String(i);
+	});
+	return arraysEqualCheck(a_values_string, b_values_string);
+}
+
+const arrayDictMatchLookUp = (array, lookupDict) => {
+	const lookUpKeys = Object.keys(lookupDict);
+	const matchingArrays = array.filter(function (D) {
+		const dictKeys = Object.keys(D);
+		const commonKeys = commonValuesFromListsCheck(lookUpKeys, dictKeys);
+		const dict_filtered = dictionary_filter_keys_create(D, commonKeys);
+		const lookup_filtered = dictionary_filter_keys_create(
+			lookupDict,
+			commonKeys
+		);
+		return (
+			dictEqualCheck(dict_filtered, lookup_filtered) &&
+			commonKeys.length > 0
+		);
+	});
+	return matchingArrays;
+};
+
+function dataTablesColumnsCreateFromBaseColumns(base_columns, data) {
+	return base_columns;
+	console.log({ base_columns, data });
+	if (data == undefined) {
+		return base_columns;
+	} else {
+		all_columns = datatables_columns_create_from_data(data);
+		base_column_names = _.map(base_columns, "data");
+		all_columns_filtered = all_columns.filter(function (D) {
+			return base_column_names.indexOf(D["data"]) == -1;
+		});
+		columns = base_columns.concat(all_columns_filtered);
+		console.log({ columns, all_columns });
+		return columns;
+	}
+}
+
+const commonValuesFromLists = (array1, array2) => {
+	return array1.filter((value) => array2.includes(value));
+};
+//https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
+function arraysEqual(a, b) {
+	if (a === b) return true;
+	if (a == null || b == null) return false;
+	if (a.length !== b.length) return false;
+
+	// If you don't care about the order of the elements inside
+	// the array, you should sort both arrays here.
+	// Please note that calling sort on an array will modify that array.
+	// you might want to clone your array first.
+
+	for (var i = 0; i < a.length; ++i) {
+		if (a[i] !== b[i]) return false;
+	}
+	return true;
+}
+
+function dictEqual(a, b) {
+	const a_values = Object.values(a);
+	const b_values = Object.values(b);
+	const a_values_string = a_values.map(function (i) {
+		return String(i);
+	});
+	const b_values_string = b_values.map(function (i) {
+		return String(i);
+	});
+	return arraysEqual(a_values_string, b_values_string);
+}
+
+const arrayDictLookUp = (array, lookupDict) => {
+	const lookUpKeys = Object.keys(lookupDict);
+	const matchingArrays = array.filter(function (D) {
+		const dictKeys = Object.keys(D);
+		const commonKeys = commonValuesFromLists(lookUpKeys, dictKeys);
+		const dict_filtered = dictionary_filter_keys_create(D, commonKeys);
+		const lookup_filtered = dictionary_filter_keys_create(
+			lookupDict,
+			commonKeys
+		);
+		return (
+			dictEqual(dict_filtered, lookup_filtered) && commonKeys.length > 0
+		);
+	});
+	return matchingArrays;
+};
+
+function removeNullDictKeyValues(D) {
+	const nullKeys = Object.keys(D).filter(function (key) {
+		return D[key] == null;
+	});
+	var lookupDictWithOutNullKeys = deleteDictKeys(D, nullKeys);
+	return lookupDictWithOutNullKeys;
+}
+
+function arrayFilterFromDict(array, lookupDict) {
+	var lookUpDictWithoutNull = removeNullDictKeyValues(lookupDict);
+	// console.log({lookUpDictWithoutNull,lookupDict})
+	if (Object.keys(lookUpDictWithoutNull).length > 0) {
+		return arrayDictLookUp(array, lookUpDictWithoutNull);
+	} else {
+		return array;
+	}
+}
+
 function sharepointURLDirectoryDefine() {
 	return "";
 }

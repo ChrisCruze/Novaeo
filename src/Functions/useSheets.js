@@ -97,3 +97,32 @@ export const useSheets = ({
 	};
 	return { ...sheets, updateSheet };
 };
+
+export const useWorkbook = ({
+	sheet_names,
+	sheet_id,
+	access_key,
+	access_token,
+}) => {
+	const [sheets, setSheets] = useState({});
+	const refresh = () => {
+		var D = {};
+		var responses = [];
+		sheet_names.forEach((sheet_name) => {
+			const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/${sheet_name}?key=${access_key}`;
+			return axios.get(url).then((response) => {
+				responses.push(response);
+
+				console.log({ sheet_name, response });
+				D[sheet_name] = response;
+			});
+		});
+		const setSheetDict = { ...sheets, responses, sheets: D };
+		console.log({ setSheetDict, responses, D, sheets });
+		setSheets(setSheetDict);
+	};
+	useEffect(() => {
+		refresh();
+	}, []);
+	return { ...sheets, refresh };
+};
