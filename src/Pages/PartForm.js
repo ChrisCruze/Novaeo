@@ -11,70 +11,12 @@ import {
 } from "../SoftElements";
 
 import { NovaeoPage } from "../SoftComponents";
-import axios from "axios";
-
-const updateSheetValuesRequestsCreate = ({ values, rowIndex }) => {
-	const valuesArray = _.map(values, (value) => {
-		return {
-			userEnteredValue: {
-				stringValue: value,
-			},
-		};
-	});
-	return {
-		requests: [
-			{
-				updateCells: {
-					rows: [
-						{
-							values: valuesArray,
-						},
-					],
-					start: {
-						sheetId: 0,
-						columnIndex: 0,
-						rowIndex: rowIndex,
-					},
-					fields: "*",
-				},
-			},
-		],
-	};
-};
-
-const updateSheetValues = () => {
-	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
-	const access_token =
-		"ya29.a0AVA9y1uma-9AjyTS7X66pYjOeTSWgHup6Nfycf3LtewcJsQlUeu4v7puHVzAmChaOkbpMe1nQqBpLpRkT--VCtMoqoRQlGmUOq7BazL0ldhI4xWemKGo_QqhnH5-r2Pk3WuC4BGL6Lojh5jvOdVfavggBu4r";
-	const values = ["10", "20"];
-	const rowIndex = 10;
-	const requests = updateSheetValuesRequestsCreate({ values, rowIndex });
-	return fetch(
-		`https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}:batchUpdate`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				//update this token with yours.
-				Authorization: `Bearer ${access_token}`,
-			},
-			body: JSON.stringify(requests),
-		}
-	);
-};
-
-const readSheetValues = () => {
-	const sheet_name = "Parts";
-	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs/values/${sheet_name}?key=${access_key}`;
-	return axios.get(url).then((res) => {
-		const persons = res.data;
-		console.log({ res, persons });
-		// this.setState({ persons });
-	});
-};
-
-const requestsFromPageData = () => {};
+import {
+	readSheetValues,
+	updateSheetValues,
+	updateSheetValuesRequestsCreate,
+	useSheets,
+} from "../Functions/useSheets";
 
 const partFormSectionGenerate = () => {
 	const sectionsArray = [
@@ -269,12 +211,25 @@ const partFormSectionGenerate = () => {
 	];
 	return sectionsArray;
 };
+
 const PartFormConfig = () => {
 	const [pageData, setPageData] = useState({});
+	const sheet_name = "Parts";
+	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
+	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
+	const access_token =
+		"ya29.A0AVA9y1s9qP6_jv7j4vbMHMRkl_TonD8QiTVm3IxygOB5CLiDdvHreVwcYZC5vU2zHemOBpuC0kDDeSW4akg06sF1jTyEzkeG1emU37If0kCqF4qHGjgBd5bVBPG19Tn_ii8dOYXGAXdQkN0io5xWG3j5HyPwYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4UXhzV1ZJOGR2NkRmWUdVUjl6cWdMQQ0163";
+
+	const sheets = useSheets({
+		sheet_name,
+		access_key,
+		access_token,
+		sheet_id,
+	});
+	console.log({ sheets });
 	const questionsSave = () => {
-		readSheetValues();
 		console.log({ pageData });
-		updateSheetValues();
+		sheets.updateSheet({ pageData });
 	};
 	const sectionsArray = partFormSectionGenerate();
 	return { pageData, setPageData, questionsSave, sectionsArray };
