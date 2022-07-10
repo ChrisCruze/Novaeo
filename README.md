@@ -108,6 +108,11 @@ _Below is an example of how you can instruct your audience on installing and set
 -   [x] Create Github
 -   [] Create Parts Form
 -   [] Create Parts List
+-   [] Add Form Validation to Part Form for certain metrics
+-   [] Add Title to Form
+-   [] Update Icons
+-   [] Add Save Button
+-   [] Reformat Left Panel
 
 See the [open issues](https://github.com/ChrisCruze/Novaeo/issues) for a full list of proposed features (and known issues).
 

@@ -7,6 +7,9 @@ import Login from "./Pages/Login";
 import Survey from "./Pages/Survey";
 import Landing from "./Pages/Landing";
 import Home from "./Pages/Home";
+import Parts from "./Pages/Parts";
+import PartForm from "./Pages/PartForm";
+
 import SoftElements from "./SoftElements";
 import "dropzone/dist/dropzone.css";
 
@@ -18,6 +21,8 @@ class App extends React.Component {
 					<Switch>
 						<Route exact path="/" component={Login} />
 						<Route exact path="/Home" component={Home} />
+						<Route exact path="/Parts" component={Parts} />
+						<Route exact path="/PartForm" component={PartForm} />
 						<Route exact path="/Dashboard" component={Home} />
 						<Route exact path="/Login" component={Login} />
 						<Route exact path="/Survey" component={Survey} />

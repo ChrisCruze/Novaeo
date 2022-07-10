@@ -1,3 +1,7 @@
+function sharepointURLDirectoryDefine() {
+	return "";
+}
+
 function dataTablesColumnsCreateFromBaseColumns(base_columns, data) {
 	return base_columns;
 	console.log({ base_columns, data });
