@@ -21,6 +21,7 @@ export const database = getDatabase(app);
 export const auth = getAuth();
 //Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
+googleProvider.addScope("https://www.googleapis.com/auth/spreadsheets");
 
 export const signInWithGoogle = async () => {
 	try {
