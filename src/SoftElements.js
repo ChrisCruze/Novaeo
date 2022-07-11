@@ -158,7 +158,6 @@ import rgba from "assets/theme/functions/rgba";
 // import Dropzone from "dropzone";
 // import "dropzone/dist/dropzone.css";
 import { useDropzone } from "react-dropzone";
-
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import regeneratorRuntime from "regenerator-runtime";
@@ -14136,7 +14135,13 @@ export const AirTablePageBasic = ({
 	);
 };
 
-export const HeaderTabs = ({ title, subTitle, imageSrc, tabsArray }) => {
+export const HeaderTabs = ({
+	title,
+	subTitle,
+	imageSrc,
+	tabsArray,
+	showTabs,
+}) => {
 	// const [tabsOrientation, setTabsOrientation] = useState("horizontal");
 	// const [tabValue, setTabValue] = useState(0);
 	// const handleSetTabValue = (event, newValue) => setTabValue(newValue);
@@ -14213,7 +14218,7 @@ export const HeaderTabs = ({ title, subTitle, imageSrc, tabsArray }) => {
 				</Grid>
 				<Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
 					<AppBar position="static">
-						{renderTabs()}
+						{showTabs ? renderTabs() : null}
 
 						{/* <Tabs
 				orientation={tabsOrientation}
@@ -14231,7 +14236,9 @@ export const HeaderTabs = ({ title, subTitle, imageSrc, tabsArray }) => {
 		</Card>
 	);
 };
-
+HeaderTabs.defaultProps = {
+	showTabs: true,
+};
 export const HeaderTabsImage = ({ title, subTitle, imageSrc, tabsArray }) => {
 	const [tab, setTab] = useState(0);
 	const setTabClick = (event, newTab) => {

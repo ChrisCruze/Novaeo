@@ -269,6 +269,7 @@ export const DataPortal = ({
 	status,
 	charts,
 	showNav,
+	showTabs,
 }) => {
 	const [filterDict, setFilterDict] = useState({});
 	const updateFilterDict = (updatedFilterDict) => {
@@ -281,7 +282,6 @@ export const DataPortal = ({
 		setFilterDict,
 		filterDict,
 	});
-
 	const tabsArray = tabsFunc({ setFilterDict });
 	useEffect(() => {
 		tabsArray[0]["func"]();
@@ -358,7 +358,7 @@ export const DataPortal = ({
 		filterDict
 	);
 	const tableDictWithData = { ...tableDict, data: filteredDataChecked };
-
+	console.log({ tableDictWithData });
 	useEffect(() => {
 		datatables_determine_create_update(
 			"#" + tableDictWithData.id,
@@ -381,6 +381,7 @@ export const DataPortal = ({
 						subTitle={subTitle}
 						imageSrc={imageSrc}
 						tabsArray={tabsArray}
+						showTabs={showTabs}
 					/>
 				</SuiBox>
 
@@ -430,6 +431,7 @@ export const DataPortal = ({
 };
 
 DataPortal.defaultProps = {
+	showTabs: true,
 	routes: routesDefine(),
 	data: [{ priority_category: "high" }, { priority_category: "low" }],
 	status: {

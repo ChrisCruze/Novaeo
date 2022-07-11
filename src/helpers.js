@@ -4,6 +4,19 @@ const extractHTMLContent = (s) => {
 	return span.textContent || span.innerText;
 };
 
+const arrayFromList = (lol) => {
+	key_names = lol[0];
+	array = [];
+	lol.forEach(function (entry, i) {
+		var singleObj = {};
+		key_names.forEach(function (kn, num_index) {
+			singleObj[kn] = entry[num_index];
+		});
+		array.push(singleObj);
+	});
+	array.shift();
+	return array;
+};
 function array_id_apply_check_datatables(data) {
 	var dataUpdated = _.map(data, (D, num) => {
 		if (Object.keys(D).indexOf("ID") == -1) {
