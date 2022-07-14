@@ -222,8 +222,40 @@ import {
 export const PropsContext = React.createContext({});
 export const routesDefine = () => {
 	return [
-		{ type: "divider", key: "divider-1" },
-		{ type: "title", title: "Docs", key: "title-docs" },
+		// { type: "divider", key: "divider-1" },
+		// { type: "title", title: "Docs", key: "title-docs" },
+		{
+			type: "collapse",
+			name: "Products",
+			key: "products",
+			href: "/#/Products",
+			icon: <IconFromName name={"spaceship"} />,
+			noCollapse: true,
+		},
+		// {
+		// 	type: "collapse",
+		// 	name: "Products",
+		// 	key: "products",
+		// 	icon: <IconFromName name={"spaceship"} />,
+		// 	collapse: [
+		// 		{
+		// 			type: "collapse",
+		// 			name: "Dashboard",
+		// 			key: "products",
+		// 			href: "/#/Products",
+		// 			icon: <IconFromName name={"creditcard"} />,
+		// 			noCollapse: true,
+		// 		},
+		// 		// {
+		// 		// 	type: "collapse",
+		// 		// 	name: "Product",
+		// 		// 	key: "product",
+		// 		// 	href: "/#/Product",
+		// 		// 	icon: <IconFromName name={"creditcard"} />,
+		// 		// 	noCollapse: true,
+		// 		// },
+		// 	],
+		// },
 		{
 			type: "collapse",
 			name: "Parts",

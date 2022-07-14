@@ -9,8 +9,8 @@ import {
 	BnbHomePage,
 	IconFromName,
 } from "../SoftElements";
+import { NovaeoPage, DataPortal, routesDefine } from "../SoftComponents";
 
-import { NovaeoPage } from "../SoftComponents";
 import {
 	readSheetValues,
 	updateSheetValues,
@@ -232,7 +232,13 @@ const PartFormConfig = () => {
 		sheets.updateSheet({ pageData });
 	};
 	const sectionsArray = partFormSectionGenerate();
-	return { pageData, setPageData, questionsSave, sectionsArray };
+	return {
+		pageData,
+		setPageData,
+		questionsSave,
+		sectionsArray,
+		routes: routesDefine(),
+	};
 };
 
 const PartForm = () => {

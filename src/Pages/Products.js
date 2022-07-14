@@ -42,7 +42,7 @@ const DataPortalConfig = () => {
 	const partsArray = partsDataProcess({ workbook });
 	console.log({ workbook, partsArray });
 	return {
-		title: "Parts",
+		title: "Products",
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
