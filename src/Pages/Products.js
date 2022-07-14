@@ -22,10 +22,19 @@ import { productMap } from "../Functions/helpers";
 import _ from "lodash";
 
 const productsDataProcess = ({ workbook }) => {
-	const checkKey = (key_name) =>
-		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+	const checkKey = (key_name) => {
+		const keys_return = Object.keys(workbook["sheets"] || {});
+		const checkKeysBool = keys_return.indexOf(key_name) > -1;
+		console.log({ key_name, keys_return, checkKeysBool, workbook });
+		return checkKeysBool;
+	};
 
-	if (checkKey("Mapping") && checkKey("Parts") && checkKey("Products")) {
+	if (
+		workbook["loaded"] &&
+		checkKey("Mapping") &&
+		checkKey("Parts") &&
+		checkKey("Products")
+	) {
 		const mappingArray = workbook["sheets"]["Mapping"]["array"];
 		const partsArray = workbook["sheets"]["Parts"]["array"];
 		const productsArray = workbook["sheets"]["Products"]["array"];
@@ -232,7 +241,6 @@ const DataPortalConfig = () => {
 const Home = () => {
 	const [user, loading, error] = useAuthState(auth);
 	const [userDict, setUserDict] = useState({ uid: "NULL" });
-	const [reservationData, setReservationData] = useState([]);
 
 	let history = useHistory();
 	useEffect(() => {
@@ -247,6 +255,7 @@ const Home = () => {
 		}
 	}, [user, loading]);
 	const config = DataPortalConfig();
+	console.log({ config });
 	return <DataPortal {...config} />;
 };
 export default Home;
