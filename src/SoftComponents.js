@@ -280,6 +280,22 @@ export const routesDefine = () => {
 				},
 			],
 		},
+		{
+			type: "collapse",
+			name: "Reference",
+			key: "reference",
+			icon: <IconFromName name={"spaceship"} />,
+			collapse: [
+				{
+					type: "collapse",
+					name: "Google SpreadSheet",
+					key: "gspread",
+					href: "https://docs.google.com/spreadsheets/d/11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs/edit#gid=1611145097",
+					icon: <IconFromName name={"creditcard"} />,
+					noCollapse: true,
+				},
+			],
+		},
 	];
 };
 export const DataPortal = ({
@@ -302,6 +318,7 @@ export const DataPortal = ({
 	charts,
 	showNav,
 	showTabs,
+	datatableLoad,
 }) => {
 	const [filterDict, setFilterDict] = useState({});
 	const updateFilterDict = (updatedFilterDict) => {
@@ -390,13 +407,15 @@ export const DataPortal = ({
 		filterDict
 	);
 	const tableDictWithData = { ...tableDict, data: filteredDataChecked };
-	console.log({ tableDictWithData });
+
 	useEffect(() => {
-		datatables_determine_create_update(
-			"#" + tableDictWithData.id,
-			tableDictWithData,
-			tableDictWithData.data
-		);
+		if (datatableLoad) {
+			datatables_determine_create_update(
+				"#" + tableDictWithData.id,
+				tableDictWithData,
+				tableDictWithData.data
+			);
+		}
 	}, [filteredData.length]);
 
 	return (
@@ -463,6 +482,7 @@ export const DataPortal = ({
 };
 
 DataPortal.defaultProps = {
+	datatableLoad: true,
 	showTabs: true,
 	routes: routesDefine(),
 	data: [{ priority_category: "high" }, { priority_category: "low" }],

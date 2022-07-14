@@ -18,36 +18,55 @@ import {
 	useSheets,
 	useWorkbook,
 } from "../Functions/useSheets";
+import _ from "lodash";
 
-const partsDataProcess = ({ workbook }) => {
+const productsDataProcess = ({ workbook }) => {
 	const checkKey = (key_name) =>
 		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
 	if (checkKey("Mapping") && checkKey("Parts") && checkKey("Products")) {
 		const mapping_array = workbook["sheets"]["Mapping"]["array"];
 		const parts_array = workbook["sheets"]["Parts"]["array"];
 		const products_array = workbook["sheets"]["Products"]["array"];
-		return parts_array;
+		return products_array;
+	}
+};
+const columnsFromDictionary = ({ workbook }) => {
+	const checkKey = (key_name) =>
+		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+	if (workbook["loaded"] && checkKey("Dictionary")) {
+		const dictionary_array = workbook["sheets"]["Dictionary"]["array"];
+		const dictionary_array_filtered = dictionary_array.filter((D) => {
+			return D["worksheet"] == "Products";
+		});
+		const tableColumns = _.map(dictionary_array_filtered, (D) => ({
+			data: D["field"],
+			title: D["name"],
+			visible: D["visible"] == "TRUE",
+		}));
+		return tableColumns;
+	} else {
+		return [];
 	}
 };
 const DataPortalConfig = () => {
-	const sheet_names = ["Parts", "Products", "Mapping"];
+	const sheet_names = ["Parts", "Products", "Mapping", "Dictionary"];
 	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
 	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
-
 	const workbook = useWorkbook({
 		sheet_names,
 		access_key,
 		sheet_id,
 	});
-	const partsArray = partsDataProcess({ workbook });
-	console.log({ workbook, partsArray });
+	const tableData = productsDataProcess({ workbook });
+	console.log({ workbook, tableData });
 	return {
+		datatableLoad: workbook.loaded,
 		title: "Products",
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
 		routes: routesDefine(),
-		data: partsArray,
+		data: tableData,
 		tabsFunc: ({ setFilterDict }) => {
 			return [
 				{
@@ -127,29 +146,30 @@ const DataPortalConfig = () => {
 		tableDict: {
 			id: "table",
 			dom: '<"html5buttons"B>lTfgitp',
-			data: partsArray,
-			columns: [
-				{
-					data: "part_id",
-					title: "Part ID",
-					visible: true,
-				},
-				{
-					data: "component_type",
-					title: "Component Type",
-					visible: true,
-				},
-				{
-					data: "phx_class",
-					title: "PHX Class",
-					visible: true,
-				},
-				{
-					data: "address",
-					title: "Address",
-					visible: true,
-				},
-			],
+			data: tableData,
+			columns: columnsFromDictionary({ workbook }),
+			// columns: [
+			// 	{
+			// 		data: "part_id",
+			// 		title: "Part ID",
+			// 		visible: true,
+			// 	},
+			// 	{
+			// 		data: "component_type",
+			// 		title: "Component Type",
+			// 		visible: true,
+			// 	},
+			// 	{
+			// 		data: "phx_class",
+			// 		title: "PHX Class",
+			// 		visible: true,
+			// 	},
+			// 	{
+			// 		data: "address",
+			// 		title: "Address",
+			// 		visible: true,
+			// 	},
+			// ],
 			showNav: false,
 			select: true,
 			paging: false,

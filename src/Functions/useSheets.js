@@ -104,7 +104,7 @@ export const useWorkbook = ({
 	access_key,
 	access_token,
 }) => {
-	const [sheets, setSheets] = useState({});
+	const [sheets, setSheets] = useState({ loaded: false });
 	const refresh = () => {
 		var D = {};
 		var responses = [];
@@ -117,7 +117,9 @@ export const useWorkbook = ({
 				D[sheet_name] = responseUpdated;
 			});
 		});
-		const setSheetDict = { ...sheets, responses, sheets: D };
+		const loaded = true;
+		const setSheetDict = { ...sheets, responses, sheets: D, loaded };
+
 		setSheets(setSheetDict);
 	};
 	useEffect(() => {
