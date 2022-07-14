@@ -142,6 +142,10 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CategoryIcon from "@mui/icons-material/Category";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import InboxIcon from "@mui/icons-material/Inbox";
 
 import StorageIcon from "@mui/icons-material/Storage";
 import DnsIcon from "@mui/icons-material/Dns";
@@ -461,6 +465,14 @@ export const IconFromName = ({ name }) => {
 			return <CreditCard size="12px" />;
 		case "customersupport":
 			return <CustomerSupport size="12px" />;
+		case "category":
+			return <CategoryIcon size="12px" />;
+		case "inventory":
+			return <InventoryIcon size="12px" />;
+		case "money":
+			return <AttachMoneyIcon size="12px" />;
+		case "inbox":
+			return <InboxIcon size="12px" />;
 		default:
 			return <StorageIcon />;
 	}

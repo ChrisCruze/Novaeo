@@ -18,21 +18,27 @@ import {
 	useSheets,
 	useWorkbook,
 } from "../Functions/useSheets";
+import { productMap } from "../Functions/helpers";
 import _ from "lodash";
 
 const productsDataProcess = ({ workbook }) => {
 	const checkKey = (key_name) =>
 		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+
 	if (checkKey("Mapping") && checkKey("Parts") && checkKey("Products")) {
-		const mapping_array = workbook["sheets"]["Mapping"]["array"];
-		const parts_array = workbook["sheets"]["Parts"]["array"];
-		const products_array = workbook["sheets"]["Products"]["array"];
-		return products_array;
+		const mappingArray = workbook["sheets"]["Mapping"]["array"];
+		const partsArray = workbook["sheets"]["Parts"]["array"];
+		const productsArray = workbook["sheets"]["Products"]["array"];
+		return productMap({ mappingArray, partsArray, productsArray });
+	} else {
+		return [];
 	}
 };
+
 const columnsFromDictionary = ({ workbook }) => {
 	const checkKey = (key_name) =>
 		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+
 	if (workbook["loaded"] && checkKey("Dictionary")) {
 		const dictionary_array = workbook["sheets"]["Dictionary"]["array"];
 		const dictionary_array_filtered = dictionary_array.filter((D) => {
@@ -48,6 +54,57 @@ const columnsFromDictionary = ({ workbook }) => {
 		return [];
 	}
 };
+
+const metricsGenerate = ({ data, setFilterDict }) => {
+	const metrics = [
+		{ title: "Products", metric: data.length, icon: "category" },
+		{
+			title: "Parts",
+			metric: arraySum(data, "partsCount"),
+			icon: "inventory",
+		},
+		{ title: "Stock Outs", metric: "-", icon: "inbox" },
+		{
+			title: "Costs",
+			metric: arraySum(data, "total_unit_cost"),
+			icon: "money",
+		},
+	];
+	return metrics;
+};
+
+const chartsGenerate = ({ workbook }) => {
+	const checkKey = (key_name) =>
+		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+
+	if (checkKey("Dictionary")) {
+		const dictionary_array = workbook["sheets"]["Dictionary"]["array"];
+		console.log({ dictionary_array });
+		const dictionary_array_filtered = dictionary_array.filter((D) => {
+			return D["worksheet"] == "Products" && D["chart"];
+		});
+		const dictionary_array_filtered_four = dictionary_array_filtered.slice(
+			0,
+			4
+		);
+		const charts = _.map(dictionary_array_filtered_four, (D) => {
+			return {
+				type: D["chart"],
+				options: [
+					{
+						field: D["field"],
+						label: D["name"],
+					},
+				],
+			};
+		});
+		console.log({ charts });
+		return charts;
+	} else {
+		return [];
+	}
+};
+
 const DataPortalConfig = () => {
 	const sheet_names = ["Parts", "Products", "Mapping", "Dictionary"];
 	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
@@ -60,6 +117,7 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess({ workbook });
 	console.log({ workbook, tableData });
 	return {
+		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
 		title: "Products",
 		showTabs: false,
@@ -101,48 +159,10 @@ const DataPortalConfig = () => {
 			];
 		},
 		metricsFunc: ({ data, setFilterDict }) => {
-			return []; //{ title: "Stories", metric: 100 }
+			return metricsGenerate({ data, setFilterDict });
 		},
 		status: null, //{},
-		metrics: [], //{ title: "Stories", metric: 100 }
-		charts: [
-			// {
-			// 	type: "pie",
-			// 	options: [
-			// 		{
-			// 			field: "priority_category",
-			// 			label: "Priority",
-			// 		},
-			// 	],
-			// },
-			// {
-			// 	type: "horizontal-bar",
-			// 	options: [
-			// 		{
-			// 			field: "priority_category",
-			// 			label: "Priority",
-			// 		},
-			// 	],
-			// },
-			// {
-			// 	type: "horizontal-bar-stacked",
-			// 	options: [
-			// 		{
-			// 			field: "priority_category",
-			// 			label: "Priority",
-			// 		},
-			// 	],
-			// },
-			// {
-			// 	type: "bar",
-			// 	options: [
-			// 		{
-			// 			field: "priority_category",
-			// 			label: "Priority",
-			// 		},
-			// 	],
-			// },
-		],
+
 		tableDict: {
 			id: "table",
 			dom: '<"html5buttons"B>lTfgitp',
@@ -220,7 +240,7 @@ const Home = () => {
 			return;
 		}
 		if (user == null) {
-			history.push("/Login");
+			// history.push("/Login");
 		} else {
 			console.log({ user });
 			setUserDict(user);
