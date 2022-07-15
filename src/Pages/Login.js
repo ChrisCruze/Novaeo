@@ -12,7 +12,7 @@ function Login() {
 			return;
 		}
 		if (user) {
-			history.push("/PartForm");
+			history.push("/Products");
 		}
 	}, [user, loading]);
 	return (
