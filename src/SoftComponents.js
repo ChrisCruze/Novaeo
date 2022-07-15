@@ -228,7 +228,7 @@ export const routesDefine = () => {
 			type: "collapse",
 			name: "Products",
 			key: "products",
-			href: "#Products",
+			href: location.href.split("#")[0] + "#/Products",
 			icon: <IconFromName name={"spaceship"} />,
 			noCollapse: true,
 		},
