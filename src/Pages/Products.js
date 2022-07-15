@@ -17,27 +17,24 @@ import {
 	updateSheetValuesRequestsCreate,
 	useSheets,
 	useWorkbook,
+	fetchSheets,
+	useWorkbook2,
 } from "../Functions/useSheets";
 import { productMap } from "../Functions/helpers";
 import _ from "lodash";
 
-const productsDataProcess = ({ workbook }) => {
+const productsDataProcess2 = ({ workbook }) => {
 	const checkKey = (key_name) => {
-		const keys_return = Object.keys(workbook["sheets"] || {});
+		const keys_return = Object.keys(workbook || {});
 		const checkKeysBool = keys_return.indexOf(key_name) > -1;
 		console.log({ key_name, keys_return, checkKeysBool, workbook });
 		return checkKeysBool;
 	};
 
-	if (
-		workbook["loaded"] &&
-		checkKey("Mapping") &&
-		checkKey("Parts") &&
-		checkKey("Products")
-	) {
-		const mappingArray = workbook["sheets"]["Mapping"]["array"];
-		const partsArray = workbook["sheets"]["Parts"]["array"];
-		const productsArray = workbook["sheets"]["Products"]["array"];
+	if (checkKey("Mapping") && checkKey("Parts") && checkKey("Products")) {
+		const mappingArray = workbook["Mapping"];
+		const partsArray = workbook["Parts"];
+		const productsArray = workbook["Products"];
 		return productMap({ mappingArray, partsArray, productsArray });
 	} else {
 		return [];
@@ -45,11 +42,10 @@ const productsDataProcess = ({ workbook }) => {
 };
 
 const columnsFromDictionary = ({ workbook }) => {
-	const checkKey = (key_name) =>
-		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+	const checkKey = (key_name) => Object.keys(workbook).indexOf(key_name) > -1;
 
 	if (workbook["loaded"] && checkKey("Dictionary")) {
-		const dictionary_array = workbook["sheets"]["Dictionary"]["array"];
+		const dictionary_array = workbook["Dictionary"];
 		const dictionary_array_filtered = dictionary_array.filter((D) => {
 			return D["worksheet"] == "Products";
 		});
@@ -98,11 +94,10 @@ const metricsGenerate = ({ data, setFilterDict }) => {
 
 const chartsGenerate = ({ workbook }) => {
 	const checkKey = (key_name) =>
-		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
+		Object.keys(workbook || {}).indexOf(key_name) > -1;
 
 	if (checkKey("Dictionary")) {
-		const dictionary_array = workbook["sheets"]["Dictionary"]["array"];
-		console.log({ dictionary_array });
+		const dictionary_array = workbook["Dictionary"];
 		const dictionary_array_filtered = dictionary_array.filter((D) => {
 			return D["worksheet"] == "Products" && D["chart"];
 		});
@@ -132,12 +127,13 @@ const DataPortalConfig = () => {
 	const sheet_names = ["Parts", "Products", "Mapping", "Dictionary"];
 	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
 	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
-	const workbook = useWorkbook({
+	const workbook = useWorkbook2({
 		sheet_names,
 		access_key,
 		sheet_id,
 	});
-	const tableData = productsDataProcess({ workbook });
+
+	const tableData = productsDataProcess2({ workbook });
 	console.log({ workbook, tableData });
 	return {
 		charts: chartsGenerate({ workbook }),

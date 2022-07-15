@@ -119,7 +119,79 @@ export const useWorkbook = ({
 		});
 		const loaded = true;
 		const setSheetDict = { ...sheets, responses, sheets: D, loaded };
-		//
+		setSheets(setSheetDict);
+	};
+	useEffect(() => {
+		refresh();
+	}, []);
+	return { ...sheets, refresh };
+};
+
+export const fetchSheets = ({
+	sheet_names,
+	sheet_id,
+	access_key,
+	setState,
+}) => {
+	const promiseSheets = _.map(sheet_names, (sheet_name) => {
+		const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/${sheet_name}?key=${access_key}`;
+		return axios.get(url).then((response) => {
+			const array = arrayFromList(response.data.values);
+			return array;
+		});
+	});
+	Promise.all(promiseSheets).then(function (arrays) {
+		const zippedList = _.zip(sheet_names, arrays);
+		const sheetDict = zippedList.reduce((result, tup) => {
+			result[tup[0]] = tup[1];
+			return result;
+		}, {});
+		setState(sheetDict);
+	});
+};
+
+export const useWorkbook2 = ({
+	sheet_names,
+	sheet_id,
+	access_key,
+	access_token,
+}) => {
+	const [sheets, setSheets] = useState({ loaded: false });
+	const refresh = () => {
+		const setState = (sheetDict) => {
+			const loaded = true;
+			setSheets({ ...sheets, ...sheetDict, loaded });
+		};
+		fetchSheets({ sheet_names, sheet_id, access_key, setState });
+	};
+	useEffect(() => {
+		refresh();
+	}, []);
+	return { ...sheets, refresh };
+};
+
+export const useWorkSheets = ({
+	sheet_names,
+	sheet_id,
+	access_key,
+	access_token,
+}) => {
+	const [sheets, setSheets] = useState({ loaded: false });
+
+	const refresh = () => {
+		var D = {};
+		var responses = [];
+		sheet_names.forEach((sheet_name) => {
+			const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/${sheet_name}?key=${access_key}`;
+			return axios.get(url).then((response) => {
+				const array = arrayFromList(response.data.values);
+				const responseUpdated = { ...response, array };
+				responses.push(responseUpdated);
+				D[sheet_name] = responseUpdated;
+			});
+		});
+		const loaded = true;
+		const setSheetDict = { ...sheets, responses, sheets: D, loaded };
 		setSheets(setSheetDict);
 	};
 	useEffect(() => {
