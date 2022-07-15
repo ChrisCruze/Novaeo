@@ -76,11 +76,11 @@ const columnsFromDictionary = ({ workbook }) => {
 
 const metricsGenerate = ({ data, setFilterDict }) => {
 	const metrics = [
-		{ title: "Products", metric: data.length, icon: "category" },
+		{ title: "Products", metric: data.length, icon: "inventory" },
 		{
 			title: "Parts",
 			metric: arraySum(data, "partsCount"),
-			icon: "inventory",
+			icon: "category",
 		},
 		{ title: "Stock Outs", metric: "-", icon: "inbox" },
 		{
