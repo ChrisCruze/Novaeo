@@ -218,6 +218,7 @@ import {
 	SettingsCards,
 	SettingsAccountPage,
 	TableForm,
+	DynamicConfigPage,
 } from "./SoftElements";
 export const PropsContext = React.createContext({});
 export const routesDefine = () => {
@@ -308,6 +309,432 @@ export const routesDefine = () => {
 		},
 	];
 };
+
+export const NovaeoProudctPage = ({
+	data,
+	brand,
+	brandName,
+	routes,
+	pieOptions,
+	horizontalBarOptions,
+	horizontalStackedBarOptions,
+	thinBarChartOptions,
+	dataTablesConfig,
+	tableDict,
+	tabsFunc,
+	metricsFunc,
+	title,
+	subTitle,
+	imageSrc,
+	status,
+	charts,
+	showNav,
+	table,
+	questionsArray,
+	questionsSave,
+	pageData,
+	setPageData,
+	questionsCancel,
+	mx,
+	sectionsArray,
+	showButton,
+}) => {
+	return <DynamicConfigPage />;
+};
+NovaeoProudctPage.defaultProps = {
+	showButton: true,
+	sectionsArray: [
+		{
+			href: "detail",
+			label: "Parts Details",
+			icon: "1",
+			questionsArray: [
+				{
+					id: "part_id",
+					text: "Part ID",
+					description: "Enter Part ID",
+					type: "text-area",
+				},
+				{
+					id: "component_type",
+					text: "Component Type",
+					description: "Select Component Type",
+					value: "Component A, Component B",
+					isMulti: true,
+					type: "multi-select",
+				},
+				// {
+				// 	category: "config_tenant_questions",
+				// 	order: "5",
+				// 	section: "about",
+				// 	id: "migration_confirm",
+				// 	text: "Cloud Migration Journey",
+				// 	description:
+				// 		"By selecting yes, you have officially begun your cloud migration journey",
+				// 	value: "Yes, No",
+				// 	isMulti: false,
+				// 	type: "multi-select",
+				// 	help_text: null,
+				// 	example: null,
+				// },
+			],
+		},
+		{
+			href: "lead_time_settings",
+			label: "Lead Time Settings",
+			icon: "2",
+			questionsArray: [
+				{
+					id: "supplier_manufacturing_lead_time",
+					text: "Supplier Manufacturing Lead Time",
+					description: "Enter MFG LT",
+					type: "text-area",
+				},
+				{
+					id: "shipping_lead_time",
+					text: "Shipping Lead Time",
+					description: "Enter Shipping Lea dTime",
+					type: "text-area",
+				},
+				{
+					id: "po_issue_days",
+					text: "PO Issue Days",
+					description: "Enter Days",
+					type: "text-area",
+				},
+			],
+		},
+		{
+			href: "safety_day_settings",
+			label: "Safety Day Settings",
+			icon: "3",
+			questionsArray: [
+				{
+					id: "amazon_safety_days",
+					text: "Amazon Safety Days",
+					description: "Enter Amazon Safety Days",
+					type: "text-area",
+				},
+				{
+					id: "warehouse_safety_days",
+					text: "Warehouse Safety Days",
+					description: "Enter WH Safety Days",
+					type: "text-area",
+				},
+			],
+		},
+
+		{
+			href: "cost",
+			label: "Cost",
+			icon: "3",
+			questionsArray: [
+				{
+					id: "material_unit_cost",
+					text: "Material Unit Cost",
+					description: "Enter Cost",
+					type: "text-area",
+				},
+				{
+					id: "shipping_cost",
+					text: "Shipping Cost",
+					description: "Enter Shipping Cost",
+					type: "text-area",
+				},
+				{
+					id: "landed_cost",
+					text: "Landed Cost",
+					description: "Enter Landed Cost",
+					type: "text-area",
+				},
+				{
+					id: "moq",
+					text: "MOQ",
+					description: "Enter MOQ",
+					type: "text-area",
+				},
+				{
+					id: "ordering_uom",
+					text: "Ordering UOM",
+					description: "Enter UOM",
+					type: "text-area",
+				},
+			],
+		},
+		{
+			href: "supplier_details",
+			label: "Supplier Details",
+			icon: "3",
+			questionsArray: [
+				{
+					id: "supplier",
+					text: "Supplier",
+					description: "Select Supplier",
+					type: "text-area",
+				},
+				{
+					id: "address",
+					text: "Address",
+					description: "Enter Address",
+					type: "text-area",
+				},
+				{
+					id: "email",
+					text: "Email",
+					description: "Select Email",
+					type: "text-area",
+				},
+				{
+					id: "contact_number",
+					text: "Contact Number",
+					description: "Enter Contact Number",
+					type: "text-area",
+				},
+				{
+					id: "supplier_payment_terms",
+					text: "Supplier Payment Terms",
+					description: "Select Supplier Payment Terms",
+					type: "text-area",
+				},
+				{
+					id: "product_link",
+					text: "Product Link",
+					description: "Enter Product Link",
+					type: "text-area",
+				},
+			],
+		},
+		// {
+		// 	href: "general",
+		// 	label: "General",
+		// 	icon: "1",
+		// 	tableConfig: {
+		// 		node: "rows",
+		// 		columns: [{ Header: "name", accessor: "name", width: "20%" }],
+		// 	},
+		// 	questionsArray: [
+		// {
+		// 	category: "config_tenant_questions",
+		// 	order: "5",
+		// 	section: "about",
+		// 	id: "migration_confirm",
+		// 	text: "Cloud Migration Journey",
+		// 	description:
+		// 		"By selecting yes, you have officially begun your cloud migration journey",
+		// 	value: "Yes, No",
+		// 	isMulti: false,
+		// 	type: "multi-select",
+		// 	help_text: null,
+		// 	example: null,
+		// },
+		// 	],
+		// },
+	],
+	mx: 15,
+	questionsArray: [],
+	questionsSave: (e) => {
+		console.log("save");
+	},
+	pageData: {},
+	setPageData: (pageData) => {
+		console.log({ pageData });
+	},
+	questionsCancel: (e) => {
+		console.log("save");
+	},
+	table: {
+		columns: [
+			{ Header: "name", accessor: "name", width: "20%" },
+			{ Header: "position", accessor: "position", width: "25%" },
+			{ Header: "office", accessor: "office" },
+			{ Header: "age", accessor: "age", width: "7%" },
+			{ Header: "start date", accessor: "startDate" },
+			{ Header: "salary", accessor: "salary" },
+		],
+
+		rows: [
+			{
+				name: "Hanny Baniard",
+				position: "Data Coordiator",
+				office: "Baorixile",
+				age: 42,
+				startDate: "4/11/2021",
+				salary: "$474,978",
+			},
+		],
+	},
+	showNav: true,
+	data: [{ priority_category: "high" }, { priority_category: "low" }],
+	status: {
+		title: "In Development",
+		image:
+			sharepointURLDirectoryDefine() +
+			"dependencies/code/img/ivancik.jpg",
+		description: "", //'Capture key details arond key projects, business use cases, accomplishments across each Tenant. This addresses the problem that there is a lack of insight into what Tenants are being used for.',
+		buttonText: "Read More",
+		action: {
+			type: "internal",
+			route: "/MTD",
+			label: "Read More",
+		},
+	},
+	tableDict: {
+		id: "table",
+		dom: '<"html5buttons"B>lTfgitp',
+		data: [],
+		columns: [
+			{
+				data: "priority_category",
+				title: "priority_category",
+				visible: true,
+			},
+		],
+		select: true,
+		paging: false,
+		scrollX: true,
+		buttons: [
+			{
+				extend: "excel",
+				title: document.title,
+			},
+			{
+				extend: "colvis",
+				title: document.title,
+			},
+			// {
+			//   extend: "create",
+			//   editor: editor,
+			//   text: "Create",
+			// },
+			// {
+			//   extend: "remove",
+			//   editor: editor,
+			// },
+			// {
+			//   extend: "edit",
+			//   editor: editor,
+			// },
+			{
+				text: "Clear",
+				name: "Clear",
+				action: function (e, dt, node, config) {
+					dt.columns("").search("").draw();
+					$.fn.dataTable.ext.search = [];
+					dt.draw();
+				},
+			},
+		],
+	},
+	brand: "",
+	brandName: "Novaeo",
+	routes: [
+		{ type: "divider", key: "divider-1" },
+		{ type: "title", title: "Docs", key: "title-docs" },
+		{
+			type: "collapse",
+			name: "Parts",
+			key: "parts",
+			icon: <IconFromName name={"spaceship"} />,
+			collapse: [
+				{
+					type: "collapse",
+					name: "List",
+					key: "parts_list",
+					href: "/#/Parts",
+					icon: <IconFromName name={"creditcard"} />,
+					noCollapse: true,
+				},
+				{
+					type: "collapse",
+					name: "Create",
+					key: "part_form",
+					href: "/#/PartForm",
+					icon: <IconFromName name={"creditcard"} />,
+					noCollapse: true,
+				},
+			],
+		},
+	],
+	title: "Dashboard",
+	subTitle: "Sub Title",
+	imageSrc: sharepointURLDirectoryDefine() + "dependencies/code/png/hive.png",
+	tabsFunc: ({ setFilterDict }) => {
+		return [
+			{
+				title: "All",
+				icon: "settings",
+				func: () => {
+					setFilterDict({ backlog_category: "Backlog" });
+				},
+			},
+			// {
+			//   title: "Sprint",
+			//   icon: "settings",
+			//   func: () => {
+			//     setFilterDict({ backlog_category: "Sprint" });
+			//   },
+			// },
+			// {
+			//   title: "Accomplished",
+			//   icon: "settings",
+			//   func: () => {
+			//     setFilterDict({ done_category: "Last 30 Days" });
+			//   },
+			// },
+			// {
+			//   title: "All",
+			//   icon: "settings",
+			//   func: () => {
+			//     console.log("click backlog");
+			//     setFilterDict({});
+			//   },
+			// },
+		];
+	},
+	metricsFunc: ({ data, setFilterDict }) => {
+		return [{ title: "Stories", metric: 100 }];
+	},
+	metrics: [{ title: "Stories", metric: 100 }],
+	charts: [
+		{
+			type: "pie",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "horizontal-bar",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "horizontal-bar-stacked",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+		{
+			type: "bar",
+			options: [
+				{
+					field: "priority_category",
+					label: "Priority",
+				},
+			],
+		},
+	],
+};
+
 export const DataPortal = ({
 	data,
 	brand,
@@ -688,18 +1115,6 @@ export const NovaeoPage = ({
 			{showButton ? (
 				<ConfigurationButton2 onClick={questionsSave} />
 			) : null}
-			{/* <SuiBox mt={4}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={3}>
-              <SidenavSelectMove />
-            </Grid>
-            <Grid item xs={12} lg={9}>
-              <SuiBox mb={3}>
-                <SettingsCards />
-              </SuiBox>
-            </Grid>
-          </Grid>
-        </SuiBox> */}
 		</DynamicLayout>
 	);
 };

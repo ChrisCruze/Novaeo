@@ -10,6 +10,8 @@ import {
 	IconFromName,
 } from "../SoftElements";
 
+import { DynamicConfigPage } from "../SoftElements";
+
 import { NovaeoPage, DataPortal, routesDefine } from "../SoftComponents";
 import {
 	readSheetValues,
@@ -140,6 +142,7 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess({ workbook });
 	console.log({ workbook, tableData });
 	return {
+		showSideTabs: true,
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
 		title: "Products",
@@ -270,6 +273,6 @@ const Home = () => {
 	}, [user, loading]);
 	const config = DataPortalConfig();
 	console.log({ config });
-	return <DataPortal {...config} />;
+	return <DynamicConfigPage {...config} />;
 };
 export default Home;
