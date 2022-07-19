@@ -131,6 +131,8 @@ const chartsGenerate = ({ workbook }) => {
 };
 
 const DataPortalConfig = () => {
+	const [pageData, setPageData] = useState({});
+
 	const sheet_names = ["Parts", "Products", "Mapping", "Dictionary"];
 	const access_key = "AIzaSyBbV-veLJYxgpNWWGDEdIF7eHjFTTtrSCU";
 	const sheet_id = "11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs";
@@ -142,7 +144,9 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess({ workbook });
 	console.log({ workbook, tableData });
 	return {
-		showSideTabs: true,
+		pageData,
+		setPageData,
+		showSideTabs: false,
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
 		title: "Products",

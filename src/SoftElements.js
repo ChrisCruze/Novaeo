@@ -10941,7 +10941,6 @@ export const SuiInputHook = ({ configDict, pageData, setPageData }) => {
 		var newDict = {};
 		newDict[elementID] = textValue;
 		const updatedPageData = { ...pageData, ...newDict };
-
 		setPageData(updatedPageData);
 	};
 	return (
@@ -10979,6 +10978,31 @@ export const SuiTextAreaHook = ({ configDict, pageData, setPageData }) => {
 	);
 };
 
+export const SuiFormFieldHook = ({ configDict, pageData, setPageData }) => {
+	const onChange = (event) => {
+		const value = event.target.value;
+		const elementID = configDict["id"];
+		var newDict = {};
+		newDict[elementID] = value;
+		const updatedPageData = { ...pageData, ...newDict };
+		setPageData(updatedPageData);
+	};
+
+	const pageValue =
+		pageData[configDict["id"]] == undefined
+			? ""
+			: pageData[configDict["id"]] || "";
+	return (
+		<FormField
+			// {...configDict}
+			label={configDict["label"] || "label"}
+			type={configDict["type"] || "text"}
+			// defaultValue={configDict["defaultValue"] || "defaultValue"}
+			value={pageValue}
+			onChange={onChange}
+		/>
+	);
+};
 export const SuiSliderHook = ({ configDict, pageData, setPageData }) => {
 	const onChange = (value) => {
 		// console.log({ value });
@@ -19074,6 +19098,345 @@ SettingsAccountPage.defaultProps = {
 	],
 };
 
+const ConfigFormRows = ({ arrayList, pageData, setPageData }) => {
+	const renderRow = (arrayRow) => (
+		<SuiBox mt={1}>
+			<Grid container spacing={3}>
+				{arrayRow.map((questionDict, key) => {
+					console.log({ questionDict });
+					return (
+						<Grid
+							key={key}
+							item
+							xs={12}
+							// sm={6}
+							{...(questionDict["gridItem"] || { sm: 6 })}
+						>
+							<SuiFormFieldHook
+								// configDict={{
+								// 	id: "myId",
+								// 	type: "text",
+								// 	label: "LABEL",
+								// 	defaultValue: "Minimal Bar Stool",
+								// }}
+								configDict={questionDict}
+								pageData={pageData}
+								setPageData={setPageData}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		</SuiBox>
+	);
+	const renderForm = () => (
+		<Fragment>
+			{arrayList.map((arrayRow, key) => {
+				return <Fragment key={key}>{renderRow(arrayRow)}</Fragment>;
+			})}
+		</Fragment>
+	);
+
+	return <Fragment>{renderForm()}</Fragment>;
+};
+
+ConfigFormRows.defaultProps = {
+	arrayList: [
+		[
+			{
+				id: "myIdtwo",
+				type: "text",
+				label: "LABEL2",
+				gridItem: { sm: 6 },
+			},
+			{
+				id: "weight",
+				type: "number",
+				label: "Weight",
+				gridItem: { sm: 6 },
+			},
+		],
+	],
+	pageData: {},
+	setPageData: (pageData) => {
+		console.log({ pageData });
+	},
+};
+const ConfigForm = ({ title, pageData, setPageData, arrayList }) => {
+	const [editorValue, setEditorValue] = useState(
+		`<p>
+		  Long sleeves black denim jacket with a twisted design. Contrast stitching. Button up closure. White arrow prints on the back.
+		</p>`
+	);
+
+	return (
+		<Fragment>
+			<SuiTypography variant="h5">{title}</SuiTypography>
+			<ConfigFormRows
+				pageData={pageData}
+				setPageData={setPageData}
+				arrayList={arrayList}
+			/>
+
+			{/* <SuiBox mt={1}>
+				<Grid container spacing={3}>
+					<Grid item xs={12} sm={3}>
+						<FormField
+							type="text"
+							label="collection"
+							defaultValue="Summer"
+						/>
+					</Grid>
+					<Grid item xs={12} sm={3}>
+						<FormField
+							type="text"
+							label="price"
+							defaultValue="$90"
+						/>
+					</Grid>
+					<Grid item xs={12} sm={3}>
+						<FormField
+							type="number"
+							label="quantity"
+							defaultValue={50}
+						/>
+					</Grid>
+				</Grid>
+			</SuiBox> */}
+			{/* <SuiBox mt={1}>
+				<Grid container spacing={3}>
+					<Grid item xs={12} sm={6}>
+						<SuiBox
+							mb={1}
+							ml={0.5}
+							lineHeight={0}
+							display="inline-block"
+						>
+							<SuiTypography
+								component="label"
+								variant="caption"
+								fontWeight="bold"
+							>
+								Description&nbsp;&nbsp;
+								<SuiTypography
+									variant="caption"
+									fontWeight="regular"
+									color="text"
+								>
+									(optional)
+								</SuiTypography>
+							</SuiTypography>
+						</SuiBox>
+						<SuiEditor
+							value={editorValue}
+							onChange={setEditorValue}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<SuiBox mb={3}>
+							<SuiBox
+								mb={1}
+								ml={0.5}
+								lineHeight={0}
+								display="inline-block"
+							>
+								<SuiTypography
+									component="label"
+									variant="caption"
+									fontWeight="bold"
+									textTransform="capitalize"
+								>
+									Category
+								</SuiTypography>
+							</SuiBox>
+							<SuiSelect
+								defaultValue={{
+									value: "clothing",
+									label: "Clothing",
+								}}
+								options={[
+									{ value: "clothing", label: "Clothing" },
+									{
+										value: "electronics",
+										label: "Electronics",
+									},
+									{ value: "furniture", label: "Furniture" },
+									{ value: "others", label: "Others" },
+									{
+										value: "real estate",
+										label: "Real Estate",
+									},
+								]}
+							/>
+						</SuiBox>
+						<SuiBox
+							mb={1}
+							ml={0.5}
+							lineHeight={0}
+							display="inline-block"
+						>
+							<SuiTypography
+								component="label"
+								variant="caption"
+								fontWeight="bold"
+								textTransform="capitalize"
+							>
+								Color
+							</SuiTypography>
+						</SuiBox>
+						<SuiSelect
+							defaultValue={{ value: "black", label: "Black" }}
+							options={[
+								{ value: "black", label: "Black" },
+								{ value: "blue", label: "Blue" },
+								{ value: "green", label: "Green" },
+								{ value: "orange", label: "Orange" },
+								{ value: "white", label: "White" },
+							]}
+						/>
+					</Grid>
+				</Grid>
+			</SuiBox> */}
+		</Fragment>
+	);
+};
+
+ConfigForm.defaultProps = {
+	title: "Product Information",
+
+	pageData: {},
+
+	setPageData: (pageData) => {
+		console.log({ pageData });
+	},
+};
+export function ConfigCards({ sectionsArray, pageData, setPageData }) {
+	const renderSections = () => (
+		<Grid container spacing={3}>
+			{sectionsArray.map((sectionDict, key) => (
+				<Grid
+					item
+					key={key}
+					xs={12}
+					{...(sectionDict["gridItem"] || {})}
+				>
+					<Card
+						id={sectionDict["href"]}
+						{...(sectionDict["card"] || {})}
+					>
+						<SuiBox p={2}>
+							{sectionDict["form"] ? (
+								<ConfigForm
+									pageData={pageData}
+									setPageData={setPageData} //title, subTitle, src
+									title={sectionDict["form"]["title"]}
+									arrayList={sectionDict["form"]["arrayList"]}
+									{...sectionDict["form"]}
+								/>
+							) : null}
+
+							{sectionDict["headerConfig"] ? (
+								<SettingsCardsHeader
+									pageData={pageData}
+									setPageData={setPageData} //title, subTitle, src
+									title={sectionDict["headerConfig"]["title"]}
+									subTitle={
+										sectionDict["headerConfig"]["subTitle"]
+									}
+									src={sectionDict["headerConfig"]["src"]}
+								/>
+							) : null}
+							{sectionDict["dashboardConfig"] ? (
+								<SettingsCardsDashboard
+									pageData={pageData}
+									setPageData={setPageData} //title, subTitle, src
+									title={
+										sectionDict["dashboardConfig"]["title"]
+									}
+									subTitle={
+										sectionDict["dashboardConfig"][
+											"subTitle"
+										]
+									}
+								/>
+							) : null}
+							{sectionDict["metrics"] ? (
+								<SettingsMetrics
+									metrics={sectionDict["metrics"]}
+								/>
+							) : null}
+
+							{sectionDict["questionsArray"] ? (
+								<FormQuestionsGenerate
+									pageData={pageData}
+									setPageData={setPageData}
+									questionsData={
+										sectionDict["questionsArray"]
+									}
+								/>
+							) : null}
+
+							{sectionDict["tableConfig"] ? (
+								<TableForm
+									pageData={pageData}
+									setPageData={setPageData}
+									node={sectionDict["tableConfig"]["node"]}
+									columns={
+										sectionDict["tableConfig"]["columns"]
+									}
+								/>
+							) : null}
+
+							{sectionDict["datatable"] ? (
+								<DataTable2 {...sectionDict["datatable"]} />
+							) : // <DataTable2 />
+							null}
+						</SuiBox>
+						{sectionDict["buttonConfig"] ? (
+							<SuiBox
+								display="flex"
+								justifyContent="flex-end"
+								mt={0}
+								p={1}
+							>
+								<SuiButton
+									onClick={
+										sectionDict["buttonConfig"]["onClick"]
+									}
+									variant="gradient"
+									color="info"
+								>
+									{sectionDict["buttonConfig"]["text"]}
+								</SuiButton>
+							</SuiBox>
+						) : null}
+					</Card>
+				</Grid>
+			))}
+		</Grid>
+	);
+
+	return (
+		<Grid item xs={12} lg={9}>
+			<SuiBox mb={3}>{renderSections()}</SuiBox>
+		</Grid>
+	);
+}
+
+ConfigCards.defaultProps = {
+	sectionsArray: [
+		{
+			gridItem: { lg: 8 },
+			card: { sx: { overflow: "visible" } },
+		},
+	],
+	pageData: {},
+
+	setPageData: (pageData) => {
+		console.log({ pageData });
+	},
+};
+
 export const ConfigPage = ({
 	sectionsArray,
 	pageData,
@@ -19081,14 +19444,14 @@ export const ConfigPage = ({
 	questionsSave,
 }) => {
 	return (
-		<SuiBox mt={4}>
-			<Grid container spacing={3}>
+		<SuiBox mt={0}>
+			<Grid container spacing={0}>
 				{/* <Grid item xs={12} lg={3}>
 					<SidenavSelectMove sidenavItems={sectionsArray} />
 				</Grid> */}
 				<Grid item xs={12} lg={12}>
 					<SuiBox mb={3}>
-						<SettingsCards
+						<ConfigCards
 							sectionsArray={sectionsArray}
 							pageData={pageData}
 							setPageData={setPageData}
@@ -19114,6 +19477,24 @@ ConfigPage.defaultProps = {
 			tableConfig: {
 				node: "rows",
 				columns: [{ Header: "name", accessor: "name", width: "20%" }],
+			},
+			form: {
+				arrayList: [
+					[
+						{
+							id: "myIdtwo",
+							type: "text",
+							label: "Two",
+							gridItem: { sm: 6 },
+						},
+						{
+							id: "weight",
+							type: "number",
+							label: "Weight",
+							gridItem: { sm: 6 },
+						},
+					],
+				],
 			},
 			questionsArray: [
 				{
@@ -19442,6 +19823,20 @@ DynamicConfigPage.defaultProps = {
 	showSideTabs: false,
 	sectionsArray: [
 		{
+			href: "header",
+			label: "Header",
+			icon: "2",
+			headerConfig: { title: "title", subTitle: "subTitle", src: "src" },
+			metrics: [{ title: "Queries", metric: 4 }],
+			form: {},
+		},
+		{
+			href: "section",
+			label: "Section",
+			icon: "2",
+			headerConfig: { title: "title", subTitle: "subTitle" },
+		},
+		{
 			href: "detail",
 			label: "Parts Details",
 			icon: "1",
@@ -19460,172 +19855,8 @@ DynamicConfigPage.defaultProps = {
 					isMulti: true,
 					type: "multi-select",
 				},
-				// {
-				// 	category: "config_tenant_questions",
-				// 	order: "5",
-				// 	section: "about",
-				// 	id: "migration_confirm",
-				// 	text: "Cloud Migration Journey",
-				// 	description:
-				// 		"By selecting yes, you have officially begun your cloud migration journey",
-				// 	value: "Yes, No",
-				// 	isMulti: false,
-				// 	type: "multi-select",
-				// 	help_text: null,
-				// 	example: null,
-				// },
 			],
 		},
-		{
-			href: "lead_time_settings",
-			label: "Lead Time Settings",
-			icon: "2",
-			questionsArray: [
-				{
-					id: "supplier_manufacturing_lead_time",
-					text: "Supplier Manufacturing Lead Time",
-					description: "Enter MFG LT",
-					type: "text-area",
-				},
-				{
-					id: "shipping_lead_time",
-					text: "Shipping Lead Time",
-					description: "Enter Shipping Lea dTime",
-					type: "text-area",
-				},
-				{
-					id: "po_issue_days",
-					text: "PO Issue Days",
-					description: "Enter Days",
-					type: "text-area",
-				},
-			],
-		},
-		{
-			href: "safety_day_settings",
-			label: "Safety Day Settings",
-			icon: "3",
-			questionsArray: [
-				{
-					id: "amazon_safety_days",
-					text: "Amazon Safety Days",
-					description: "Enter Amazon Safety Days",
-					type: "text-area",
-				},
-				{
-					id: "warehouse_safety_days",
-					text: "Warehouse Safety Days",
-					description: "Enter WH Safety Days",
-					type: "text-area",
-				},
-			],
-		},
-
-		{
-			href: "cost",
-			label: "Cost",
-			icon: "3",
-			questionsArray: [
-				{
-					id: "material_unit_cost",
-					text: "Material Unit Cost",
-					description: "Enter Cost",
-					type: "text-area",
-				},
-				{
-					id: "shipping_cost",
-					text: "Shipping Cost",
-					description: "Enter Shipping Cost",
-					type: "text-area",
-				},
-				{
-					id: "landed_cost",
-					text: "Landed Cost",
-					description: "Enter Landed Cost",
-					type: "text-area",
-				},
-				{
-					id: "moq",
-					text: "MOQ",
-					description: "Enter MOQ",
-					type: "text-area",
-				},
-				{
-					id: "ordering_uom",
-					text: "Ordering UOM",
-					description: "Enter UOM",
-					type: "text-area",
-				},
-			],
-		},
-		{
-			href: "supplier_details",
-			label: "Supplier Details",
-			icon: "3",
-			questionsArray: [
-				{
-					id: "supplier",
-					text: "Supplier",
-					description: "Select Supplier",
-					type: "text-area",
-				},
-				{
-					id: "address",
-					text: "Address",
-					description: "Enter Address",
-					type: "text-area",
-				},
-				{
-					id: "email",
-					text: "Email",
-					description: "Select Email",
-					type: "text-area",
-				},
-				{
-					id: "contact_number",
-					text: "Contact Number",
-					description: "Enter Contact Number",
-					type: "text-area",
-				},
-				{
-					id: "supplier_payment_terms",
-					text: "Supplier Payment Terms",
-					description: "Select Supplier Payment Terms",
-					type: "text-area",
-				},
-				{
-					id: "product_link",
-					text: "Product Link",
-					description: "Enter Product Link",
-					type: "text-area",
-				},
-			],
-		},
-		// {
-		// 	href: "general",
-		// 	label: "General",
-		// 	icon: "1",
-		// 	tableConfig: {
-		// 		node: "rows",
-		// 		columns: [{ Header: "name", accessor: "name", width: "20%" }],
-		// 	},
-		// 	questionsArray: [
-		// {
-		// 	category: "config_tenant_questions",
-		// 	order: "5",
-		// 	section: "about",
-		// 	id: "migration_confirm",
-		// 	text: "Cloud Migration Journey",
-		// 	description:
-		// 		"By selecting yes, you have officially begun your cloud migration journey",
-		// 	value: "Yes, No",
-		// 	isMulti: false,
-		// 	type: "multi-select",
-		// 	help_text: null,
-		// 	example: null,
-		// },
-		// 	],
-		// },
 	],
 	mx: 15,
 	questionsArray: [],
