@@ -21,7 +21,11 @@ import {
 	useWorkbook,
 	useWorkbook2,
 } from "../Functions/useSheets";
-import { productMap, productsDataProcess } from "../Functions/helpers";
+import {
+	productMap,
+	productsDataProcess,
+	partsDataProcess,
+} from "../Functions/helpers";
 import _ from "lodash";
 
 const fieldsFromDictionary = ({ workbook }) => {
@@ -50,6 +54,38 @@ const fieldsFromDictionary = ({ workbook }) => {
 	}
 };
 
+const columnsFromDictionaryParts = ({ workbook }) => {
+	const checkKey = (key_name) => Object.keys(workbook).indexOf(key_name) > -1;
+
+	if (workbook["loaded"] && checkKey("Dictionary")) {
+		const dictionary_array = workbook["Dictionary"];
+		const dictionary_array_filtered = dictionary_array.filter((D) => {
+			return D["worksheet"] == "Parts";
+		});
+		const tableColumns = _.map(dictionary_array_filtered, (D) => ({
+			data: D["field"],
+			title: D["name"],
+			visible: D["visible"] == "TRUE",
+		}));
+		const tableColumnsLinks = _.map(tableColumns, (D) => {
+			if (D["data"] == "part_id") {
+				return {
+					...D,
+					render: function (data, type, row, meta) {
+						const url = `/#/Part?part_id=${data}`;
+						const text = data;
+						return `<a target='blank' href='${url}'>${text}</a>`;
+					},
+				};
+			} else {
+				return D;
+			}
+		});
+		return tableColumnsLinks;
+	} else {
+		return [];
+	}
+};
 const productDictFromURLUpdate = ({ tableData, pageData, setPageData }) => {
 	const queryDict = queryDictFromURLParams();
 	const tableFiltered = arrayDictMatchLookUp(tableData, queryDict);
@@ -76,7 +112,18 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess({ workbook });
 	const fieldsArray = fieldsFromDictionary({ workbook });
 	productDictFromURLUpdate({ tableData, pageData, setPageData });
-	console.log({ workbook, tableData, fieldsArray, pageData });
+	const partsTableData = partsDataProcess({ workbook });
+	const partsTableDataFiltered = partsTableData.filter((D) => {
+		return D["isku"].indexOf(queryDictFromURLParams()["isku"]);
+	});
+	console.log({
+		partsTableData,
+		partsTableDataFiltered,
+		workbook,
+		tableData,
+		fieldsArray,
+		pageData,
+	});
 	return {
 		sectionsArray: [
 			{
@@ -87,6 +134,49 @@ const DataPortalConfig = () => {
 					title: pageData["isku"] || "",
 					array: fieldsArray,
 				},
+			},
+			{
+				href: "table",
+				label: "Table",
+				icon: "2",
+				datatables: {
+					datatableLoad: workbook.loaded,
+					config: {
+						id: "dataTableNode",
+						dom: '<"html5buttons"B>lTfgitp',
+						data: partsTableDataFiltered,
+						columns: columnsFromDictionaryParts({ workbook }),
+						select: true,
+						paging: false,
+						scrollX: true,
+						colReorder: true,
+						autoWidth: true,
+						buttons: [
+							{
+								extend: "excel",
+								title: document.title,
+							},
+							{
+								extend: "colvis",
+								title: document.title,
+							},
+							{
+								text: "Clear",
+								name: "Clear",
+								action: function (e, dt, node, config) {
+									dt.columns("").search("").draw();
+									$.fn.dataTable.ext.search = [];
+									dt.draw();
+								},
+							},
+						],
+					},
+				},
+
+				// form: {
+				// 	title: pageData["isku"] || "",
+				// 	array: fieldsArray,
+				// },
 			},
 		],
 		pageData,

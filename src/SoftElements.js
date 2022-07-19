@@ -19237,6 +19237,73 @@ ConfigForm.defaultProps = {
 		console.log({ pageData });
 	},
 };
+
+const ConfigDataTable = ({ config, datatableLoad }) => {
+	useEffect(() => {
+		if (datatableLoad) {
+			datatables_determine_create_update(
+				"#" + config.id,
+				config,
+				config.data
+			);
+		}
+	}, [config.data.length]); //
+
+	return (
+		<SuiBox
+			marginBottom={3}
+			sx={{
+				mx: 3,
+			}}
+		>
+			<table
+				// className="table-react"
+				className="table-react table table-striped table-bordered table-hover"
+				style={{ width: "100%" }}
+				id={config.id}
+			></table>
+		</SuiBox>
+	);
+};
+ConfigDataTable.defaultProps = {
+	datatableLoad: true,
+	config: {
+		id: "dataTableNode",
+		dom: '<"html5buttons"B>lTfgitp',
+		data: [{ field_name: "field_value" }],
+		columns: [
+			{
+				data: "field_name",
+				title: "field_name",
+				visible: true,
+			},
+		],
+		select: true,
+		paging: false,
+		scrollX: true,
+		colReorder: true,
+		autoWidth: true,
+		buttons: [
+			{
+				extend: "excel",
+				title: document.title,
+			},
+			{
+				extend: "colvis",
+				title: document.title,
+			},
+			{
+				text: "Clear",
+				name: "Clear",
+				action: function (e, dt, node, config) {
+					dt.columns("").search("").draw();
+					$.fn.dataTable.ext.search = [];
+					dt.draw();
+				},
+			},
+		],
+	},
+};
 export function ConfigCards({ sectionsArray, pageData, setPageData }) {
 	const renderSections = () => (
 		<Grid container spacing={3}>
@@ -19314,6 +19381,11 @@ export function ConfigCards({ sectionsArray, pageData, setPageData }) {
 								/>
 							) : null}
 
+							{sectionDict["datatables"] ? (
+								<ConfigDataTable
+									{...sectionDict["datatables"]}
+								/>
+							) : null}
 							{sectionDict["datatable"] ? (
 								<DataTable2 {...sectionDict["datatable"]} />
 							) : // <DataTable2 />

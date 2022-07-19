@@ -56,7 +56,6 @@ export const productsDataProcess = ({ workbook }) => {
 	const checkKey = (key_name) => {
 		const keys_return = Object.keys(workbook || {});
 		const checkKeysBool = keys_return.indexOf(key_name) > -1;
-		console.log({ key_name, keys_return, checkKeysBool, workbook });
 		return checkKeysBool;
 	};
 
@@ -65,6 +64,52 @@ export const productsDataProcess = ({ workbook }) => {
 		const partsArray = workbook["Parts"];
 		const productsArray = workbook["Products"];
 		return productMap({ mappingArray, partsArray, productsArray });
+	} else {
+		return [];
+	}
+};
+
+export const partsMap = ({ mappingArray, partsArray, productsArray }) => {
+	const partsArrayMapping = _.map(partsArray, (partsDict) => {
+		const mappingArrayFiltered =
+			_.filter(mappingArray, (mappingDict) => {
+				return mappingDict["part_id"] == partsDict["part_id"];
+			}) || {};
+		const products = _.map(mappingArrayFiltered, (mappingDict) => {
+			const productDict =
+				_.find(productsArray, (D) => {
+					return D["isku"] == mappingDict["isku"];
+				}) || {};
+			return { ...mappingDict, ...productDict };
+		});
+		const productsCount = products.length;
+		const isku = _.map(products, (productDict) => productDict["isku"]).join(
+			","
+		);
+		const newDict = {
+			...partsDict,
+			isku,
+			mappingArray: mappingArrayFiltered,
+			products,
+			productsCount,
+		};
+		return newDict;
+	});
+	console.log({ partsArray, productsArray, partsArrayMapping });
+	return partsArrayMapping;
+};
+export const partsDataProcess = ({ workbook }) => {
+	const checkKey = (key_name) => {
+		const keys_return = Object.keys(workbook || {});
+		const checkKeysBool = keys_return.indexOf(key_name) > -1;
+		return checkKeysBool;
+	};
+
+	if (checkKey("Mapping") && checkKey("Parts") && checkKey("Products")) {
+		const mappingArray = workbook["Mapping"];
+		const partsArray = workbook["Parts"];
+		const productsArray = workbook["Products"];
+		return partsMap({ mappingArray, partsArray, productsArray });
 	} else {
 		return [];
 	}
