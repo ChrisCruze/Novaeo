@@ -19162,150 +19162,77 @@ ConfigFormRows.defaultProps = {
 		console.log({ pageData });
 	},
 };
-const ConfigForm = ({ title, pageData, setPageData, arrayList }) => {
-	const [editorValue, setEditorValue] = useState(
-		`<p>
-		  Long sleeves black denim jacket with a twisted design. Contrast stitching. Button up closure. White arrow prints on the back.
-		</p>`
+
+const ConfigFormArray = ({ array, pageData, setPageData }) => {
+	const renderRow = (arrayRow) => (
+		<SuiBox mt={1}>
+			<Grid container spacing={3}>
+				{arrayRow.map((questionDict, key) => {
+					return (
+						<Grid
+							key={key}
+							item
+							xs={12}
+							// sm={6}
+							{...(questionDict["gridItem"] || { sm: 6 })}
+						>
+							<SuiFormFieldHook
+								// configDict={{
+								// 	id: "myId",
+								// 	type: "text",
+								// 	label: "LABEL",
+								// 	defaultValue: "Minimal Bar Stool",
+								// }}
+								configDict={questionDict}
+								pageData={pageData}
+								setPageData={setPageData}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		</SuiBox>
 	);
 
+	return <Fragment>{renderRow(array)}</Fragment>;
+};
+
+ConfigFormArray.defaultProps = {
+	array: [
+		{
+			id: "myIdtwo",
+			type: "text",
+			label: "LABEL2",
+			gridItem: { sm: 6 },
+		},
+		{
+			id: "weight",
+			type: "number",
+			label: "Weight",
+			gridItem: { sm: 6 },
+		},
+	],
+	pageData: {},
+	setPageData: (pageData) => {
+		console.log({ pageData });
+	},
+};
+const ConfigForm = ({ title, pageData, setPageData, array }) => {
 	return (
 		<Fragment>
 			<SuiTypography variant="h5">{title}</SuiTypography>
-			<ConfigFormRows
+			<ConfigFormArray
 				pageData={pageData}
 				setPageData={setPageData}
-				arrayList={arrayList}
+				array={array}
 			/>
-
-			{/* <SuiBox mt={1}>
-				<Grid container spacing={3}>
-					<Grid item xs={12} sm={3}>
-						<FormField
-							type="text"
-							label="collection"
-							defaultValue="Summer"
-						/>
-					</Grid>
-					<Grid item xs={12} sm={3}>
-						<FormField
-							type="text"
-							label="price"
-							defaultValue="$90"
-						/>
-					</Grid>
-					<Grid item xs={12} sm={3}>
-						<FormField
-							type="number"
-							label="quantity"
-							defaultValue={50}
-						/>
-					</Grid>
-				</Grid>
-			</SuiBox> */}
-			{/* <SuiBox mt={1}>
-				<Grid container spacing={3}>
-					<Grid item xs={12} sm={6}>
-						<SuiBox
-							mb={1}
-							ml={0.5}
-							lineHeight={0}
-							display="inline-block"
-						>
-							<SuiTypography
-								component="label"
-								variant="caption"
-								fontWeight="bold"
-							>
-								Description&nbsp;&nbsp;
-								<SuiTypography
-									variant="caption"
-									fontWeight="regular"
-									color="text"
-								>
-									(optional)
-								</SuiTypography>
-							</SuiTypography>
-						</SuiBox>
-						<SuiEditor
-							value={editorValue}
-							onChange={setEditorValue}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<SuiBox mb={3}>
-							<SuiBox
-								mb={1}
-								ml={0.5}
-								lineHeight={0}
-								display="inline-block"
-							>
-								<SuiTypography
-									component="label"
-									variant="caption"
-									fontWeight="bold"
-									textTransform="capitalize"
-								>
-									Category
-								</SuiTypography>
-							</SuiBox>
-							<SuiSelect
-								defaultValue={{
-									value: "clothing",
-									label: "Clothing",
-								}}
-								options={[
-									{ value: "clothing", label: "Clothing" },
-									{
-										value: "electronics",
-										label: "Electronics",
-									},
-									{ value: "furniture", label: "Furniture" },
-									{ value: "others", label: "Others" },
-									{
-										value: "real estate",
-										label: "Real Estate",
-									},
-								]}
-							/>
-						</SuiBox>
-						<SuiBox
-							mb={1}
-							ml={0.5}
-							lineHeight={0}
-							display="inline-block"
-						>
-							<SuiTypography
-								component="label"
-								variant="caption"
-								fontWeight="bold"
-								textTransform="capitalize"
-							>
-								Color
-							</SuiTypography>
-						</SuiBox>
-						<SuiSelect
-							defaultValue={{ value: "black", label: "Black" }}
-							options={[
-								{ value: "black", label: "Black" },
-								{ value: "blue", label: "Blue" },
-								{ value: "green", label: "Green" },
-								{ value: "orange", label: "Orange" },
-								{ value: "white", label: "White" },
-							]}
-						/>
-					</Grid>
-				</Grid>
-			</SuiBox> */}
 		</Fragment>
 	);
 };
 
 ConfigForm.defaultProps = {
 	title: "Product Information",
-
 	pageData: {},
-
 	setPageData: (pageData) => {
 		console.log({ pageData });
 	},
@@ -19330,7 +19257,7 @@ export function ConfigCards({ sectionsArray, pageData, setPageData }) {
 									pageData={pageData}
 									setPageData={setPageData} //title, subTitle, src
 									title={sectionDict["form"]["title"]}
-									arrayList={sectionDict["form"]["arrayList"]}
+									array={sectionDict["form"]["array"]}
 									{...sectionDict["form"]}
 								/>
 							) : null}
@@ -19821,6 +19748,7 @@ export const DynamicConfigPage = ({
 DynamicConfigPage.defaultProps = {
 	showButton: true,
 	showSideTabs: false,
+
 	sectionsArray: [
 		{
 			href: "header",
