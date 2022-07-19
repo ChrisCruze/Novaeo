@@ -59,7 +59,7 @@ const columnsFromDictionary = ({ workbook }) => {
 				return {
 					...D,
 					render: function (data, type, row, meta) {
-						const url = `/#/Product?id=${data}`;
+						const url = `/#/Product?isku=${data}`;
 						const text = data;
 						return `<a target='blank' href='${url}'>${text}</a>`;
 					},

@@ -707,10 +707,30 @@ function dataTableDictCreateCRUDBase({ id, columns, data }) {
 	return table_dict;
 }
 
-function queryDictFromURLParams() {
+function string_params_pull_split(s) {
+	var a = s.split("&");
+	if (a == "") return {};
+	var b = {};
+	for (var i = 0; i < a.length; ++i) {
+		var p = a[i].split("=", 2);
+		if (p.length == 1) b[p[0]] = "";
+		else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+	}
+	return b;
+}
+
+function queryDictFromURLParamsBase() {
 	query_params = window.location.href.split("?")[1];
 	var lookupDict = string_params_pull_split(query_params);
 	return lookupDict;
+}
+
+function queryDictFromURLParams() {
+	try {
+		return queryDictFromURLParamsBase();
+	} catch (err) {
+		return {};
+	}
 }
 //sharepoint_identifier,table_type, json, field, type
 function dataTableDictCreateCRUD({ columns, data, id }) {

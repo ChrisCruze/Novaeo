@@ -50,6 +50,19 @@ const fieldsFromDictionary = ({ workbook }) => {
 	}
 };
 
+const productDictFromURLUpdate = ({ tableData, pageData, setPageData }) => {
+	const queryDict = queryDictFromURLParams();
+	const tableFiltered = arrayDictMatchLookUp(tableData, queryDict);
+	const tableDict = tableFiltered[0] || {};
+	const isReady = () => {
+		return Object.keys(tableDict).length > 0;
+	};
+	useEffect(() => {
+		const pageDataUpdated = { ...pageData, ...tableDict };
+		setPageData(pageDataUpdated);
+	}, [isReady()]);
+	return tableDict;
+};
 const DataPortalConfig = () => {
 	const [pageData, setPageData] = useState({});
 	const sheet_names = ["Parts", "Products", "Mapping", "Dictionary"];
@@ -62,7 +75,8 @@ const DataPortalConfig = () => {
 	});
 	const tableData = productsDataProcess({ workbook });
 	const fieldsArray = fieldsFromDictionary({ workbook });
-	console.log({ workbook, tableData, fieldsArray });
+	productDictFromURLUpdate({ tableData, pageData, setPageData });
+	console.log({ workbook, tableData, fieldsArray, pageData });
 	return {
 		sectionsArray: [
 			{
@@ -70,6 +84,7 @@ const DataPortalConfig = () => {
 				label: "General",
 				icon: "1",
 				form: {
+					title: pageData["isku"] || "",
 					array: fieldsArray,
 				},
 			},
