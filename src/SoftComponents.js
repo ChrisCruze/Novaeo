@@ -230,7 +230,8 @@ export const routesDefine = () => {
 			name: "Products",
 			key: "products",
 			href: location.href.split("#")[0] + "#/Products",
-			icon: <IconFromName name={"2"} />,
+			// icon: <IconFromName name={"3"} />,
+			icon: "inventory",
 			noCollapse: true,
 		},
 		// {
@@ -261,7 +262,7 @@ export const routesDefine = () => {
 			type: "collapse",
 			name: "Parts",
 			key: "parts",
-			icon: <IconFromName name={"category"} />,
+			icon: "category",
 			collapse: [
 				{
 					type: "collapse",
@@ -286,7 +287,7 @@ export const routesDefine = () => {
 			type: "collapse",
 			name: "Reference",
 			key: "reference",
-			icon: <IconFromName name={"spaceship"} />,
+			icon: "spaceship",
 			collapse: [
 				{
 					type: "collapse",
@@ -756,6 +757,7 @@ export const DataPortal = ({
 	showNav,
 	showTabs,
 	datatableLoad,
+	showHeaderNav,
 }) => {
 	const [filterDict, setFilterDict] = useState({});
 	const updateFilterDict = (updatedFilterDict) => {
@@ -861,6 +863,7 @@ export const DataPortal = ({
 			brandName={brandName}
 			routes={routes}
 			showNav={showNav}
+			showHeaderNav={showHeaderNav}
 		>
 			<SuiBox py={3}>
 				<SuiBox marginBottom={3}>

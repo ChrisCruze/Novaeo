@@ -46,6 +46,7 @@ const DataPortalConfig = () => {
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
+		showHeaderNav: false,
 		routes: routesDefine(),
 		data: partsArray,
 		tabsFunc: ({ setFilterDict }) => {

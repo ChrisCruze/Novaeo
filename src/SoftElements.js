@@ -1331,7 +1331,6 @@ function SidenavCollapse({
 }) {
 	//const [controller] = useSoftUIController();
 	const { miniSidenav, transparentSidenav } = controller;
-
 	return (
 		<>
 			<ListItem component="li">
@@ -1794,6 +1793,7 @@ export function Sidenav2({
 	brand,
 	brandName,
 	routes,
+	target,
 	...rest
 }) {
 	const [openCollapse, setOpenCollapse] = useState(false);
@@ -1836,7 +1836,7 @@ export function Sidenav2({
 				<Link
 					key={key}
 					href={href}
-					target="_blank"
+					target={target}
 					rel="noreferrer"
 					sx={{ textDecoration: "none" }}
 				>
@@ -1884,7 +1884,7 @@ export function Sidenav2({
 					<Link
 						href={href}
 						key={key}
-						target="_blank"
+						target={target}
 						rel="noreferrer"
 						sx={{ textDecoration: "none" }}
 					>
@@ -1921,7 +1921,7 @@ export function Sidenav2({
 					<Link
 						href={href}
 						key={key}
-						target="_blank"
+						target={target}
 						rel="noreferrer"
 						sx={{ textDecoration: "none" }}
 					>
@@ -2039,6 +2039,7 @@ export function Sidenav2({
 Sidenav2.defaultProps = {
 	color: "info",
 	brand: "",
+	target: "_blank",
 };
 const SuiTypographyRoot = styled(Typography)(({ theme, ownerState }) => {
 	const { palette, typography, functions } = theme;
@@ -13922,7 +13923,14 @@ export const DashboardLayOutBase = ({ brand, brandName, routes, children }) => {
 	);
 };
 
-export const NavigationLayout = ({ brand, brandName, routes, children }) => {
+export const NavigationLayout = ({
+	brand,
+	brandName,
+	routes,
+	children,
+	showHeaderNav,
+	target,
+}) => {
 	const [controller, setController] = useState({
 		miniSidenav: false,
 		transparentSidenav: true,
@@ -13944,15 +13952,19 @@ export const NavigationLayout = ({ brand, brandName, routes, children }) => {
 					brand={brand || ""}
 					brandName={brandName || ""}
 					routes={routes || []}
+					target={target}
 				/>
 				<DashboardLayout controller={controller}>
-					<DashboardNavbar
-						controller={controller}
-						onAccountClick={() => {
-							console.log("clicik");
-						}}
-						setController={setController}
-					/>
+					{showHeaderNav ? (
+						<DashboardNavbar
+							controller={controller}
+							onAccountClick={() => {
+								console.log("clicik");
+							}}
+							setController={setController}
+						/>
+					) : null}
+
 					<SuiBox py={3}>
 						<SuiBox marginBottom={3}>{children}</SuiBox>
 					</SuiBox>
@@ -13968,6 +13980,8 @@ export const DynamicLayout = ({
 	routes,
 	children,
 	showNav,
+	showHeaderNav,
+	target,
 }) => {
 	if (showNav) {
 		return (
@@ -13975,6 +13989,8 @@ export const DynamicLayout = ({
 				brand={brand}
 				brandName={brandName}
 				routes={routes}
+				showHeaderNav={showHeaderNav}
+				target={target}
 			>
 				{/* <SuiBox
 			sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
@@ -14004,6 +14020,8 @@ export const DynamicLayout = ({
 
 DynamicLayout.defaultProps = {
 	showNav: false,
+	showHeaderNav: true,
+	target: "",
 };
 
 export const PageLayoutBase = ({ children }) => {
@@ -19787,6 +19805,8 @@ export const DynamicConfigPage = ({
 	sectionsArray,
 	showButton,
 	showSideTabs,
+	showHeaderNav,
+	target,
 }) => {
 	return (
 		<DynamicLayout
@@ -19794,6 +19814,8 @@ export const DynamicConfigPage = ({
 			brandName={brandName}
 			routes={routes}
 			showNav={showNav}
+			showHeaderNav={showHeaderNav}
+			target={target}
 		>
 			{showSideTabs ? (
 				<SettingsAccountPage
@@ -19820,6 +19842,7 @@ export const DynamicConfigPage = ({
 DynamicConfigPage.defaultProps = {
 	showButton: true,
 	showSideTabs: false,
+	// target:"_blank",
 
 	sectionsArray: [
 		{

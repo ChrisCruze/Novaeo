@@ -187,6 +187,8 @@ const DataPortalConfig = () => {
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
+		showHeaderNav: false,
+
 		routes: routesDefine(),
 	};
 };

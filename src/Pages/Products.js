@@ -143,6 +143,7 @@ const DataPortalConfig = () => {
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
+		showHeaderNav: false,
 		routes: routesDefine(),
 		data: tableData,
 		tabsFunc: ({ setFilterDict }) => {
