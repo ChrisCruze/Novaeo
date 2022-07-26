@@ -43,7 +43,6 @@ const productsDataProcess2 = ({ workbook }) => {
 
 const columnsFromDictionary = ({ workbook }) => {
 	const checkKey = (key_name) => Object.keys(workbook).indexOf(key_name) > -1;
-
 	if (workbook["loaded"] && checkKey("Dictionary")) {
 		const dictionary_array = workbook["Dictionary"];
 		const dictionary_array_filtered = dictionary_array.filter((D) => {
@@ -59,9 +58,11 @@ const columnsFromDictionary = ({ workbook }) => {
 				return {
 					...D,
 					render: function (data, type, row, meta) {
-						const url = `/#/Product?isku=${data}`;
+						const url =
+							location.href.split("#")[0] +
+							`#/Product?isku=${data}`;
 						const text = data;
-						return `<a target='blank' href='${url}'>${text}</a>`;
+						return `<a  href='${url}'>${text}</a>`;
 					},
 				};
 			} else {
