@@ -27,7 +27,7 @@ const productsDataProcess2 = ({ workbook }) => {
 	const checkKey = (key_name) => {
 		const keys_return = Object.keys(workbook || {});
 		const checkKeysBool = keys_return.indexOf(key_name) > -1;
-		console.log({ key_name, keys_return, checkKeysBool, workbook });
+		// console.log({ key_name, keys_return, checkKeysBool, workbook });
 		return checkKeysBool;
 	};
 
@@ -117,7 +117,7 @@ const chartsGenerate = ({ workbook }) => {
 				],
 			};
 		});
-		console.log({ charts });
+		// console.log({ charts });
 		return charts;
 	} else {
 		return [];
@@ -135,7 +135,7 @@ const DataPortalConfig = () => {
 	});
 
 	const tableData = productsDataProcess2({ workbook });
-	console.log({ workbook, tableData });
+	// console.log({ workbook, tableData });
 	return {
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
@@ -260,7 +260,7 @@ const Home = () => {
 			return;
 		}
 		if (user == null) {
-			// history.push("/Login");
+			history.push("/Login");
 		} else {
 			console.log({ user });
 			setUserDict(user);
