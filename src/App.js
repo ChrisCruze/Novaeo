@@ -11,6 +11,7 @@ import Parts from "./Pages/Parts";
 import PartForm from "./Pages/PartForm";
 import Products from "./Pages/Products";
 import Product from "./Pages/Product";
+import Part from "./Pages/Part";
 
 import SoftElements from "./SoftElements";
 import "dropzone/dist/dropzone.css";
@@ -28,6 +29,8 @@ class App extends React.Component {
 						<Route exact path="/Product" component={Product} />
 						<Route exact path="/Parts" component={Parts} />
 						<Route exact path="/PartForm" component={PartForm} />
+						<Route exact path="/Part" component={Part} />
+
 						<Route exact path="/Dashboard" component={Home} />
 						<Route exact path="/Login" component={Login} />
 						<Route exact path="/Survey" component={Survey} />

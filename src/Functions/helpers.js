@@ -40,8 +40,12 @@ export const productMap = ({ mappingArray, partsArray, productsArray }) => {
 			return { ...mappingDict, ...partDict };
 		});
 		const partsCount = parts.length;
+		const part_id = _.map(parts, (partsDict) => partsDict["part_id"]).join(
+			","
+		);
 		const newDict = {
 			...D,
+			part_id,
 			mappingArray: mappingArrayFiltered,
 			parts,
 			partsCount,
@@ -95,7 +99,6 @@ export const partsMap = ({ mappingArray, partsArray, productsArray }) => {
 		};
 		return newDict;
 	});
-	console.log({ partsArray, productsArray, partsArrayMapping });
 	return partsArrayMapping;
 };
 export const partsDataProcess = ({ workbook }) => {
