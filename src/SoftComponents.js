@@ -758,6 +758,7 @@ export const DataPortal = ({
 	showTabs,
 	datatableLoad,
 	showHeaderNav,
+	tableClassName,
 }) => {
 	const [filterDict, setFilterDict] = useState({});
 	const updateFilterDict = (updatedFilterDict) => {
@@ -902,7 +903,7 @@ export const DataPortal = ({
 				>
 					<table
 						// className="table-react"
-						className="table-react table table-striped table-bordered table-hover"
+						className={tableClassName}
 						style={{ width: "100%" }}
 						id={tableDictWithData.id}
 					></table>
@@ -923,6 +924,8 @@ export const DataPortal = ({
 
 DataPortal.defaultProps = {
 	datatableLoad: true,
+	tableClassName:
+		"table-react table table-striped table-bordered table-hover",
 	showTabs: true,
 	routes: routesDefine(),
 	data: [{ priority_category: "high" }, { priority_category: "low" }],

@@ -14,6 +14,7 @@ import Product from "./Pages/Product";
 
 import SoftElements from "./SoftElements";
 import "dropzone/dist/dropzone.css";
+import "./index.scss";
 
 class App extends React.Component {
 	render() {
@@ -25,7 +26,6 @@ class App extends React.Component {
 						<Route exact path="/Home" component={Home} />
 						<Route exact path="/Products" component={Products} />
 						<Route exact path="/Product" component={Product} />
-
 						<Route exact path="/Parts" component={Parts} />
 						<Route exact path="/PartForm" component={PartForm} />
 						<Route exact path="/Dashboard" component={Home} />

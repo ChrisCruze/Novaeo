@@ -139,7 +139,7 @@ const DataPortalConfig = () => {
 	return {
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
-		title: "Products",
+		title: "Finished Goods",
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
@@ -183,7 +183,8 @@ const DataPortalConfig = () => {
 			return metricsGenerate({ data, setFilterDict });
 		},
 		status: null, //{},
-
+		tableClassName:
+			"table-react table table-striped table-bordered table-hover",
 		tableDict: {
 			id: "table",
 			dom: '<"html5buttons"B>lTfgitp',
