@@ -9,6 +9,7 @@ import {
 	BnbHomePage,
 	IconFromName,
 } from "../SoftElements";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { NovaeoPage, DataPortal, routesDefine } from "../SoftComponents";
 import {
@@ -263,7 +264,9 @@ const Home = () => {
 		if (user == null) {
 			history.push("/Login");
 		} else {
-			console.log({ user });
+			const credential = GoogleAuthProvider.credentialFromResult(auth);
+			// const token = credential.accessToken;
+			console.log({ user, credential });
 			setUserDict(user);
 		}
 	}, [user, loading]);

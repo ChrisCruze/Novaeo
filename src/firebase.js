@@ -32,14 +32,16 @@ export const database = getDatabase(app);
 //Initialize Auth
 export const auth = getAuth();
 //Initialize Google Auth Provider
-const googleProvider = new GoogleAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("https://www.googleapis.com/auth/spreadsheets");
 
 export const signInWithGoogle = async () => {
 	try {
 		const res = await signInWithPopup(auth, googleProvider);
 		const user = res.user;
-		console.log({ res, user });
+		const credential = GoogleAuthProvider.credentialFromResult(res);
+		const token = credential.accessToken;
+		console.log({ res, user, token });
 	} catch (err) {
 		console.error(err);
 		alert(err.message);
