@@ -117,3 +117,176 @@ export const partsDataProcess = ({ workbook }) => {
 		return [];
 	}
 };
+
+export const navigationDefine = () => {
+	const routes = [
+		{ type: "title", title: "Apps", key: "title-docs" },
+		{ type: "divider", key: "divider-1" },
+
+		// {
+		// 	type: "collapse",
+		// 	name: "Home",
+		// 	key: "home",
+		// 	href: location.href.split("#")[0] + "#/Home",
+		// 	// icon: <IconFromName name={"3"} />,
+		// 	icon: "inventory",
+		// 	noCollapse: true,
+		// },
+		{
+			type: "collapse",
+			name: "Finished Goods",
+			key: "products",
+			href: location.href.split("#")[0] + "#/Products",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inventory",
+			noCollapse: true,
+		},
+		// {
+		// 	type: "collapse",
+		// 	name: "Products",
+		// 	key: "products",
+		// 	icon: <IconFromName name={"spaceship"} />,
+		// 	collapse: [
+		// 		{
+		// 			type: "collapse",
+		// 			name: "Dashboard",
+		// 			key: "products",
+		// 			href: "/#/Products",
+		// 			icon: <IconFromName name={"creditcard"} />,
+		// 			noCollapse: true,
+		// 		},
+		// 		// {
+		// 		// 	type: "collapse",
+		// 		// 	name: "Product",
+		// 		// 	key: "product",
+		// 		// 	href: "/#/Product",
+		// 		// 	icon: <IconFromName name={"creditcard"} />,
+		// 		// 	noCollapse: true,
+		// 		// },
+		// 	],
+		// },
+		{
+			type: "collapse",
+			name: "Parts",
+			key: "parts",
+			icon: "category",
+			collapse: [
+				{
+					type: "collapse",
+					name: "Dashboard",
+					key: "parts_list",
+					href: location.href.split("#")[0] + "#/Parts",
+
+					icon: "creditcard",
+					noCollapse: true,
+				},
+				{
+					type: "collapse",
+					name: "Create",
+					key: "part_form",
+					href: location.href.split("#")[0] + "#/PartForm",
+					icon: "creditcard",
+					noCollapse: true,
+				},
+			],
+		},
+		{ type: "title", title: "In Development", key: "title-docs" },
+		{ type: "divider", key: "divider-2" },
+		{
+			type: "collapse",
+			name: "Procurement",
+			key: "procurement",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "2",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Manufacturing",
+			key: "manufacturing",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "cube",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Fulfillment",
+			key: "fulfillment",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inbox",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Sales",
+			key: "sales",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "money",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Reports",
+			key: "reports",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "menu",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Phoenix Sheet",
+			key: "storage",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "creditcard",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "User Management",
+			key: "customersupport",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inventory",
+			noCollapse: true,
+		},
+
+		{ type: "title", title: "Docs", key: "title-docs" },
+		{ type: "divider", key: "divider-3" },
+		{
+			type: "collapse",
+			name: "Reference",
+			key: "reference",
+			icon: "spaceship",
+			collapse: [
+				{
+					type: "collapse",
+					name: "Google SpreadSheet",
+					key: "gspread",
+					href: "https://docs.google.com/spreadsheets/d/11Zo4Z1OQOJpneoY5stYmb1Bsyoxc_cOukGHmHxMmHcs/edit#gid=1611145097",
+					icon: "creditcard",
+					noCollapse: true,
+				},
+
+				{
+					type: "collapse",
+					name: "Home",
+					key: "home",
+					href: "https://chriscruze.github.io/Novaeo/index.html#",
+					icon: "creditcard",
+					noCollapse: true,
+				},
+			],
+		},
+	];
+	return {
+		routes,
+		brand: "https://raw.githubusercontent.com/ChrisCruze/Novaeo/main/src/assets/images/novaeo.jpeg",
+		brandName: "Novaeo",
+	};
+};

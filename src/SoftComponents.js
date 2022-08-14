@@ -437,7 +437,7 @@ export const routesDefine = () => {
 					key: "parts_list",
 					href: location.href.split("#")[0] + "#/Parts",
 
-					icon: <IconFromName name={"creditcard"} />,
+					icon: "creditcard",
 					noCollapse: true,
 				},
 				{
@@ -445,7 +445,7 @@ export const routesDefine = () => {
 					name: "Create",
 					key: "part_form",
 					href: location.href.split("#")[0] + "#/PartForm",
-					icon: <IconFromName name={"creditcard"} />,
+					icon: "creditcard",
 					noCollapse: true,
 				},
 			],

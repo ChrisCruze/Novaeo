@@ -21,7 +21,7 @@ import {
 	fetchSheets,
 	useWorkbook2,
 } from "../Functions/useSheets";
-import { productMap } from "../Functions/helpers";
+import { productMap, navigationDefine } from "../Functions/helpers";
 import _ from "lodash";
 
 const productsDataProcess2 = ({ workbook }) => {
@@ -138,6 +138,7 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess2({ workbook });
 	// console.log({ workbook, tableData });
 	return {
+		...navigationDefine(),
 		tabsHeader: false,
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
@@ -146,7 +147,6 @@ const DataPortalConfig = () => {
 		subTitle: "",
 		showNav: true,
 		showHeaderNav: false,
-		routes: routesDefine(),
 		data: tableData,
 		tabsFunc: ({ setFilterDict }) => {
 			return [

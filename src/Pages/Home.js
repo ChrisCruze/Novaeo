@@ -27,12 +27,14 @@ import {
 	productMap,
 	productsDataProcess,
 	partsDataProcess,
+	navigationDefine,
 } from "../Functions/helpers";
 
 function configGenerate() {
 	return {
 		title: "Bnb Dashboard",
 		subTitle: "Provides Guests with Insights",
+		...navigationDefine(),
 		routes: routesDefine(),
 		showNav: true,
 		showHeaderNav: false,

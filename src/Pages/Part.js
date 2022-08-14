@@ -25,6 +25,7 @@ import {
 	productMap,
 	productsDataProcess,
 	partsDataProcess,
+	navigationDefine,
 } from "../Functions/helpers";
 import _ from "lodash";
 
@@ -125,6 +126,7 @@ const DataPortalConfig = () => {
 		pageData,
 	});
 	return {
+		...navigationDefine(),
 		sectionsArray: [
 			{
 				href: "general",
@@ -188,8 +190,6 @@ const DataPortalConfig = () => {
 		subTitle: "",
 		showNav: true,
 		showHeaderNav: false,
-
-		routes: routesDefine(),
 	};
 };
 const Home = () => {

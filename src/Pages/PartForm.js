@@ -17,7 +17,7 @@ import {
 	updateSheetValuesRequestsCreate,
 	useSheets,
 } from "../Functions/useSheets";
-
+import { navigationDefine } from "../Functions/helpers";
 const partFormSectionGenerate = () => {
 	const sectionsArray = [
 		{
@@ -234,6 +234,7 @@ const PartFormConfig = () => {
 	};
 	const sectionsArray = partFormSectionGenerate();
 	return {
+		...navigationDefine(),
 		pageData,
 		setPageData,
 		questionsSave,

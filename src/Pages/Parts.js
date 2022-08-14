@@ -18,7 +18,7 @@ import {
 	useSheets,
 	useWorkbook,
 } from "../Functions/useSheets";
-
+import { navigationDefine } from "../Functions/helpers";
 const partsDataProcess = ({ workbook }) => {
 	const checkKey = (key_name) =>
 		Object.keys(workbook["sheets"] || {}).indexOf(key_name) > -1;
@@ -42,12 +42,13 @@ const DataPortalConfig = () => {
 	const partsArray = partsDataProcess({ workbook });
 	console.log({ workbook, partsArray });
 	return {
+		...navigationDefine(),
+
 		title: "Parts",
 		showTabs: false,
 		subTitle: "",
 		showNav: true,
 		showHeaderNav: false,
-		routes: routesDefine(),
 		data: partsArray,
 		tabsFunc: ({ setFilterDict }) => {
 			return [
