@@ -221,10 +221,133 @@ import {
 	DynamicConfigPage,
 } from "./SoftElements";
 export const PropsContext = React.createContext({});
+
+export const DefaultDashboard = ({
+	showNav,
+	showHeaderNav,
+	target,
+	brand,
+	brandName,
+	routes,
+}) => {
+	return (
+		<DynamicLayout
+			brand={brand}
+			brandName={brandName}
+			routes={routes}
+			showNav={showNav}
+			showHeaderNav={showHeaderNav}
+			target={target}
+		>
+			<SuiBox py={3}>
+				<Grid container>
+					<Grid item xs={12} lg={7}>
+						<SuiBox mb={3} p={1}>
+							<SuiTypography
+								variant={"h3"}
+								textTransform="capitalize"
+								fontWeight="bold"
+							>
+								Novaeo
+							</SuiTypography>
+						</SuiBox>
+						{/* <Grid container>
+							<Grid item xs={12}>
+								<Globe
+									display={{ xs: "none", md: "block" }}
+									position="absolute"
+									top="10%"
+									right={0}
+									mt={{ xs: -12, lg: 1 }}
+									mr={{ xs: 0, lg: 10 }}
+									canvasStyle={{ marginTop: "3rem" }}
+								/>
+							</Grid>
+						</Grid> */}
+						<Grid container spacing={3}>
+							<Grid item xs={12} sm={5}>
+								<SuiBox mb={3}>
+									<MiniStatisticsCard
+										bgColor="white"
+										title={{
+											text: "Cash Flow",
+											fontWeight: "bold",
+										}}
+										count={"$53,000"}
+										percentage={{
+											color: "success",
+											text: "+55%",
+										}}
+										icon={
+											<IconFromName name={"creditcard"} />
+										}
+									></MiniStatisticsCard>
+								</SuiBox>
+								<MiniStatisticsCard
+									bgColor="white"
+									title={{
+										text: "Parts Inventory",
+										fontWeight: "bold",
+									}}
+									count={"-221"}
+									percentage={{
+										color: "error",
+										text: "-55%",
+									}}
+									icon={<IconFromName name={"inventory"} />}
+								></MiniStatisticsCard>
+							</Grid>
+							<Grid item xs={12} sm={5}>
+								<SuiBox mb={3}>
+									<MiniStatisticsCard
+										bgColor="white"
+										title={{
+											text: "Stock Outs",
+											fontWeight: "bold",
+										}}
+										count={"+32"}
+										percentage={{
+											color: "error",
+											text: "+55%",
+										}}
+										icon={<IconFromName name={"1"} />}
+									></MiniStatisticsCard>
+								</SuiBox>
+								<MiniStatisticsCard
+									bgColor="white"
+									title={{
+										text: "Overhead Costs",
+										fontWeight: "bold",
+									}}
+									count={"$20,000"}
+									percentage={{
+										color: "success",
+										text: "+55%",
+									}}
+									icon={<IconFromName name={"info"} />}
+								></MiniStatisticsCard>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Grid>
+			</SuiBox>
+		</DynamicLayout>
+	);
+};
+DefaultDashboard.defaultProps = {};
 export const routesDefine = () => {
 	return [
 		// { type: "divider", key: "divider-1" },
 		// { type: "title", title: "Docs", key: "title-docs" },
+		{
+			type: "collapse",
+			name: "Home",
+			key: "home",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inventory",
+			noCollapse: true,
+		},
 		{
 			type: "collapse",
 			name: "Products",
@@ -909,15 +1032,15 @@ export const DataPortal = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</DynamicLayout>
 	);
 };
@@ -1658,15 +1781,15 @@ export const MetricsGraphsDashboardCore = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</Fragment>
 	);
 };
@@ -1812,15 +1935,15 @@ export const MetricsGraphsDashboardSideNav = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</NavigationLayout>
 	);
 };
@@ -2138,15 +2261,15 @@ export const MetricsGraphsDashboard2 = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</DynamicLayout>
 	);
 };
@@ -2434,15 +2557,15 @@ export const MetricsGraphsDashboard = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</PayLayoutBase>
 	);
 };
@@ -2761,15 +2884,15 @@ export const VisualDashboardPage = ({
 					></table>
 
 					{/* <AirTablePageBaseRead
-                title={jiraDataTables.title || ""}
-                dataTables={jiraDataTables.dataTables || []}
-              /> */}
+				  title={jiraDataTables.title || ""}
+				  dataTables={jiraDataTables.dataTables || []}
+				/> */}
 				</SuiBox>
 			</SuiBox>
 			{/* <ConfigurationButton
-            onClick={configurationDict.onClick}
-            icon={configurationDict.icon}
-          /> */}
+			  onClick={configurationDict.onClick}
+			  icon={configurationDict.icon}
+			/> */}
 		</PayLayoutBase>
 	);
 };
@@ -3142,35 +3265,35 @@ export const MTDDashboardPage = ({
 					<HeaderTabs {...headerTabsConfig} />
 				</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-              <Grid container>
-                <Grid item xs={12} lg={12}>
-                  <SuiBox mb={3} p={1}>
-                    <SuiTypography
-                      variant={"h1"}
-                      textTransform="capitalize"
-                      fontWeight="bold"
-                    >
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: title || "",
-                        }}
-                      ></div>
-                    </SuiTypography>
-                    <SuiTypography variant={"h4"}>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: subTitle || "",
-                        }}
-                      ></div>
-                    </SuiTypography>
-                  </SuiBox>
-                </Grid>
-              </Grid>
-            </SuiBox> */}
+				<Grid container>
+				  <Grid item xs={12} lg={12}>
+					<SuiBox mb={3} p={1}>
+					  <SuiTypography
+						variant={"h1"}
+						textTransform="capitalize"
+						fontWeight="bold"
+					  >
+						<div
+						  dangerouslySetInnerHTML={{
+							__html: title || "",
+						  }}
+						></div>
+					  </SuiTypography>
+					  <SuiTypography variant={"h4"}>
+						<div
+						  dangerouslySetInnerHTML={{
+							__html: subTitle || "",
+						  }}
+						></div>
+					  </SuiTypography>
+					</SuiBox>
+				  </Grid>
+				</Grid>
+			  </SuiBox> */}
 				<SuiBox marginBottom={3}>{renderMetrics()}</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-              <Stories storiesData={people} />
-            </SuiBox> */}
+				<Stories storiesData={people} />
+			  </SuiBox> */}
 				<SuiBox marginBottom={3}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} lg={3}>
@@ -3205,11 +3328,11 @@ export const MTDDashboardPage = ({
 					/>
 				</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-              <AirTablePageBase
-                title={dataTable.title || ""}
-                dataTables={dataTable.dataTables || []}
-              />
-            </SuiBox> */}
+				<AirTablePageBase
+				  title={dataTable.title || ""}
+				  dataTables={dataTable.dataTables || []}
+				/>
+			  </SuiBox> */}
 				<SuiBox marginBottom={3}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} lg={6}></Grid>
@@ -3274,13 +3397,13 @@ export const AlteryxPage = ({
 						title={navTitle || ""}
 					/>
 					{/* <DashboardNavbarAlteryx
-                controller={controller}
-                onAccountClick={() => {
-                  console.log("clicik");
-                }}
-                setController={setController}
-                title={navTitle || ""}
-              /> */}
+				  controller={controller}
+				  onAccountClick={() => {
+					console.log("clicik");
+				  }}
+				  setController={setController}
+				  title={navTitle || ""}
+				/> */}
 					<SuiBox py={3}>
 						<SuiBox marginBottom={3}>
 							<Grid container spacing={3}>
@@ -3305,9 +3428,9 @@ export const AlteryxPage = ({
 									/>
 
 									{/* <DefaultTextCard
-                        title={"External Help Links"}
-                        subTitle={""}
-                      /> */}
+						  title={"External Help Links"}
+						  subTitle={""}
+						/> */}
 								</Grid>
 								<Grid item xs={12} sm={6} lg={3}>
 									{/* <DefaultTextCard title={"Demographics"} subTitle={""} /> */}
@@ -4457,17 +4580,17 @@ export const SettingFormPage = ({
 				<ConfigurationButton2 onClick={questionsSave} />
 			) : null}
 			{/* <SuiBox mt={4}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={3}>
-              <SidenavSelectMove />
-            </Grid>
-            <Grid item xs={12} lg={9}>
-              <SuiBox mb={3}>
-                <SettingsCards />
-              </SuiBox>
-            </Grid>
-          </Grid>
-        </SuiBox> */}
+			<Grid container spacing={3}>
+			  <Grid item xs={12} lg={3}>
+				<SidenavSelectMove />
+			  </Grid>
+			  <Grid item xs={12} lg={9}>
+				<SuiBox mb={3}>
+				  <SettingsCards />
+				</SuiBox>
+			  </Grid>
+			</Grid>
+		  </SuiBox> */}
 		</DynamicLayout>
 	);
 };

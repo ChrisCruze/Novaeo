@@ -9,6 +9,8 @@ import React, {
 import { forwardRef, createContext, useContext } from "react";
 
 // @mui material components
+import Checkbox from "@mui/material/Checkbox";
+
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
@@ -174,6 +176,7 @@ import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import StarIcon from "@mui/icons-material/Star";
 import Slider from "@mui/material/Slider";
+import { SubtitlesOffSharp } from "@mui/icons-material";
 
 const SuiDropzoneRoot = styled(Box)(({ theme }) => {
 	const { palette, typography, borders, functions } = theme;
@@ -1564,8 +1567,8 @@ export function Sidenav({
 		}
 
 		/** 
-		 The event listener that's calling the handleMiniSidenav function when resizing the window.
-		*/
+		   The event listener that's calling the handleMiniSidenav function when resizing the window.
+		  */
 		window.addEventListener("resize", handleMiniSidenav);
 
 		// Call the handleMiniSidenav function to set the state with the initial value.
@@ -1774,8 +1777,8 @@ export function Sidenav({
 			<List>{renderRoutes}</List>
 
 			{/* <SuiBox pt={2} my={2} mx={2}>
-		  <SidenavCard controller={controller} />
-		</SuiBox> */}
+			<SidenavCard controller={controller} />
+		  </SuiBox> */}
 		</SidenavRoot>
 	);
 }
@@ -1819,8 +1822,8 @@ export function Sidenav2({
 		}
 
 		/** 
-		 The event listener that's calling the handleMiniSidenav function when resizing the window.
-		*/
+		   The event listener that's calling the handleMiniSidenav function when resizing the window.
+		  */
 		window.addEventListener("resize", handleMiniSidenav);
 
 		// Call the handleMiniSidenav function to set the state with the initial value.
@@ -2029,8 +2032,8 @@ export function Sidenav2({
 			<List>{renderRoutes}</List>
 
 			{/* <SuiBox pt={2} my={2} mx={2}>
-		  <SidenavCard controller={controller} />
-		</SuiBox> */}
+			<SidenavCard controller={controller} />
+		  </SuiBox> */}
 		</SidenavRoot>
 	);
 }
@@ -3032,15 +3035,15 @@ const styles = (selectSize, selectError, selectSuccess) => {
 
 	// animations
 	const prespective = keyframes`
-		from {
-		  opacity: 0;
-		  transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0, 0, 0);
-		}
-		to {
-		  opacity: 1;
-		  transform: perspective(999px) rotateX(0deg) translateZ(0) translate3d(0, 0, 5px);
-		}
-	  `;
+		  from {
+			opacity: 0;
+			transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0, 0, 0);
+		  }
+		  to {
+			opacity: 1;
+			transform: perspective(999px) rotateX(0deg) translateZ(0) translate3d(0, 0, 5px);
+		  }
+		`;
 
 	return {
 		control: (provided, state) => ({
@@ -3469,12 +3472,130 @@ export function ProfileInfoCard({ title, description, info, action }) {
 				</SuiTypography>
 			</SuiBox>
 			<SuiBox p={2}>
+				{description == "" || description == undefined ? null : (
+					<Fragment>
+						{" "}
+						<SuiBox mb={2} lineHeight={1}>
+							<SuiTypography
+								variant="button"
+								color="text"
+								fontWeight="regular"
+							>
+								{description}
+							</SuiTypography>
+						</SuiBox>
+						<SuiBox opacity={0.3}>
+							<Divider />
+						</SuiBox>
+					</Fragment>
+				)}
 				<SuiBox>{renderItems}</SuiBox>
 			</SuiBox>
 		</Card>
 	);
 }
+ProfileInfoCard.defaultProps = {
+	title: "profile information",
+	description: undefined,
+	info: {
+		fullName: "Alec M. Thompson",
+		mobile: "(44) 123 1234 123",
+		email: "alecthompson@mail.com",
+		location: "USA",
+	},
+};
+export function ProfileInfoCardBase({ title, description, info, action }) {
+	const labels = [];
+	const values = [];
 
+	// Convert this form `objectKey` of the object key in to this `object key`
+	Object.keys(info).forEach((el) => {
+		if (el.match(/[A-Z\s]+/)) {
+			const uppercaseLetter = Array.from(el).find((i) =>
+				i.match(/[A-Z]+/)
+			);
+			const newElement = el.replace(
+				uppercaseLetter,
+				` ${uppercaseLetter.toLowerCase()}`
+			);
+
+			labels.push(newElement);
+		} else {
+			labels.push(el);
+		}
+	});
+
+	// Push the object values into the values array
+	Object.values(info).forEach((el) => values.push(el));
+
+	// Render the card info items
+	const renderItems = labels.map((label, key) => (
+		<SuiBox key={label} display="flex" py={1} pr={2}>
+			<SuiTypography
+				variant="button"
+				fontWeight="bold"
+				textTransform="capitalize"
+			>
+				{label}: &nbsp;
+			</SuiTypography>
+			<SuiTypography variant="button" fontWeight="regular" color="text">
+				&nbsp;{values[key]}
+			</SuiTypography>
+		</SuiBox>
+	));
+
+	// Render the card social media icons
+
+	return (
+		<Fragment>
+			<SuiBox
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+				pt={2}
+				px={2}
+			>
+				<SuiTypography
+					variant="h6"
+					fontWeight="medium"
+					textTransform="capitalize"
+				>
+					{title}
+				</SuiTypography>
+			</SuiBox>
+			<SuiBox p={2}>
+				{description == "" || description == undefined ? null : (
+					<Fragment>
+						{" "}
+						<SuiBox mb={2} lineHeight={1}>
+							<SuiTypography
+								variant="button"
+								color="text"
+								fontWeight="regular"
+							>
+								{description}
+							</SuiTypography>
+						</SuiBox>
+						<SuiBox opacity={0.3}>
+							<Divider />
+						</SuiBox>
+					</Fragment>
+				)}
+				<SuiBox>{renderItems}</SuiBox>
+			</SuiBox>
+		</Fragment>
+	);
+}
+ProfileInfoCardBase.defaultProps = {
+	title: "profile information",
+	description: undefined,
+	info: {
+		fullName: "Alec M. Thompson",
+		mobile: "(44) 123 1234 123",
+		email: "alecthompson@mail.com",
+		location: "USA",
+	},
+};
 // Soft UI Dashboard PRO React base styles
 export function ProfileInfoCardOriginal({ title, description, info, action }) {
 	const labels = [];
@@ -3574,6 +3695,357 @@ export function ProfileInfoCardOriginal({ title, description, info, action }) {
 		</Card>
 	);
 }
+function TodoOriginal({
+	color,
+	title,
+	date,
+	project,
+	company,
+	defaultChecked,
+	noDivider,
+}) {
+	const { borderWidth } = borders;
+	const [openMenu, setOpenMenu] = useState(null);
+
+	const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+	const handleCloseMenu = () => setOpenMenu(null);
+
+	const renderMenu = () => (
+		<Menu
+			anchorEl={openMenu}
+			anchorOrigin={{ vertical: "top", horizontal: "left" }}
+			transformOrigin={{ vertical: "top", horizontal: "right" }}
+			open={Boolean(openMenu)}
+			onClose={handleCloseMenu}
+			keepMounted
+		>
+			<MenuItem onClick={handleCloseMenu}>Action</MenuItem>
+			<MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
+			<MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+		</Menu>
+	);
+
+	return (
+		<SuiBox
+			component="li"
+			width="100%"
+			pr={2}
+			mb={2}
+			borderLeft={`${borderWidth[3]} solid ${colors[color].main}`}
+			sx={{ listStyle: "none" }}
+		>
+			<SuiBox width="100%" pl={1} ml={2}>
+				<SuiBox display="flex" alignItems="center">
+					<Checkbox defaultChecked={defaultChecked} />
+					<SuiBox ml={0.2} lineHeight={1}>
+						<SuiTypography variant="button" fontWeight="medium">
+							{title}
+						</SuiTypography>
+					</SuiBox>
+					<SuiBox ml="auto" color="secondary" pr={3} lineHeight={0}>
+						<Icon
+							fontSize="default"
+							sx={{ cursor: "pointer" }}
+							onClick={handleOpenMenu}
+						>
+							more_horiz
+						</Icon>
+					</SuiBox>
+					{renderMenu()}
+				</SuiBox>
+				<SuiBox
+					display="flex"
+					alignItems={{ xs: "flex-start", sm: "center" }}
+					flexDirection={{ xs: "column", sm: "row" }}
+					mt={2}
+					ml={3}
+					pl={0.5}
+				>
+					<SuiBox lineHeight={1} mb={{ xs: 1, sm: 0 }}>
+						<SuiTypography
+							display="block"
+							variant="caption"
+							fontWeight="medium"
+							color="secondary"
+						>
+							Date
+						</SuiTypography>
+						<SuiTypography
+							variant="caption"
+							fontWeight="bold"
+							color="text"
+						>
+							{date}
+						</SuiTypography>
+					</SuiBox>
+					<SuiBox
+						ml={{ xs: 0, sm: "auto" }}
+						mb={{ xs: 1, sm: 0 }}
+						lineHeight={1}
+					>
+						<SuiTypography
+							display="block"
+							variant="caption"
+							fontWeight="medium"
+							color="secondary"
+						>
+							Project
+						</SuiTypography>
+						<SuiTypography
+							variant="caption"
+							fontWeight="bold"
+							color="text"
+						>
+							{project}
+						</SuiTypography>
+					</SuiBox>
+					<SuiBox mx={{ xs: 0, sm: "auto" }} lineHeight={1}>
+						<SuiTypography
+							display="block"
+							variant="caption"
+							fontWeight="medium"
+							color="secondary"
+						>
+							Company
+						</SuiTypography>
+						<SuiTypography
+							variant="caption"
+							fontWeight="bold"
+							color="text"
+						>
+							{company}
+						</SuiTypography>
+					</SuiBox>
+				</SuiBox>
+			</SuiBox>
+			{noDivider ? null : <Divider sx={{ marginBottom: 0 }} />}
+		</SuiBox>
+	);
+}
+
+// Setting default values for the props of Todo
+TodoOriginal.defaultProps = {
+	color: "info",
+	noDivider: false,
+	defaultChecked: false,
+};
+function Todo({
+	color,
+	title,
+	date,
+	project,
+	company,
+	defaultChecked,
+	noDivider,
+	description,
+	checked,
+	onChange,
+}) {
+	const { borderWidth } = borders;
+	const [openMenu, setOpenMenu] = useState(null);
+
+	const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+	const handleCloseMenu = () => setOpenMenu(null);
+
+	const renderMenu = () => (
+		<Menu
+			anchorEl={openMenu}
+			anchorOrigin={{ vertical: "top", horizontal: "left" }}
+			transformOrigin={{ vertical: "top", horizontal: "right" }}
+			open={Boolean(openMenu)}
+			onClose={handleCloseMenu}
+			keepMounted
+		>
+			<MenuItem onClick={handleCloseMenu}>Action</MenuItem>
+			<MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
+			<MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+		</Menu>
+	);
+
+	return (
+		<SuiBox
+			component="li"
+			width="100%"
+			pr={2}
+			mb={2}
+			borderLeft={`${borderWidth[3]} solid ${colors[color].main}`}
+			sx={{ listStyle: "none" }}
+		>
+			<SuiBox width="100%" pl={1} ml={2}>
+				<SuiBox display="flex" alignItems="center">
+					<Checkbox checked={checked} onChange={onChange} />
+					<SuiBox ml={0.2} lineHeight={1}>
+						<SuiTypography variant="button" fontWeight="medium">
+							{title}
+						</SuiTypography>
+					</SuiBox>
+				</SuiBox>
+				{description ? (
+					<SuiBox
+						display="flex"
+						alignItems={{ xs: "flex-start", sm: "center" }}
+						flexDirection={{ xs: "column", sm: "row" }}
+						mt={2}
+						ml={3}
+						pl={0.5}
+					>
+						<SuiBox lineHeight={1} mb={{ xs: 1, sm: 0 }}>
+							<SuiTypography
+								display="block"
+								variant="caption"
+								fontWeight="medium"
+								color="secondary"
+							>
+								{description}
+							</SuiTypography>
+						</SuiBox>
+					</SuiBox>
+				) : null}
+			</SuiBox>
+			{noDivider ? null : <Divider sx={{ marginBottom: 0 }} />}
+		</SuiBox>
+	);
+}
+
+// Setting default values for the props of Todo
+Todo.defaultProps = {
+	color: "info",
+	noDivider: false,
+	defaultChecked: false,
+};
+function TodoHook({
+	color,
+	title,
+	date,
+	project,
+	company,
+	defaultChecked,
+	noDivider,
+	description,
+	id,
+	pageData,
+	setPageData,
+}) {
+	const onChange = (event) => {
+		const value = event.target.checked;
+		console.log({ value });
+		const elementID = id;
+		var newDict = {};
+		newDict[elementID] = value;
+		const updatedPageData = { ...pageData, ...newDict };
+		setPageData(updatedPageData);
+	};
+
+	const pageValue = pageData[id] == undefined ? false : pageData[id];
+	return (
+		<Todo
+			color={color}
+			title={title}
+			description={description}
+			checked={pageValue}
+			onChange={onChange}
+		/>
+	);
+}
+
+// Setting default values for the props of Todo
+TodoHook.defaultProps = {
+	color: "info",
+	noDivider: false,
+	defaultChecked: false,
+};
+function TodoList({ title, subTitle, array, pageData, setPageData }) {
+	const renderItems = () =>
+		array.map((D, key) => (
+			<TodoHook
+				key={key}
+				pageData={pageData}
+				setPageData={setPageData}
+				{...D}
+			/>
+		));
+
+	return (
+		<Card>
+			<SuiBox
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+				pt={2}
+				px={2}
+			>
+				<SuiTypography variant="h6" fontWeight="medium">
+					{title}
+				</SuiTypography>
+				<SuiTypography
+					variant="button"
+					fontWeight="regular"
+					color="text"
+				>
+					{subTitle}
+				</SuiTypography>
+			</SuiBox>
+			<Divider />
+			<SuiBox pb={2} px={2}>
+				<SuiBox
+					component="ul"
+					display="flex"
+					flexDirection="column"
+					p={0}
+					m={0}
+				>
+					{renderItems()}
+					{/* <Todo
+			  title="Check status"
+			  date="24 March 2019"
+			  project="2414_VR4sf3#"
+			  company="Creative Tim"
+			  defaultChecked
+			/>
+			<Todo
+			  color="dark"
+			  title="Management discussion"
+			  date="24 March 2019"
+			  project="4411_8sIsdd23"
+			  company="Apple"
+			  defaultChecked
+			/>
+			<Todo
+			  color="warning"
+			  title="New channel distribution"
+			  date="25 March 2019"
+			  project="827d_kdl33D1s"
+			  company="Slack"
+			  defaultChecked
+			/>
+			<Todo
+			  color="success"
+			  title="IOS App development"
+			  date="26 March 2019"
+			  project="88s1_349DA2sa"
+			  company="Facebook"
+			  noDivider
+			/> */}
+				</SuiBox>
+			</SuiBox>
+		</Card>
+	);
+}
+
+TodoList.defaultProps = {
+	title: "To do list",
+	subTitle: "23 - 30 March 2020",
+	array: [
+		{
+			color: "success",
+			description: "test",
+			title: "title",
+			date: "date",
+			project: "project",
+			company: "company",
+		},
+	],
+};
 
 export function PlaceholderCard({ icon, title, hasBorder, outlined }) {
 	return (
@@ -3842,40 +4314,40 @@ export function ComplexProjectCard({
 					</SuiTypography>
 				</SuiBox>
 				{/* <Divider />
-		  <SuiBox
-			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
-		  >
-			{dateTime ? (
-			  <SuiBox display="flex" flexDirection="column" lineHeight={0}>
-				<SuiTypography variant="button" fontWeight="medium">
-				  {dateTime}
-				</SuiTypography>
-				<SuiTypography
-				  variant="button"
-				  fontWeight="medium"
-				  color="secondary"
-				>
-				  Due date
-				</SuiTypography>
-			  </SuiBox>
-			) : null}
-			{dateTime ? (
-			  <SuiBox display="flex" flexDirection="column" lineHeight={0}>
-				<SuiTypography variant="button" fontWeight="medium">
-				  {dateTime}
-				</SuiTypography>
-				<SuiTypography
-				  variant="button"
-				  fontWeight="medium"
-				  color="secondary"
-				>
-				  Due date
-				</SuiTypography>
-			  </SuiBox>
-			) : null}
-		  </SuiBox> */}
+			<SuiBox
+			  display="flex"
+			  justifyContent="space-between"
+			  alignItems="center"
+			>
+			  {dateTime ? (
+				<SuiBox display="flex" flexDirection="column" lineHeight={0}>
+				  <SuiTypography variant="button" fontWeight="medium">
+					{dateTime}
+				  </SuiTypography>
+				  <SuiTypography
+					variant="button"
+					fontWeight="medium"
+					color="secondary"
+				  >
+					Due date
+				  </SuiTypography>
+				</SuiBox>
+			  ) : null}
+			  {dateTime ? (
+				<SuiBox display="flex" flexDirection="column" lineHeight={0}>
+				  <SuiTypography variant="button" fontWeight="medium">
+					{dateTime}
+				  </SuiTypography>
+				  <SuiTypography
+					variant="button"
+					fontWeight="medium"
+					color="secondary"
+				  >
+					Due date
+				  </SuiTypography>
+				</SuiBox>
+			  ) : null}
+			</SuiBox> */}
 			</SuiBox>
 		</Card>
 	);
@@ -4094,15 +4566,15 @@ export function BasicLayout({ title, description, image, children }) {
 	return (
 		<PayLayoutBase>
 			{/* <DefaultNavbar
-		  routes={pageRoutes}
-		  action={{
-			type: "external",
-			route: "https://creative-tim.com/product/soft-ui-dashboard-pro-react",
-			label: "buy now",
-		  }}
-		  transparent
-		  light
-		/> */}
+			routes={pageRoutes}
+			action={{
+			  type: "external",
+			  route: "https://creative-tim.com/product/soft-ui-dashboard-pro-react",
+			  label: "buy now",
+			}}
+			transparent
+			light
+		  /> */}
 
 			<SuiBox
 				mt={{ xs: 10, lg: 20 }}
@@ -4141,49 +4613,49 @@ export function Basic({ children }) {
 			{children}
 			{/* <Card> */}
 			{/* <SuiBox p={3} mb={1} textAlign="center">
-			<SuiTypography variant="h5" fontWeight="medium">
-			  Sign in
-			</SuiTypography>
-		  </SuiBox>
-		  <SuiBox mb={2}><Socials /></SuiBox> */}
-			{/* <SuiBox p={3}>
-			<SuiBox component="form" role="form">
-			  <SuiBox mb={2}>
-				<SuiInput type="email" placeholder="Email" />
-			  </SuiBox>
-			  <SuiBox mb={2}>
-				<SuiInput type="password" placeholder="Password" />
-			  </SuiBox>
-			  <SuiBox display="flex" alignItems="center">
-				<Switch checked={rememberMe} onChange={handleSetRememberMe} />
-				<SuiTypography
-				  variant="button"
-				  fontWeight="regular"
-				  onClick={handleSetRememberMe}
-				  sx={{ cursor: "pointer", userSelect: "none" }}
-				>
-				  &nbsp;&nbsp;Remember me
-				</SuiTypography>
-			  </SuiBox>
-			  <SuiBox mt={4} mb={1}>
-				<SuiButton variant="gradient" color="info" fullWidth>
-				  sign in
-				</SuiButton>
-			  </SuiBox>
-			  <Separator />
-			  <SuiBox mt={1} mb={3}>
-				<SuiButton
-				  component={Link}
-				  to="/authentication/sign-up/basic"
-				  variant="gradient"
-				  color="dark"
-				  fullWidth
-				>
-				  sign up
-				</SuiButton>
-			  </SuiBox>
+			  <SuiTypography variant="h5" fontWeight="medium">
+				Sign in
+			  </SuiTypography>
 			</SuiBox>
-		  </SuiBox> */}
+			<SuiBox mb={2}><Socials /></SuiBox> */}
+			{/* <SuiBox p={3}>
+			  <SuiBox component="form" role="form">
+				<SuiBox mb={2}>
+				  <SuiInput type="email" placeholder="Email" />
+				</SuiBox>
+				<SuiBox mb={2}>
+				  <SuiInput type="password" placeholder="Password" />
+				</SuiBox>
+				<SuiBox display="flex" alignItems="center">
+				  <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+				  <SuiTypography
+					variant="button"
+					fontWeight="regular"
+					onClick={handleSetRememberMe}
+					sx={{ cursor: "pointer", userSelect: "none" }}
+				  >
+					&nbsp;&nbsp;Remember me
+				  </SuiTypography>
+				</SuiBox>
+				<SuiBox mt={4} mb={1}>
+				  <SuiButton variant="gradient" color="info" fullWidth>
+					sign in
+				  </SuiButton>
+				</SuiBox>
+				<Separator />
+				<SuiBox mt={1} mb={3}>
+				  <SuiButton
+					component={Link}
+					to="/authentication/sign-up/basic"
+					variant="gradient"
+					color="dark"
+					fullWidth
+				  >
+					sign up
+				  </SuiButton>
+				</SuiBox>
+			  </SuiBox>
+			</SuiBox> */}
 			{/* </Card> */}
 		</BasicLayout>
 	);
@@ -4225,8 +4697,8 @@ export const TabsTopOriginal = () => {
 		}
 
 		/** 
-	   The event listener that's calling the handleTabsOrientation function when resizing the window.
-	  */
+		 The event listener that's calling the handleTabsOrientation function when resizing the window.
+		*/
 		window.addEventListener("resize", handleTabsOrientation);
 
 		// Call the handleTabsOrientation function to set the state with the initial value.
@@ -4268,8 +4740,8 @@ export const TabsTop = ({ pageData, setPageData }) => {
 		}
 
 		/** 
-	   The event listener that's calling the handleTabsOrientation function when resizing the window.
-	  */
+		 The event listener that's calling the handleTabsOrientation function when resizing the window.
+		*/
 		window.addEventListener("resize", handleTabsOrientation);
 
 		// Call the handleTabsOrientation function to set the state with the initial value.
@@ -4313,8 +4785,8 @@ export function BaseLayout({ stickyNavbar, children }) {
 		}
 
 		/** 
-	   The event listener that's calling the handleTabsOrientation function when resizing the window.
-	  */
+		 The event listener that's calling the handleTabsOrientation function when resizing the window.
+		*/
 		window.addEventListener("resize", handleTabsOrientation);
 
 		// Call the handleTabsOrientation function to set the state with the initial value.
@@ -4561,7 +5033,7 @@ export function MiniStatisticsCard({
 }
 
 MiniStatisticsCard.defaultProps = {
-	bgColor: "white",
+	bgColor: "info",
 	title: {
 		fontWeight: "medium",
 		text: "",
@@ -4574,28 +5046,28 @@ MiniStatisticsCard.defaultProps = {
 };
 {
 	/* <Grid item xs={4} sm={3} md={2} lg={1} sx={{ flex: "0 0 100%" }}>
-  <SuiBox
-	bgColor="info"
-	borderRadius="50%"
-	width="3.625rem"
-	height="3.625rem"
-	display="flex"
-	justifyContent="center"
-	alignItems="center"
-	color="white"
-	mx="auto"
-	variant="gradient"
-	sx={{ cursor: "pointer" }}
-  >
-	<Add />
-	<Icon fontSize="small">add</Icon>
-  </SuiBox>
-  <SuiBox mt={0.75} textAlign="center" lineHeight={1}>
-	<SuiTypography variant="button" color="text" fontWeight="regular">
-	  Add Person
-	</SuiTypography>
-  </SuiBox>
-  </Grid> */
+	<SuiBox
+	  bgColor="info"
+	  borderRadius="50%"
+	  width="3.625rem"
+	  height="3.625rem"
+	  display="flex"
+	  justifyContent="center"
+	  alignItems="center"
+	  color="white"
+	  mx="auto"
+	  variant="gradient"
+	  sx={{ cursor: "pointer" }}
+	>
+	  <Add />
+	  <Icon fontSize="small">add</Icon>
+	</SuiBox>
+	<SuiBox mt={0.75} textAlign="center" lineHeight={1}>
+	  <SuiTypography variant="button" color="text" fontWeight="regular">
+		Add Person
+	  </SuiTypography>
+	</SuiBox>
+	</Grid> */
 }
 
 export function Stories({ storiesData }) {
@@ -5329,8 +5801,8 @@ export function SuiTableNoCard({ headers, rows, title }) {
 				<TableContainer sx={{ boxShadow: "none" }}>
 					<Table>
 						{/* <SuiBox component="thead">
-				<TableRow>{PageHeaders}</TableRow>
-			  </SuiBox> */}
+				  <TableRow>{PageHeaders}</TableRow>
+				</SuiBox> */}
 						<TableBody>{PageRows}</TableBody>
 					</Table>
 				</TableContainer>
@@ -5949,8 +6421,8 @@ export const HorizontalChartBoxWithDropdownState = ({
 			title={title}
 		>
 			{/* <HorizontalBarChart 
-		
-		/> */}
+		  
+		  /> */}
 			<HorizontalBarChart
 				chart={chart}
 				height={height}
@@ -6098,8 +6570,8 @@ export const HorizontalStackedChartBoxWithDropdownState = ({
 			title={title}
 		>
 			{/* <HorizontalBarChart 
-		
-		/> */}
+		  
+		  /> */}
 			<HorizontalStackedBarChart
 				chart={chart}
 				height={height}
@@ -6186,15 +6658,15 @@ export const ThinBarChartBoxWithDropdownState = ({
 				}}
 			/>
 			{/* <PieChart
-		  chart={chart}
-		  onClick={(label) => {
-			onClick({
-			  field: selectedValue.field,
-			  label,
-			  value: label,
-			});
-		  }}
-		/> */}
+			chart={chart}
+			onClick={(label) => {
+			  onClick({
+				field: selectedValue.field,
+				label,
+				value: label,
+			  });
+			}}
+		  /> */}
 			{/* <VerticalBarChart chart={chart} /> */}
 		</BoxWithDropdown>
 	);
@@ -6550,33 +7022,33 @@ export function DataTable({
 					</SuiBox>
 				)}
 				{/* {pageOptions.length > 1 && (
-			<SuiPagination
-			  variant={pagination.variant ? pagination.variant : "gradient"}
-			  color={pagination.color ? pagination.color : "info"}
-			>
-			  {canPreviousPage && (
-				<SuiPagination item onClick={() => previousPage()}>
-				  <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
-				</SuiPagination>
-			  )}
-			  {renderPagination.length > 6 ? (
-				<SuiBox width="5rem" mx={1}>
-				  <SuiInput
-					inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
-					value={customizedPageOptions[pageIndex]}
-					onChange={(handleInputPagination, handleInputPaginationValue)}
-				  />
-				</SuiBox>
-			  ) : (
-				renderPagination
-			  )}
-			  {canNextPage && (
-				<SuiPagination item onClick={() => nextPage()}>
-				  <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
-				</SuiPagination>
-			  )}
-			</SuiPagination>
-		  )} */}
+			  <SuiPagination
+				variant={pagination.variant ? pagination.variant : "gradient"}
+				color={pagination.color ? pagination.color : "info"}
+			  >
+				{canPreviousPage && (
+				  <SuiPagination item onClick={() => previousPage()}>
+					<Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
+				  </SuiPagination>
+				)}
+				{renderPagination.length > 6 ? (
+				  <SuiBox width="5rem" mx={1}>
+					<SuiInput
+					  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
+					  value={customizedPageOptions[pageIndex]}
+					  onChange={(handleInputPagination, handleInputPaginationValue)}
+					/>
+				  </SuiBox>
+				) : (
+				  renderPagination
+				)}
+				{canNextPage && (
+				  <SuiPagination item onClick={() => nextPage()}>
+					<Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+				  </SuiPagination>
+				)}
+			  </SuiPagination>
+			)} */}
 			</SuiBox>
 		</TableContainer>
 	);
@@ -7006,16 +7478,16 @@ const Dashboard = () => {
 				<SuiBox pt={6} pb={3}>
 					<SuiBox mb={3}>
 						{/* <Card>
-			  <SuiBox p={3} lineHeight={1}>
-				<SuiTypography variant="h5" fontWeight="medium">
-				  Datatable Simple
-				</SuiTypography>
-				<SuiTypography variant="button" fontWeight="regular" color="text">
-				  A lightweight, extendable, dependency-free javascript HTML table plugin.
-				</SuiTypography>
-			  </SuiBox>
-			  <DataTable table={dataTableData} />
-			</Card> */}
+				<SuiBox p={3} lineHeight={1}>
+				  <SuiTypography variant="h5" fontWeight="medium">
+					Datatable Simple
+				  </SuiTypography>
+				  <SuiTypography variant="button" fontWeight="regular" color="text">
+					A lightweight, extendable, dependency-free javascript HTML table plugin.
+				  </SuiTypography>
+				</SuiBox>
+				<DataTable table={dataTableData} />
+			  </Card> */}
 					</SuiBox>
 					<Card>
 						<SuiBox p={3} lineHeight={1}>
@@ -7289,205 +7761,205 @@ export function Configurator({ controller, setController, children }) {
 			<Divider />
 			{children}
 			{/* <SuiBox pt={1.25} pb={3} px={3}>
-				  <SuiBox>
-					  <SuiTypography variant="h6">Sidenav Colors</SuiTypography>
-  
-					  <SuiBox mb={0.5}>
-						  {sidenavColors.map((color) => (
-							  <IconButton
-								  key={color}
-								  sx={({
-									  borders: { borderWidth },
-									  palette: { white, dark },
-									  transitions,
-								  }) => ({
-									  width: "24px",
-									  height: "24px",
-									  padding: 0,
-									  border: `${borderWidth[1]} solid ${white.main}`,
-									  borderColor:
-										  sidenavColor === color && dark.main,
-									  transition: transitions.create(
-										  "border-color",
-										  {
-											  easing: transitions.easing.sharp,
-											  duration:
-												  transitions.duration.shorter,
-										  }
-									  ),
-									  backgroundImage: ({
-										  functions: { linearGradient },
-										  palette: { gradients },
-									  }) =>
-										  linearGradient(
-											  gradients[color].main,
-											  gradients[color].state
-										  ),
-  
-									  "&:not(:last-child)": {
-										  mr: 1,
-									  },
-  
-									  "&:hover, &:focus, &:active": {
-										  borderColor: dark.main,
-									  },
-								  })}
-								  onClick={() => setSidenavColor(dispatch, color)}
-							  />
-						  ))}
-					  </SuiBox>
-				  </SuiBox>
-  
-				  <SuiBox mt={3} lineHeight={1}>
-					  <SuiTypography variant="h6">Sidenav Type</SuiTypography>
-					  <SuiTypography
-						  variant="button"
-						  color="text"
-						  fontWeight="regular"
-					  >
-						  Choose between 2 different sidenav types.
-					  </SuiTypography>
-  
-					  <SuiBox
-						  sx={{
-							  display: "flex",
-							  mt: 2,
-						  }}
-					  >
-						  <SuiButton
-							  color="info"
-							  variant={
-								  transparentSidenav ? "gradient" : "outlined"
-							  }
-							  onClick={handleTransparentSidenav}
-							  disabled={disabled}
-							  fullWidth
-							  sx={{
-								  mr: 1,
-								  ...sidenavTypeButtonsStyles,
-							  }}
-						  >
-							  Transparent
-						  </SuiButton>
-						  <SuiButton
-							  color="info"
-							  variant={
-								  transparentSidenav ? "outlined" : "gradient"
-							  }
-							  onClick={handleWhiteSidenav}
-							  disabled={disabled}
-							  fullWidth
-							  sx={sidenavTypeButtonsStyles}
-						  >
-							  White
-						  </SuiButton>
-					  </SuiBox>
-				  </SuiBox>
-				  <SuiBox mt={3} mb={2} lineHeight={1}>
-					  <SuiTypography variant="h6">Navbar Fixed</SuiTypography>
-  
-					  <Switch
-						  checked={fixedNavbar}
-						  onChange={handleFixedNavbar}
-					  />
-				  </SuiBox>
-  
-				  <Divider />
-  
-				  <SuiBox mt={2} mb={3} lineHeight={1}>
-					  <SuiTypography variant="h6">Sidenav Mini</SuiTypography>
-  
-					  <Switch
-						  checked={miniSidenav}
-						  onChange={handleMiniSidenav}
-					  />
-				  </SuiBox>
-  
-				  <Divider />
-  
-				  <SuiBox mt={3} mb={2}>
-					  <SuiBox mb={2}>
-						  <SuiButton
-							  component={Link}
-							  href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-react"
-							  target="_blank"
-							  rel="noreferrer"
-							  color="info"
-							  variant="gradient"
-							  fullWidth
-						  >
-							  buy now
-						  </SuiButton>
-					  </SuiBox>
-					  <SuiBox mb={2}>
-						  <SuiButton
-							  component={Link}
-							  href="https://www.creative-tim.com/product/soft-ui-dashboard-react"
-							  target="_blank"
-							  rel="noreferrer"
-							  color="dark"
-							  variant="gradient"
-							  fullWidth
-						  >
-							  free download
-						  </SuiButton>
-					  </SuiBox>
-					  <SuiButton
-						  component={Link}
-						  href="https://www.creative-tim.com/learning-lab/react/quick-start/soft-ui-dashboard/"
-						  target="_blank"
-						  rel="noreferrer"
-						  color="dark"
-						  variant="outlined"
-						  fullWidth
-					  >
-						  view documentation
-					  </SuiButton>
-				  </SuiBox>
-				  <SuiBox display="flex" justifyContent="center">
-					  <GitHubButton
-						  href="https://github.com/creativetimofficial/ct-soft-ui-dashboard-pro-react"
-						  data-icon="octicon-star"
-						  data-size="large"
-						  data-show-count="true"
-						  aria-label="Star creativetimofficial/ct-soft-ui-dashboard-pro-react on GitHub"
-					  >
-						  Star
-					  </GitHubButton>
-				  </SuiBox>
-				  <SuiBox mt={3} textAlign="center">
-					  <SuiBox mb={0.5}>
-						  <SuiTypography variant="h6">
-							  Thank you for sharing!
-						  </SuiTypography>
-					  </SuiBox>
-  
-					  <SuiBox display="flex" justifyContent="center">
-						  <SuiBox mr={1.5}>
-							  <SuiButton
-								  component={Link}
-								  href="//twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20PRO%20React%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23react%20%mui&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-pro-react"
-								  target="_blank"
-								  rel="noreferrer"
-								  color="dark"
-							  >
-								  <TwitterIcon />
-								  &nbsp; Tweet
-							  </SuiButton>
-						  </SuiBox>
-						  <SuiButton
-							  component={Link}
-							  href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-pro-react"
-							  target="_blank"
-							  rel="noreferrer"
-							  color="dark"
-						  >
-							  <FacebookIcon />
-							  &nbsp; Share
-						  </SuiButton>
-					  </SuiBox>
-				  </SuiBox>
-			  </SuiBox> */}
+					<SuiBox>
+						<SuiTypography variant="h6">Sidenav Colors</SuiTypography>
+	
+						<SuiBox mb={0.5}>
+							{sidenavColors.map((color) => (
+								<IconButton
+									key={color}
+									sx={({
+										borders: { borderWidth },
+										palette: { white, dark },
+										transitions,
+									}) => ({
+										width: "24px",
+										height: "24px",
+										padding: 0,
+										border: `${borderWidth[1]} solid ${white.main}`,
+										borderColor:
+											sidenavColor === color && dark.main,
+										transition: transitions.create(
+											"border-color",
+											{
+												easing: transitions.easing.sharp,
+												duration:
+													transitions.duration.shorter,
+											}
+										),
+										backgroundImage: ({
+											functions: { linearGradient },
+											palette: { gradients },
+										}) =>
+											linearGradient(
+												gradients[color].main,
+												gradients[color].state
+											),
+	
+										"&:not(:last-child)": {
+											mr: 1,
+										},
+	
+										"&:hover, &:focus, &:active": {
+											borderColor: dark.main,
+										},
+									})}
+									onClick={() => setSidenavColor(dispatch, color)}
+								/>
+							))}
+						</SuiBox>
+					</SuiBox>
+	
+					<SuiBox mt={3} lineHeight={1}>
+						<SuiTypography variant="h6">Sidenav Type</SuiTypography>
+						<SuiTypography
+							variant="button"
+							color="text"
+							fontWeight="regular"
+						>
+							Choose between 2 different sidenav types.
+						</SuiTypography>
+	
+						<SuiBox
+							sx={{
+								display: "flex",
+								mt: 2,
+							}}
+						>
+							<SuiButton
+								color="info"
+								variant={
+									transparentSidenav ? "gradient" : "outlined"
+								}
+								onClick={handleTransparentSidenav}
+								disabled={disabled}
+								fullWidth
+								sx={{
+									mr: 1,
+									...sidenavTypeButtonsStyles,
+								}}
+							>
+								Transparent
+							</SuiButton>
+							<SuiButton
+								color="info"
+								variant={
+									transparentSidenav ? "outlined" : "gradient"
+								}
+								onClick={handleWhiteSidenav}
+								disabled={disabled}
+								fullWidth
+								sx={sidenavTypeButtonsStyles}
+							>
+								White
+							</SuiButton>
+						</SuiBox>
+					</SuiBox>
+					<SuiBox mt={3} mb={2} lineHeight={1}>
+						<SuiTypography variant="h6">Navbar Fixed</SuiTypography>
+	
+						<Switch
+							checked={fixedNavbar}
+							onChange={handleFixedNavbar}
+						/>
+					</SuiBox>
+	
+					<Divider />
+	
+					<SuiBox mt={2} mb={3} lineHeight={1}>
+						<SuiTypography variant="h6">Sidenav Mini</SuiTypography>
+	
+						<Switch
+							checked={miniSidenav}
+							onChange={handleMiniSidenav}
+						/>
+					</SuiBox>
+	
+					<Divider />
+	
+					<SuiBox mt={3} mb={2}>
+						<SuiBox mb={2}>
+							<SuiButton
+								component={Link}
+								href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-react"
+								target="_blank"
+								rel="noreferrer"
+								color="info"
+								variant="gradient"
+								fullWidth
+							>
+								buy now
+							</SuiButton>
+						</SuiBox>
+						<SuiBox mb={2}>
+							<SuiButton
+								component={Link}
+								href="https://www.creative-tim.com/product/soft-ui-dashboard-react"
+								target="_blank"
+								rel="noreferrer"
+								color="dark"
+								variant="gradient"
+								fullWidth
+							>
+								free download
+							</SuiButton>
+						</SuiBox>
+						<SuiButton
+							component={Link}
+							href="https://www.creative-tim.com/learning-lab/react/quick-start/soft-ui-dashboard/"
+							target="_blank"
+							rel="noreferrer"
+							color="dark"
+							variant="outlined"
+							fullWidth
+						>
+							view documentation
+						</SuiButton>
+					</SuiBox>
+					<SuiBox display="flex" justifyContent="center">
+						<GitHubButton
+							href="https://github.com/creativetimofficial/ct-soft-ui-dashboard-pro-react"
+							data-icon="octicon-star"
+							data-size="large"
+							data-show-count="true"
+							aria-label="Star creativetimofficial/ct-soft-ui-dashboard-pro-react on GitHub"
+						>
+							Star
+						</GitHubButton>
+					</SuiBox>
+					<SuiBox mt={3} textAlign="center">
+						<SuiBox mb={0.5}>
+							<SuiTypography variant="h6">
+								Thank you for sharing!
+							</SuiTypography>
+						</SuiBox>
+	
+						<SuiBox display="flex" justifyContent="center">
+							<SuiBox mr={1.5}>
+								<SuiButton
+									component={Link}
+									href="//twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20PRO%20React%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23react%20%mui&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-pro-react"
+									target="_blank"
+									rel="noreferrer"
+									color="dark"
+								>
+									<TwitterIcon />
+									&nbsp; Tweet
+								</SuiButton>
+							</SuiBox>
+							<SuiButton
+								component={Link}
+								href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-pro-react"
+								target="_blank"
+								rel="noreferrer"
+								color="dark"
+							>
+								<FacebookIcon />
+								&nbsp; Share
+							</SuiButton>
+						</SuiBox>
+					</SuiBox>
+				</SuiBox> */}
 		</ConfiguratorRoot>
 	);
 }
@@ -7513,8 +7985,8 @@ export const ConfigurationButton = ({ onClick, icon }) => {
 		>
 			<IconFromName name={icon || "settings"} />
 			{/* <Icon fontSize="default" color="inherit">
-		  settings
-		</Icon> */}
+			settings
+		  </Icon> */}
 		</SuiBox>
 	);
 	return <Fragment>{configsButton}</Fragment>;
@@ -7540,26 +8012,26 @@ export const ConfigurationButton2 = ({ onClick, icon, text }) => {
 			onClick={onClick}
 		>
 			{/* <SuiButton onClick={onClick} variant="gradient" color="info">
-		  Confirm
-		</SuiButton> */}
+			Confirm
+		  </SuiButton> */}
 			<SuiButton variant="outlined" color="secondary">
 				{text}
 
 				{/* <IconFromName name={icon || "settings"} /> */}
 			</SuiButton>
 			{/* <SuiBox display="flex" justifyContent="flex-end" mt={0} p={1}>
-	<SuiButton
-	  onClick={sectionDict["buttonConfig"]["onClick"]}
-	  variant="gradient"
-	  color="info"
-	>
-	  {sectionDict["buttonConfig"]["text"]}
-	</SuiButton>
-  </SuiBox> */}
+	  <SuiButton
+		onClick={sectionDict["buttonConfig"]["onClick"]}
+		variant="gradient"
+		color="info"
+	  >
+		{sectionDict["buttonConfig"]["text"]}
+	  </SuiButton>
+	</SuiBox> */}
 
 			{/* <Icon fontSize="default" color="inherit">
-		  settings
-		</Icon> */}
+			settings
+		  </Icon> */}
 		</SuiBox>
 	);
 
@@ -7843,109 +8315,109 @@ export function NewProject({ controller }) {
 								/>
 							</SuiBox>
 							{/* 
-							  
-  
-  
-  
-								  <Grid container spacing={3}>
-									  <Grid item xs={6}>
-										  <SuiBox
-											  display="flex"
-											  flexDirection="column"
-											  justifyContent="flex-end"
-											  height="100%"
-										  >
-											  <SuiBox
-												  mb={1}
-												  ml={0.5}
-												  mt={3}
-												  lineHeight={0}
-												  display="inline-block"
-											  >
-												  <SuiTypography
-													  component="label"
-													  variant="caption"
-													  fontWeight="bold"
-												  >
-													  Start Date
-												  </SuiTypography>
-											  </SuiBox>
-											  <SuiDatePicker
-												  value={startDate}
-												  onChange={handleSetStartDate}
-											  />
-										  </SuiBox>
-									  </Grid>
-									  <Grid item xs={6}>
-										  <SuiBox
-											  display="flex"
-											  flexDirection="column"
-											  justifyContent="flex-end"
-											  height="100%"
-										  >
-											  <SuiBox
-												  mb={1}
-												  ml={0.5}
-												  mt={3}
-												  lineHeight={0}
-												  display="inline-block"
-											  >
-												  <SuiTypography
-													  component="label"
-													  variant="caption"
-													  fontWeight="bold"
-												  >
-													  End Date
-												  </SuiTypography>
-											  </SuiBox>
-											  <SuiDatePicker
-												  value={endDate}
-												  onChange={handleSetEndDate}
-											  />
-										  </SuiBox>
-									  </Grid>
-								  </Grid>
-								  <SuiBox>
-									  <SuiBox
-										  display="flex"
-										  flexDirection="column"
-										  justifyContent="flex-end"
-										  height="100%"
-									  >
-										  <SuiBox
-											  mb={1}
-											  ml={0.5}
-											  mt={3}
-											  lineHeight={0}
-											  display="inline-block"
-										  >
-											  <SuiTypography
-												  component="label"
-												  variant="caption"
-												  fontWeight="bold"
-											  >
-												  Starting Files
-											  </SuiTypography>
-										  </SuiBox>
-										  <SuiDropzone
-											  options={{ addRemoveLinks: true }}
-										  />
-									  </SuiBox>
-								  </SuiBox>
-								  <SuiBox
-									  display="flex"
-									  justifyContent="flex-end"
-									  mt={3}
-								  >
-									  <SuiBox mr={1}>
-										  <SuiButton color="light">
-											  cancel
-										  </SuiButton>
-									  </SuiBox>
-									  <SuiButton variant="gradient" color="info">
-										  create project
-									  </SuiButton>
-								  </SuiBox> */}
+								
+	
+	
+	
+									<Grid container spacing={3}>
+										<Grid item xs={6}>
+											<SuiBox
+												display="flex"
+												flexDirection="column"
+												justifyContent="flex-end"
+												height="100%"
+											>
+												<SuiBox
+													mb={1}
+													ml={0.5}
+													mt={3}
+													lineHeight={0}
+													display="inline-block"
+												>
+													<SuiTypography
+														component="label"
+														variant="caption"
+														fontWeight="bold"
+													>
+														Start Date
+													</SuiTypography>
+												</SuiBox>
+												<SuiDatePicker
+													value={startDate}
+													onChange={handleSetStartDate}
+												/>
+											</SuiBox>
+										</Grid>
+										<Grid item xs={6}>
+											<SuiBox
+												display="flex"
+												flexDirection="column"
+												justifyContent="flex-end"
+												height="100%"
+											>
+												<SuiBox
+													mb={1}
+													ml={0.5}
+													mt={3}
+													lineHeight={0}
+													display="inline-block"
+												>
+													<SuiTypography
+														component="label"
+														variant="caption"
+														fontWeight="bold"
+													>
+														End Date
+													</SuiTypography>
+												</SuiBox>
+												<SuiDatePicker
+													value={endDate}
+													onChange={handleSetEndDate}
+												/>
+											</SuiBox>
+										</Grid>
+									</Grid>
+									<SuiBox>
+										<SuiBox
+											display="flex"
+											flexDirection="column"
+											justifyContent="flex-end"
+											height="100%"
+										>
+											<SuiBox
+												mb={1}
+												ml={0.5}
+												mt={3}
+												lineHeight={0}
+												display="inline-block"
+											>
+												<SuiTypography
+													component="label"
+													variant="caption"
+													fontWeight="bold"
+												>
+													Starting Files
+												</SuiTypography>
+											</SuiBox>
+											<SuiDropzone
+												options={{ addRemoveLinks: true }}
+											/>
+										</SuiBox>
+									</SuiBox>
+									<SuiBox
+										display="flex"
+										justifyContent="flex-end"
+										mt={3}
+									>
+										<SuiBox mr={1}>
+											<SuiButton color="light">
+												cancel
+											</SuiButton>
+										</SuiBox>
+										<SuiButton variant="gradient" color="info">
+											create project
+										</SuiButton>
+									</SuiBox> */}
 						</SuiBox>
 					</Card>
 				</Grid>
@@ -8221,9 +8693,9 @@ export function DashboardNavbarOriginal({
 		}
 
 		/** 
-	   The event listener that's calling the handleTransparentNavbar function when 
-	   scrolling the window.
-	  */
+		 The event listener that's calling the handleTransparentNavbar function when 
+		 scrolling the window.
+		*/
 		window.addEventListener("scroll", handleTransparentNavbar);
 
 		// Call the handleTransparentNavbar function to set the state with the initial value.
@@ -8392,9 +8864,9 @@ export function DashboardNavbar({
 		}
 
 		/** 
-	   The event listener that's calling the handleTransparentNavbar function when 
-	   scrolling the window.
-	  */
+		 The event listener that's calling the handleTransparentNavbar function when 
+		 scrolling the window.
+		*/
 		window.addEventListener("scroll", handleTransparentNavbar);
 
 		// Call the handleTransparentNavbar function to set the state with the initial value.
@@ -8460,9 +8932,9 @@ export function DashboardNavbar({
 					<SuiBox sx={(theme) => navbarRow(theme, { isMini })}>
 						<SuiBox pr={1}>
 							{/* <SuiInput
-				  placeholder="Type here..."
-				  icon={{ component: "search", direction: "left" }}
-				/> */}
+					placeholder="Type here..."
+					icon={{ component: "search", direction: "left" }}
+				  /> */}
 						</SuiBox>
 						<SuiBox color={light ? "white" : "inherit"}>
 							<Link to="/authentication/sign-in/basic">
@@ -8519,10 +8991,10 @@ export function DashboardNavbar({
 								onClick={handleOpenMenu}
 							>
 								{/* <NotificationsIcon
-					className={light ? "text-white" : "text-dark"}
-				  >
-					notifications
-				  </NotificationsIcon> */}
+					  className={light ? "text-white" : "text-dark"}
+					>
+					  notifications
+					</NotificationsIcon> */}
 							</IconButton>
 							{renderMenu()}
 						</SuiBox>
@@ -8637,9 +9109,9 @@ export function DashboardNavbarSearch({
 		}
 
 		/** 
-	   The event listener that's calling the handleTransparentNavbar function when 
-	   scrolling the window.
-	  */
+		 The event listener that's calling the handleTransparentNavbar function when 
+		 scrolling the window.
+		*/
 		window.addEventListener("scroll", handleTransparentNavbar);
 
 		// Call the handleTransparentNavbar function to set the state with the initial value.
@@ -8693,11 +9165,11 @@ export function DashboardNavbarSearch({
 					sx={(theme) => navbarRow(theme, { isMini })}
 				>
 					{/* <Breadcrumbs
-			  icon="home"
-			  title={route[route.length - 1]}
-			  route={route}
-			  light={light}
-			/> */}
+				icon="home"
+				title={route[route.length - 1]}
+				route={route}
+				light={light}
+			  /> */}
 					<MenuIcon
 						fontSize="medium"
 						sx={navbarDesktopMenu}
@@ -8722,12 +9194,12 @@ export function DashboardNavbarSearch({
 						<SuiBox pr={1}>
 							<SearchInputBox {...searchConfig} />
 							{/* <SuiInput
-				  placeholder="Type here..."
-				  icon={{
-					component: "search",
-					direction: "left",
-				  }}
-				/> */}
+					placeholder="Type here..."
+					icon={{
+					  component: "search",
+					  direction: "left",
+					}}
+				  /> */}
 						</SuiBox>
 						<SuiBox color={light ? "white" : "inherit"}>
 							<Link to="/authentication/sign-in/basic">
@@ -8860,9 +9332,9 @@ export function DashboardNavbarAlteryx({
 		}
 
 		/** 
-	   The event listener that's calling the handleTransparentNavbar function when 
-	   scrolling the window.
-	  */
+		 The event listener that's calling the handleTransparentNavbar function when 
+		 scrolling the window.
+		*/
 		window.addEventListener("scroll", handleTransparentNavbar);
 
 		// Call the handleTransparentNavbar function to set the state with the initial value.
@@ -8916,11 +9388,11 @@ export function DashboardNavbarAlteryx({
 					sx={(theme) => navbarRow(theme, { isMini })}
 				>
 					{/* <Breadcrumbs
-			  icon="home"
-			  title={route[route.length - 1]}
-			  route={route}
-			  light={light}
-			/> */}
+				icon="home"
+				title={route[route.length - 1]}
+				route={route}
+				light={light}
+			  /> */}
 					<MenuIcon
 						fontSize="medium"
 						sx={navbarDesktopMenu}
@@ -10715,13 +11187,13 @@ export function IllustrationLayoutOriginal({
 	return (
 		<PageLayout background="white">
 			{/* <DefaultNavbar
-		  routes={pageRoutes}
-		  action={{
-			type: "external",
-			route: "https://creative-tim.com/product/soft-ui-dashboard-pro-react",
-			label: "buy now",
-		  }}
-		/> */}
+			routes={pageRoutes}
+			action={{
+			  type: "external",
+			  route: "https://creative-tim.com/product/soft-ui-dashboard-pro-react",
+			  label: "buy now",
+			}}
+		  /> */}
 			<Grid container>
 				<Grid
 					item
@@ -11714,15 +12186,15 @@ export function FaqCollapse({ title, open, children, ...rest }) {
 					)}
 
 					{/* <Icon sx={{ fontWeight: "bold" }} fontSize="small">
-			  {open ? "remove" : "add"}
-			  {open ? <RemoveIcon /> : <Add />}
-			</Icon> */}
+				{open ? "remove" : "add"}
+				{open ? <RemoveIcon /> : <Add />}
+			  </Icon> */}
 				</SuiBox>
 			</SuiBox>
 			<Collapse timeout={400} in={open}>
 				{/* <SuiBox p={2} lineHeight={1}>
-			{children}
-		  </SuiBox> */}
+			  {children}
+			</SuiBox> */}
 				<SuiBox p={2} lineHeight={1}>
 					<SuiTypography
 						variant="button"
@@ -12548,8 +13020,8 @@ function DefaultPricingCard2({ badge, price, specifications, action }) {
 				>
 					{includes ? <DoneIcon /> : <RemoveIcon />}
 					{/* <Icon sx={{ fontWeight: "bold" }}>
-			  {includes ? "done" : "remove"}
-			</Icon> */}
+				{includes ? "done" : "remove"}
+			  </Icon> */}
 				</SuiTypography>
 			</SuiBox>
 			<SuiTypography variant="body2" color="text">
@@ -13302,8 +13774,8 @@ function Cameras({ camera1, camera2, camera3 }) {
 		}
 
 		/** 
-	   The event listener that's calling the handleTabsOrientation function when resizing the window.
-	  */
+		 The event listener that's calling the handleTabsOrientation function when resizing the window.
+		*/
 		window.addEventListener("resize", handleTabsOrientation);
 
 		// Call the handleTabsOrientation function to set the state with the initial value.
@@ -13453,28 +13925,28 @@ function ImageView({ image, text, value, index }) {
 							</SuiTypography>
 						</SuiBox>
 						{/* <SuiBadge
-				color="secondary"
-				variant="contained"
-				size="lg"
-				badgeContent={
-				  <SuiBox display="flex" alignItems="center">
-					<SuiBox color="error" lineHeight={0} fontSize={size.md}>
-					  <Icon>fiber_manual_record</Icon>
+				  color="secondary"
+				  variant="contained"
+				  size="lg"
+				  badgeContent={
+					<SuiBox display="flex" alignItems="center">
+					  <SuiBox color="error" lineHeight={0} fontSize={size.md}>
+						<Icon>fiber_manual_record</Icon>
+					  </SuiBox>
+					  <SuiBox mb={-0.25} ml={0.25}>
+						<SuiTypography
+						  component="span"
+						  variant="caption"
+						  color="text"
+						  fontWeight="bold"
+						  textTransform="uppercase"
+						>
+						  recording
+						</SuiTypography>
+					  </SuiBox>
 					</SuiBox>
-					<SuiBox mb={-0.25} ml={0.25}>
-					  <SuiTypography
-						component="span"
-						variant="caption"
-						color="text"
-						fontWeight="bold"
-						textTransform="uppercase"
-					  >
-						recording
-					  </SuiTypography>
-					</SuiBox>
-				  </SuiBox>
-				}
-			  /> */}
+				  }
+				/> */}
 					</SuiBox>
 				</SuiBox>
 			</Fade>
@@ -13506,8 +13978,8 @@ export function ImageSliderCard({
 		}
 
 		/** 
-	   The event listener that's calling the handleTabsOrientation function when resizing the window.
-	  */
+		 The event listener that's calling the handleTabsOrientation function when resizing the window.
+		*/
 		window.addEventListener("resize", handleTabsOrientation);
 
 		// Call the handleTabsOrientation function to set the state with the initial value.
@@ -13839,46 +14311,46 @@ export const AlteryxPageCards = ({ headerCard, cardsArray, badgesArray }) => {
 		<Grid container spacing={3}>
 			<Grid item xs={12}>
 				{/* <WeatherCard
-			title="weather today"
-			weather={{ location: "San Francisco", degree: 29 }}
-			icon={{ component: "iconSunCloud", text: "cloudy" }}
-		  /> */}
+			  title="weather today"
+			  weather={{ location: "San Francisco", degree: 29 }}
+			  icon={{ component: "iconSunCloud", text: "cloudy" }}
+			/> */}
 				<ColorCard title={headerCard.title} />
 				<StoriesSmall array={badgesArray} />
 			</Grid>
 			<PageTextCards array={cardsArray} />
 			{/* <Grid item xs={12} md={6}>
-		  <DefaultCounterCard
-			count={21}
-			suffix={<>&deg;C</>}
-			title="living room"
-			description="temperature"
-		  />
-		</Grid>
-		<Grid item xs={12} md={6}>
-		  <DefaultCounterCard
-			count={44}
-			suffix="%"
-			title="outside"
-			description="humidity"
-		  />
-		</Grid>
-		<Grid item xs={12} md={6}>
-		  <DefaultCounterCard
-			count={87}
-			suffix="m³"
-			title="water"
-			description="consumption"
-		  />
-		</Grid>
-		<Grid item xs={12} md={6}>
-		  <DefaultCounterCard
-			count={417}
-			suffix="GB"
-			title="internet"
-			description="all devices"
-		  />
-		</Grid> */}
+			<DefaultCounterCard
+			  count={21}
+			  suffix={<>&deg;C</>}
+			  title="living room"
+			  description="temperature"
+			/>
+		  </Grid>
+		  <Grid item xs={12} md={6}>
+			<DefaultCounterCard
+			  count={44}
+			  suffix="%"
+			  title="outside"
+			  description="humidity"
+			/>
+		  </Grid>
+		  <Grid item xs={12} md={6}>
+			<DefaultCounterCard
+			  count={87}
+			  suffix="m³"
+			  title="water"
+			  description="consumption"
+			/>
+		  </Grid>
+		  <Grid item xs={12} md={6}>
+			<DefaultCounterCard
+			  count={417}
+			  suffix="GB"
+			  title="internet"
+			  description="all devices"
+			/>
+		  </Grid> */}
 		</Grid>
 	);
 };
@@ -13993,18 +14465,18 @@ export const DynamicLayout = ({
 				target={target}
 			>
 				{/* <SuiBox
-			sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-			  p: 3,
-			  position: "relative",
-			  [breakpoints.up("xl")]: {
-				marginLeft: showNav ? pxToRem(120) : pxToRem(274),
-				transition: transitions.create(["margin-left", "margin-right"], {
-				  easing: transitions.easing.easeInOut,
-				  duration: transitions.duration.standard,
-				}),
-			  },
-			})}
-		  > */}
+			  sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+				p: 3,
+				position: "relative",
+				[breakpoints.up("xl")]: {
+				  marginLeft: showNav ? pxToRem(120) : pxToRem(274),
+				  transition: transitions.create(["margin-left", "margin-right"], {
+					easing: transitions.easing.easeInOut,
+					duration: transitions.duration.standard,
+				  }),
+				},
+			  })}
+			> */}
 				{children}
 				{/* </SuiBox> */}
 			</NavigationLayout>
@@ -14244,18 +14716,18 @@ export const HeaderTabs = ({
 		>
 			<Grid container spacing={3} alignItems="center">
 				{/* <Grid item>
-			<SuiAvatar
-			  src={
-				imageSrc ||
-				sharepointURLDirectoryDefine() +
-				  "dependencies/code/png/mtd_icon.png"
-			  }
-			  alt="profile-image"
-			  variant="rounded"
-			  size="xl"
-			  shadow="sm"
-			/>
-		  </Grid> */}
+			  <SuiAvatar
+				src={
+				  imageSrc ||
+				  sharepointURLDirectoryDefine() +
+					"dependencies/code/png/mtd_icon.png"
+				}
+				alt="profile-image"
+				variant="rounded"
+				size="xl"
+				shadow="sm"
+			  />
+			</Grid> */}
 				<Grid item>
 					<SuiBox height="100%" mt={0.5} lineHeight={1}>
 						<SuiTypography variant="h5" fontWeight="medium">
@@ -14275,15 +14747,15 @@ export const HeaderTabs = ({
 						{showTabs ? renderTabs() : null}
 
 						{/* <Tabs
-				orientation={tabsOrientation}
-				value={tabValue}
-				onChange={handleSetTabValue}
-				sx={{ background: "transparent" }}
-			  >
-				<Tab label="App" icon={<Cube />} />
-				<Tab label="Message" icon={<Document />} />
-				<Tab label="Settings" icon={<Settings />} />
-			  </Tabs> */}
+				  orientation={tabsOrientation}
+				  value={tabValue}
+				  onChange={handleSetTabValue}
+				  sx={{ background: "transparent" }}
+				>
+				  <Tab label="App" icon={<Cube />} />
+				  <Tab label="Message" icon={<Document />} />
+				  <Tab label="Settings" icon={<Settings />} />
+				</Tabs> */}
 					</AppBar>
 				</Grid>
 			</Grid>
@@ -14369,15 +14841,15 @@ export const HeaderTabsImage = ({ title, subTitle, imageSrc, tabsArray }) => {
 						{renderTabs()}
 
 						{/* <Tabs
-				orientation={tabsOrientation}
-				value={tabValue}
-				onChange={handleSetTabValue}
-				sx={{ background: "transparent" }}
-			  >
-				<Tab label="App" icon={<Cube />} />
-				<Tab label="Message" icon={<Document />} />
-				<Tab label="Settings" icon={<Settings />} />
-			  </Tabs> */}
+				  orientation={tabsOrientation}
+				  value={tabValue}
+				  onChange={handleSetTabValue}
+				  sx={{ background: "transparent" }}
+				>
+				  <Tab label="App" icon={<Cube />} />
+				  <Tab label="Message" icon={<Document />} />
+				  <Tab label="Settings" icon={<Settings />} />
+				</Tabs> */}
 					</AppBar>
 				</Grid>
 			</Grid>
@@ -14443,15 +14915,15 @@ export const HeaderImage = ({ title, subTitle, imageSrc, tabsArray }) => {
 					{/* {renderTabs()} */}
 
 					{/* <Tabs
-				orientation={tabsOrientation}
-				value={tabValue}
-				onChange={handleSetTabValue}
-				sx={{ background: "transparent" }}
-			  >
-				<Tab label="App" icon={<Cube />} />
-				<Tab label="Message" icon={<Document />} />
-				<Tab label="Settings" icon={<Settings />} />
-			  </Tabs> */}
+				  orientation={tabsOrientation}
+				  value={tabValue}
+				  onChange={handleSetTabValue}
+				  sx={{ background: "transparent" }}
+				>
+				  <Tab label="App" icon={<Cube />} />
+				  <Tab label="Message" icon={<Document />} />
+				  <Tab label="Settings" icon={<Settings />} />
+				</Tabs> */}
 				</AppBar>
 			</Grid>
 		</Grid>
@@ -14580,35 +15052,35 @@ export const MTDDashboardPage = ({
 					<HeaderTabs {...headerTabsConfig} />
 				</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-			<Grid container>
-			  <Grid item xs={12} lg={12}>
-				<SuiBox mb={3} p={1}>
-				  <SuiTypography
-					variant={"h1"}
-					textTransform="capitalize"
-					fontWeight="bold"
-				  >
-					<div
-					  dangerouslySetInnerHTML={{
-						__html: title || "",
-					  }}
-					></div>
-				  </SuiTypography>
-				  <SuiTypography variant={"h4"}>
-					<div
-					  dangerouslySetInnerHTML={{
-						__html: subTitle || "",
-					  }}
-					></div>
-				  </SuiTypography>
-				</SuiBox>
+			  <Grid container>
+				<Grid item xs={12} lg={12}>
+				  <SuiBox mb={3} p={1}>
+					<SuiTypography
+					  variant={"h1"}
+					  textTransform="capitalize"
+					  fontWeight="bold"
+					>
+					  <div
+						dangerouslySetInnerHTML={{
+						  __html: title || "",
+						}}
+					  ></div>
+					</SuiTypography>
+					<SuiTypography variant={"h4"}>
+					  <div
+						dangerouslySetInnerHTML={{
+						  __html: subTitle || "",
+						}}
+					  ></div>
+					</SuiTypography>
+				  </SuiBox>
+				</Grid>
 			  </Grid>
-			</Grid>
-		  </SuiBox> */}
+			</SuiBox> */}
 				<SuiBox marginBottom={3}>{renderMetrics()}</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-			<Stories storiesData={people} />
-		  </SuiBox> */}
+			  <Stories storiesData={people} />
+			</SuiBox> */}
 				<SuiBox marginBottom={3}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} lg={3}>
@@ -14643,11 +15115,11 @@ export const MTDDashboardPage = ({
 					/>
 				</SuiBox>
 				{/* <SuiBox marginBottom={3}>
-			<AirTablePageBase
-			  title={dataTable.title || ""}
-			  dataTables={dataTable.dataTables || []}
-			/>
-		  </SuiBox> */}
+			  <AirTablePageBase
+				title={dataTable.title || ""}
+				dataTables={dataTable.dataTables || []}
+			  />
+			</SuiBox> */}
 				<SuiBox marginBottom={3}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} lg={6}></Grid>
@@ -15063,10 +15535,10 @@ export const ThankYouPage = ({ titlex, descriptionx }) => {
 					sx={{ mx: "auto" }}
 				>
 					{/* <SuiBox
-					  display="flex"
-					  //   flexDirection="column"
-					  justifyContent="center"
-					  height="100vh" */}
+						display="flex"
+						//   flexDirection="column"
+						justifyContent="center"
+						height="100vh" */}
 					{/* > */}
 					<SuiBox
 						display={{ xs: "none", lg: "flex" }}
@@ -15085,10 +15557,10 @@ export const ThankYouPage = ({ titlex, descriptionx }) => {
 						//   sx={{ overflow: "hidden" }}
 					>
 						{/* <SuiDataTable
-						node={"tenant"}
-						id={"tenant_table2"}
-						columns={tenantTableColumnsDefine()}
-					  /> */}
+						  node={"tenant"}
+						  id={"tenant_table2"}
+						  columns={tenantTableColumnsDefine()}
+						/> */}
 
 						{/* <SuiTableBase {...TenantPortalFeaturesTable()}></SuiTableBase> */}
 					</SuiBox>
@@ -15458,8 +15930,8 @@ export function HorizontalBarChart({
 			) : null}
 
 			{/* <SuiBox height={height}>
-				  <Bar data={data} options={options} />
-			  </SuiBox> */}
+					<Bar data={data} options={options} />
+				</SuiBox> */}
 
 			{useMemo(
 				() => (
@@ -15623,8 +16095,8 @@ export function HorizontalStackedBarChart({
 			) : null}
 
 			{/* <SuiBox height={height}>
-				  <Bar data={data} options={options} />
-			  </SuiBox> */}
+					<Bar data={data} options={options} />
+				</SuiBox> */}
 
 			{useMemo(
 				() => (
@@ -15787,15 +16259,15 @@ function RankingListOriginal({ title, date, rankings }) {
 					sx={{ display: "flex" }}
 				>
 					{/* <Icon
-						  color="inherit"
-						  fontSize="small"
-						  sx={{
-							  mr: 0.75,
-							  mt: -0.125,
-						  }}
-					  >
-						  date_range
-					  </Icon> */}
+							color="inherit"
+							fontSize="small"
+							sx={{
+								mr: 0.75,
+								mt: -0.125,
+							}}
+						>
+							date_range
+						</Icon> */}
 					{/* <IconFromName name={"date_range"}></IconFromName> */}
 					{date}
 				</SuiTypography>
@@ -15900,15 +16372,15 @@ function RankingListWithIcon({ title, rightTitle, array }) {
 					sx={{ display: "flex" }}
 				>
 					{/* <Icon
-						  color="inherit"
-						  fontSize="small"
-						  sx={{
-							  mr: 0.75,
-							  mt: -0.125,
-						  }}
-					  >
-						  date_range
-					  </Icon> */}
+							color="inherit"
+							fontSize="small"
+							sx={{
+								mr: 0.75,
+								mt: -0.125,
+							}}
+						>
+							date_range
+						</Icon> */}
 					{/* <IconFromName name={"date_range"}></IconFromName> */}
 					{rightTitle}
 				</SuiTypography>
@@ -15996,15 +16468,15 @@ function RankingList({ title, rightTitle, array }) {
 					sx={{ display: "flex" }}
 				>
 					{/* <Icon
-						  color="inherit"
-						  fontSize="small"
-						  sx={{
-							  mr: 0.75,
-							  mt: -0.125,
-						  }}
-					  >
-						  date_range
-					  </Icon> */}
+							color="inherit"
+							fontSize="small"
+							sx={{
+								mr: 0.75,
+								mt: -0.125,
+							}}
+						>
+							date_range
+						</Icon> */}
 					{/* <IconFromName name={"date_range"}></IconFromName> */}
 					{rightTitle}
 				</SuiTypography>
@@ -17233,29 +17705,29 @@ export const SmallRowChartExample = () => {
 				<Grid item xs={12} sm={6} lg={3}>
 					{/* <TemperatureSliderExample /> */}
 					{/* <TemperatureSlider
-							  handle1={{
-								  value: temperature,
-								  onChange: (v) => setTemperature(Math.round(v)),
-							  }}
-							  title="Device limit"
-							  current={
-								  <>
-									  {temperature}
-									  <SuiTypography
-										  component="span"
-										  variant="h4"
-										  color="text"
-									  >
-										  &deg;C
-									  </SuiTypography>
-								  </>
-							  }
-							  label="temperature"
-							  start={<>16&deg;C</>}
-							  end={<>38&deg;C</>}
-							  minValue={16}
-							  maxValue={38}
-						  /> */}
+								handle1={{
+									value: temperature,
+									onChange: (v) => setTemperature(Math.round(v)),
+								}}
+								title="Device limit"
+								current={
+									<>
+										{temperature}
+										<SuiTypography
+											component="span"
+											variant="h4"
+											color="text"
+										>
+											&deg;C
+										</SuiTypography>
+									</>
+								}
+								label="temperature"
+								start={<>16&deg;C</>}
+								end={<>38&deg;C</>}
+								minValue={16}
+								maxValue={38}
+							/> */}
 				</Grid>
 			</Grid>
 		</SuiBox>
@@ -18362,6 +18834,124 @@ function SettingsCardsHeaderOriginal() {
 	);
 }
 
+function ProfileInfoCardNew({ title, description, info, social, action }) {
+	const labels = [];
+	const values = [];
+	const { socialMediaColors } = colors;
+	const { size } = typography;
+
+	// Convert this form `objectKey` of the object key in to this `object key`
+	Object.keys(info).forEach((el) => {
+		if (el.match(/[A-Z\s]+/)) {
+			const uppercaseLetter = Array.from(el).find((i) =>
+				i.match(/[A-Z]+/)
+			);
+			const newElement = el.replace(
+				uppercaseLetter,
+				` ${uppercaseLetter.toLowerCase()}`
+			);
+
+			labels.push(newElement);
+		} else {
+			labels.push(el);
+		}
+	});
+
+	// Push the object values into the values array
+	Object.values(info).forEach((el) => values.push(el));
+
+	// Render the card info items
+	const renderItems = labels.map((label, key) => (
+		<SuiBox key={label} display="flex" py={1} pr={2}>
+			<SuiTypography
+				variant="button"
+				fontWeight="bold"
+				textTransform="capitalize"
+			>
+				{label}: &nbsp;
+			</SuiTypography>
+			<SuiTypography variant="button" fontWeight="regular" color="text">
+				&nbsp;{values[key]}
+			</SuiTypography>
+		</SuiBox>
+	));
+
+	// Render the card social media icons
+	const renderSocial = social.map(({ link, icon, color }) => (
+		<SuiBox
+			key={color}
+			component="a"
+			href={link}
+			target="_blank"
+			rel="noreferrer"
+			fontSize={size.lg}
+			color={socialMediaColors[color].main}
+			pr={1}
+			pl={0.5}
+			lineHeight={1}
+		>
+			{icon}
+		</SuiBox>
+	));
+
+	return (
+		<Card sx={{ height: "100%" }}>
+			<SuiBox
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+				pt={2}
+				px={2}
+			>
+				<SuiTypography
+					variant="h6"
+					fontWeight="medium"
+					textTransform="capitalize"
+				>
+					{title}
+				</SuiTypography>
+				<SuiTypography
+					component={Link}
+					to={action.route}
+					variant="body2"
+					color="secondary"
+				>
+					<Tooltip title={action.tooltip} placement="top">
+						<Icon>edit</Icon>
+					</Tooltip>
+				</SuiTypography>
+			</SuiBox>
+			<SuiBox p={2}>
+				<SuiBox mb={2} lineHeight={1}>
+					<SuiTypography
+						variant="button"
+						color="text"
+						fontWeight="regular"
+					>
+						{description}
+					</SuiTypography>
+				</SuiBox>
+				<SuiBox opacity={0.3}>
+					<Divider />
+				</SuiBox>
+				<SuiBox>
+					{renderItems}
+					<SuiBox display="flex" py={1} pr={2}>
+						<SuiTypography
+							variant="button"
+							fontWeight="bold"
+							textTransform="capitalize"
+						>
+							social: &nbsp;
+						</SuiTypography>
+						{renderSocial}
+					</SuiBox>
+				</SuiBox>
+			</SuiBox>
+		</Card>
+	);
+}
+
 function SettingsCardsHeader({ title, subTitle, src }) {
 	return (
 		<Grid container spacing={3} alignItems="center">
@@ -18389,20 +18979,20 @@ function SettingsCardsHeader({ title, subTitle, src }) {
 				</SuiBox>
 			</Grid>
 			{/* <Grid item xs={12} md={6} lg={3} sx={{ ml: "auto" }}>
-			  <SuiBox
-				display="flex"
-				justifyContent={{ md: "flex-end" }}
-				alignItems="center"
-				lineHeight={1}
-			  >
-				<SuiTypography variant="caption" fontWeight="regular">
-				  Switch to {visible ? "invisible" : "visible"}
-				</SuiTypography>
-				<SuiBox mx={1}>
-				  <Switch checked={visible} onChange={handleSetVisible} />
+				<SuiBox
+				  display="flex"
+				  justifyContent={{ md: "flex-end" }}
+				  alignItems="center"
+				  lineHeight={1}
+				>
+				  <SuiTypography variant="caption" fontWeight="regular">
+					Switch to {visible ? "invisible" : "visible"}
+				  </SuiTypography>
+				  <SuiBox mx={1}>
+					<Switch checked={visible} onChange={handleSetVisible} />
+				  </SuiBox>
 				</SuiBox>
-			  </SuiBox>
-			</Grid> */}
+			  </Grid> */}
 		</Grid>
 	);
 }
@@ -18436,20 +19026,20 @@ function SettingsCardsDashboard({ title, subTitle, src }) {
 				</SuiBox>
 			</Grid>
 			{/* <Grid item xs={12} md={6} lg={3} sx={{ ml: "auto" }}>
-			  <SuiBox
-				display="flex"
-				justifyContent={{ md: "flex-end" }}
-				alignItems="center"
-				lineHeight={1}
-			  >
-				<SuiTypography variant="caption" fontWeight="regular">
-				  Switch to {visible ? "invisible" : "visible"}
-				</SuiTypography>
-				<SuiBox mx={1}>
-				  <Switch checked={visible} onChange={handleSetVisible} />
+				<SuiBox
+				  display="flex"
+				  justifyContent={{ md: "flex-end" }}
+				  alignItems="center"
+				  lineHeight={1}
+				>
+				  <SuiTypography variant="caption" fontWeight="regular">
+					Switch to {visible ? "invisible" : "visible"}
+				  </SuiTypography>
+				  <SuiBox mx={1}>
+					<Switch checked={visible} onChange={handleSetVisible} />
+				  </SuiBox>
 				</SuiBox>
-			  </SuiBox>
-			</Grid> */}
+			  </Grid> */}
 		</Grid>
 	);
 }
@@ -19388,6 +19978,11 @@ export function ConfigCards({ sectionsArray, pageData, setPageData }) {
 								/>
 							) : null}
 
+							{sectionDict["profile"] ? (
+								<ProfileInfoCardBase
+									{...sectionDict["profile"]}
+								/>
+							) : null}
 							{sectionDict["tableConfig"] ? (
 								<TableForm
 									pageData={pageData}
@@ -19427,6 +20022,13 @@ export function ConfigCards({ sectionsArray, pageData, setPageData }) {
 								</SuiButton>
 							</SuiBox>
 						) : null}
+						{sectionDict["todo"] ? (
+							<TodoList
+								pageData={pageData}
+								setPageData={setPageData}
+								{...sectionDict["todo"]}
+							/>
+						) : null}
 					</Card>
 				</Grid>
 			))}
@@ -19464,8 +20066,8 @@ export const ConfigPage = ({
 		<SuiBox mt={0}>
 			<Grid container spacing={0}>
 				{/* <Grid item xs={12} lg={3}>
-					<SidenavSelectMove sidenavItems={sectionsArray} />
-				</Grid> */}
+					  <SidenavSelectMove sidenavItems={sectionsArray} />
+				  </Grid> */}
 				<Grid item xs={12} lg={12}>
 					<SuiBox mb={3}>
 						<ConfigCards
@@ -20092,17 +20694,17 @@ export const Sandbox = () => {
 			<DataTable />
 
 			{/* <DashboardNavbarSearch />
-		<SearchInputBox /> */}
+		  <SearchInputBox /> */}
 			{/* <MyDropzone />
-		<SuiDropzone />
-		<HorizontalStackedChartBoxWithDropdownState />
-		<HorizontalStackedBarChart />
-		<PieChartBoxWithDropdownState />
-		<DoughnutChartExample />
-		<SocialExample />
-		<SmallRowChartExample />
-		<HorizontalBarChartExample />
-		<RankingListExample />; */}
+		  <SuiDropzone />
+		  <HorizontalStackedChartBoxWithDropdownState />
+		  <HorizontalStackedBarChart />
+		  <PieChartBoxWithDropdownState />
+		  <DoughnutChartExample />
+		  <SocialExample />
+		  <SmallRowChartExample />
+		  <HorizontalBarChartExample />
+		  <RankingListExample />; */}
 		</PayLayoutBase>
 	);
 	// return <SocialExample />;

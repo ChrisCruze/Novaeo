@@ -30,8 +30,9 @@ class App extends React.Component {
 						<Route exact path="/Parts" component={Parts} />
 						<Route exact path="/PartForm" component={PartForm} />
 						<Route exact path="/Part" component={Part} />
+						<Route exact path="/Dashboard" component={Dashboard} />
+						{/* <Route exact path="/Dashboard" component={Dashboard} /> */}
 
-						<Route exact path="/Dashboard" component={Home} />
 						<Route exact path="/Login" component={Login} />
 						<Route exact path="/Survey" component={Survey} />
 						<Route exact path="/Landing" component={Landing} />
