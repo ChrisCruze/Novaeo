@@ -30,6 +30,7 @@ import Select from "react-select";
 import CardContent from "@mui/material/CardContent";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import Collapse from "@mui/material/Collapse";
@@ -5033,7 +5034,7 @@ export function MiniStatisticsCard({
 }
 
 MiniStatisticsCard.defaultProps = {
-	bgColor: "info",
+	bgColor: "white",
 	title: {
 		fontWeight: "medium",
 		text: "",
@@ -5755,6 +5756,10 @@ export function SuiTableBase({ headers, rows }) {
 		</TableContainer>
 	);
 }
+SuiTableBase.defaultProps = {
+	headers: ["header_one", "header_two"],
+	rows: [["row_one", "row_two"]],
+};
 
 export function SuiTableNoCard({ headers, rows, title }) {
 	const PageHeaders = (
@@ -5865,6 +5870,57 @@ export function SuiTable({ headers, rows, title, icon }) {
 		</Card>
 	);
 }
+SuiTable.defaultProps = {
+	headers: ["Product"],
+	rows: [["Monk Fruit"]],
+	title: "Products",
+};
+
+export function SuiTableHome({ headers, rows, title, icon }) {
+	const PageHeaders = (
+		<Fragment>
+			{headers.map((header, index) => {
+				return <PagesHeaderCell key={index}>{header}</PagesHeaderCell>;
+			})}
+		</Fragment>
+	);
+
+	const PageRows = (
+		<Fragment>
+			{rows.map((row, index) => {
+				return <PagesBodyCell key={index} rows={row} />;
+			})}
+		</Fragment>
+	);
+	return (
+		<TableContainer sx={{ height: "100%" }}>
+			<Table>
+				<TableHead>
+					<SuiBox
+						component="tr"
+						width="max-content"
+						display="block"
+						mb={1.5}
+					>
+						<SuiTypography variant="h6" component="td">
+							{title}
+						</SuiTypography>
+					</SuiBox>
+				</TableHead>
+
+				{/* <SuiBox component="thead">
+					<TableRow>{PageHeaders}</TableRow>
+				</SuiBox> */}
+				<TableBody>{PageRows}</TableBody>
+			</Table>
+		</TableContainer>
+	);
+}
+SuiTableHome.defaultProps = {
+	headers: ["Product"],
+	rows: [["Monk Fruit"]],
+	title: "Products",
+};
 export function SuiTableClick({ headers, rows, title, icon, iconClick }) {
 	const PageHeaders = (
 		<Fragment>

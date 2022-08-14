@@ -138,6 +138,7 @@ const DataPortalConfig = () => {
 	const tableData = productsDataProcess2({ workbook });
 	// console.log({ workbook, tableData });
 	return {
+		tabsHeader: false,
 		charts: chartsGenerate({ workbook }),
 		datatableLoad: workbook.loaded,
 		title: "Finished Goods",
@@ -264,9 +265,9 @@ const Home = () => {
 		if (user == null) {
 			history.push("/Login");
 		} else {
-			const credential = GoogleAuthProvider.credentialFromResult(auth);
+			// const credential = GoogleAuthProvider.credentialFromResult(auth);
 			// const token = credential.accessToken;
-			console.log({ user, credential });
+			// console.log({ user, credential });
 			setUserDict(user);
 		}
 	}, [user, loading]);

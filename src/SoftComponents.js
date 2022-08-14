@@ -219,6 +219,8 @@ import {
 	SettingsAccountPage,
 	TableForm,
 	DynamicConfigPage,
+	SuiTableBase,
+	SuiTableHome,
 } from "./SoftElements";
 export const PropsContext = React.createContext({});
 
@@ -329,6 +331,47 @@ export const DefaultDashboard = ({
 							</Grid>
 						</Grid>
 					</Grid>
+					<Grid item xs={12} md={10} lg={7}>
+						<Grid item xs={12} lg={10}>
+							<SuiBox mb={3} mt={3} position="relative">
+								<SuiTableHome />
+								{/* <SalesTable title="Sales by Country" rows={salesTableData} /> */}
+							</SuiBox>
+						</Grid>
+					</Grid>
+					<Grid container spacing={3}>
+						<Grid item xs={12} lg={5}>
+							{/* <ReportsBarChart
+                title="active users"
+                description={
+                  <>
+                    (<strong>+23%</strong>) than last week
+                  </>
+                }
+                chart={chart}
+                items={items}
+              /> */}
+						</Grid>
+						<Grid item xs={12} lg={7}>
+							{/* <GradientLineChart
+                title="Sales Overview"
+                description={
+                  <SuiBox display="flex" alignItems="center">
+                    <SuiBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                      <Icon sx={{ fontWeight: "bold" }}>arrow_upward</Icon>
+                    </SuiBox>
+                    <SuiTypography variant="button" color="text" fontWeight="medium">
+                      4% more{" "}
+                      <SuiTypography variant="button" color="text" fontWeight="regular">
+                        in 2021
+                      </SuiTypography>
+                    </SuiTypography>
+                  </SuiBox>
+                }
+                chart={gradientLineChartData}
+              /> */}
+						</Grid>
+					</Grid>
 				</Grid>
 			</SuiBox>
 		</DynamicLayout>
@@ -337,20 +380,21 @@ export const DefaultDashboard = ({
 DefaultDashboard.defaultProps = {};
 export const routesDefine = () => {
 	return [
-		// { type: "divider", key: "divider-1" },
-		// { type: "title", title: "Docs", key: "title-docs" },
+		{ type: "title", title: "Apps", key: "title-docs" },
+		{ type: "divider", key: "divider-1" },
+
+		// {
+		// 	type: "collapse",
+		// 	name: "Home",
+		// 	key: "home",
+		// 	href: location.href.split("#")[0] + "#/Home",
+		// 	// icon: <IconFromName name={"3"} />,
+		// 	icon: "inventory",
+		// 	noCollapse: true,
+		// },
 		{
 			type: "collapse",
-			name: "Home",
-			key: "home",
-			href: location.href.split("#")[0] + "#/Home",
-			// icon: <IconFromName name={"3"} />,
-			icon: "inventory",
-			noCollapse: true,
-		},
-		{
-			type: "collapse",
-			name: "Products",
+			name: "Finished Goods",
 			key: "products",
 			href: location.href.split("#")[0] + "#/Products",
 			// icon: <IconFromName name={"3"} />,
@@ -406,6 +450,74 @@ export const routesDefine = () => {
 				},
 			],
 		},
+		{ type: "title", title: "In Development", key: "title-docs" },
+		{ type: "divider", key: "divider-2" },
+		{
+			type: "collapse",
+			name: "Procurement",
+			key: "procurement",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "2",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Manufacturing",
+			key: "manufacturing",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "cube",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Fulfillment",
+			key: "fulfillment",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inbox",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Sales",
+			key: "sales",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "money",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Reports",
+			key: "reports",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "menu",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "Phoenix Sheet",
+			key: "storage",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "creditcard",
+			noCollapse: true,
+		},
+		{
+			type: "collapse",
+			name: "User Management",
+			key: "customersupport",
+			href: location.href.split("#")[0] + "#/Home",
+			// icon: <IconFromName name={"3"} />,
+			icon: "inventory",
+			noCollapse: true,
+		},
+
+		{ type: "title", title: "Docs", key: "title-docs" },
+		{ type: "divider", key: "divider-3" },
 		{
 			type: "collapse",
 			name: "Reference",
@@ -882,6 +994,7 @@ export const DataPortal = ({
 	datatableLoad,
 	showHeaderNav,
 	tableClassName,
+	tabsHeader,
 }) => {
 	const [filterDict, setFilterDict] = useState({});
 	const updateFilterDict = (updatedFilterDict) => {
@@ -991,13 +1104,31 @@ export const DataPortal = ({
 		>
 			<SuiBox py={3}>
 				<SuiBox marginBottom={3}>
-					<HeaderTabs
-						title={title}
-						subTitle={subTitle}
-						imageSrc={imageSrc}
-						tabsArray={tabsArray}
-						showTabs={showTabs}
-					/>
+					{tabsHeader ? (
+						<HeaderTabs
+							title={title}
+							subTitle={subTitle}
+							imageSrc={imageSrc}
+							tabsArray={tabsArray}
+							showTabs={showTabs}
+						/>
+					) : (
+						<SuiBox
+							mb={3}
+							p={1}
+							sx={{
+								mx: 3,
+							}}
+						>
+							<SuiTypography
+								variant={"h3"}
+								textTransform="capitalize"
+								fontWeight="bold"
+							>
+								{title}
+							</SuiTypography>
+						</SuiBox>
+					)}
 				</SuiBox>
 
 				<SuiBox
@@ -1046,6 +1177,7 @@ export const DataPortal = ({
 };
 
 DataPortal.defaultProps = {
+	tabsHeader: true,
 	datatableLoad: true,
 	tableClassName:
 		"table-react table table-striped table-bordered table-hover",
